@@ -1,7 +1,9 @@
 package com.example.e_commerce.controller;
 import com.example.e_commerce.dto.CategoryDto;
+import com.example.e_commerce.dto.ProductDto;
 import com.example.e_commerce.mapper.CategoryMapper;
 import com.example.e_commerce.service.CategoryService;
+import com.example.e_commerce.service.ProductService;
 import com.example.e_commerce.util.ApiResponseMessage;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -13,9 +15,11 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
 
     private final CategoryService categoryService;
+    private final ProductService productService;
 
-    public CategoryController(CategoryService categoryService, CategoryMapper categoryMapper) {
+    public CategoryController(CategoryService categoryService, CategoryMapper categoryMapper, ProductService productService) {
         this.categoryService = categoryService;
+        this.productService = productService;
     }
 
 
@@ -53,6 +57,18 @@ public class CategoryController {
                 .data(null)
                 .build();
         return  new ResponseEntity<>(apiResponseMessage,HttpStatus.OK);
+    }
+
+    @PostMapping("/addProduct/{categoryId}")
+    public ResponseEntity<ApiResponseMessage> addProductByCategory(@PathVariable  String categoryId, ProductDto productDto){
+        ProductDto productByCategory = productService.createProductByCategory(categoryId, productDto);
+        ApiResponseMessage apiResponseMessage = ApiResponseMessage.builder()
+                .message("Product Added")
+                .success(true)
+                .status(HttpStatus.OK)
+                .data(productByCategory)
+                .build();
+        return new ResponseEntity<>(apiResponseMessage,HttpStatus.OK);
     }
 
 }

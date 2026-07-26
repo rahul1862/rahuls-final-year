@@ -1,5 +1,6 @@
 package com.example.e_commerce.service;
 
+import com.example.e_commerce.dto.LoginDto;
 import com.example.e_commerce.dto.UserDto;
 import com.example.e_commerce.entity.Users;
 
@@ -9,5 +10,6 @@ public interface UserService {
     UserDto findById(String id);
     void delete(String id);
     UserDto update (String id, UserDto usersDto);
+    public UserDto login(LoginDto loginDto);
 
 }

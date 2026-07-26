@@ -18,7 +18,7 @@ public class UserController_1 {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponseMessage> create(@Valid @RequestBody UserDto usersDto) {// 112  Rahul Edinburg
+    public ResponseEntity<ApiResponseMessage> create(@Valid @RequestBody UserDto usersDto) {
         UserDto saved = userService.save(usersDto);
         ApiResponseMessage apiResponseMessage = ApiResponseMessage.builder().message("Created").status(HttpStatus.OK).success(true).data(saved).build();
 
@@ -48,6 +48,19 @@ public class UserController_1 {
                 .build();
 
         return new ResponseEntity<>(apiResponseMessage, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponseMessage> update (@PathVariable String id,@RequestBody UserDto userDto){
+
+        UserDto update = userService.update(id, userDto);
+        ApiResponseMessage apiResponseMessage = ApiResponseMessage.builder()
+                .message("Updated Success")
+                .status(HttpStatus.OK)
+                .success(true)
+                .data(update)
+                .build();
+       return  new ResponseEntity<>(apiResponseMessage, HttpStatus.OK);
     }
 
 

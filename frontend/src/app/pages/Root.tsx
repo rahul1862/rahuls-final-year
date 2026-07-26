@@ -1,11 +1,18 @@
-import { Outlet } from 'react-router';
+import { Outlet, ScrollRestoration } from 'react-router';
 import { Header } from '../components/Header';
+import { Footer } from '../components/Footer';
+import { SupportChat } from '../components/SupportChat';
 
 export function Root() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="relative min-h-screen overflow-x-clip bg-white text-[#0a0a0a]" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif' }}>
       <Header />
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
+      <Footer />
+      <SupportChat />
+      <ScrollRestoration />
     </div>
   );
 }

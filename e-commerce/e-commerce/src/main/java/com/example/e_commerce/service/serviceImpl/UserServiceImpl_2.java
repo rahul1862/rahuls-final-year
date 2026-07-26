@@ -1,25 +1,40 @@
 package com.example.e_commerce.service.serviceImpl;
 
+import com.example.e_commerce.dto.LoginDto;
 import com.example.e_commerce.dto.UserDto;
 import com.example.e_commerce.entity.Users;
 import com.example.e_commerce.exception.ResourceNotFoundException;
 import com.example.e_commerce.mapper.UserMapper;
 import com.example.e_commerce.repository.UsersRepository;
 import com.example.e_commerce.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl_2 implements UserService {
-    private final UsersRepository usersRepository;// alt+enter
+    ;
+    @Autowired
+private final PasswordEncoder passwordEncoder;
 
     private final UserMapper userMapper;
-    public UserServiceImpl_2(UsersRepository usersRepository, UserMapper userMapper) {
+    private final UsersRepository usersRepository;
+    public UserServiceImpl_2(UsersRepository usersRepository, PasswordEncoder passwordEncoder, UserMapper userMapper) {
         this.usersRepository = usersRepository;
+        this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
     }
     @Override
     public UserDto save(UserDto usersDto) {
+        Optional<Users> byEmail = usersRepository.findByEmail(usersDto.getEmail());
+
+        if (byEmail.isPresent()){
+            throw new ResourceNotFoundException("User is already registered");
+        }
         Users entity = userMapper.toEntity(usersDto);
+        entity.setPassword(passwordEncoder.encode(usersDto.getPassword()));
         Users save = usersRepository.save(entity);
         UserDto userDto = userMapper.toDto(save);
         return userDto;
@@ -27,31 +42,35 @@ public class UserServiceImpl_2 implements UserService {
 
     @Override
     public UserDto findById(String id) {
-        Users users = usersRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));// 1122
+        Users users = usersRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
         UserDto userDto = userMapper.toDto(users);
         return userDto;
     }
 
     @Override
     public void delete(String id) {
-        Users users = usersRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));// 1122
+        Users users = usersRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
         usersRepository.deleteById(id);
     }
 
-//
-//    @Override
-//    public Users update(String id, Users correctInfo) {
-//        Users user = usersRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User Not Found."));// 1122
-//        user.setUserId(correctInfo.getUserId());
-//        user.setName(correctInfo.getName());
-//        user.setEmail(correctInfo.getEmail());
-//        user.setAddress(correctInfo.getAddress());
-//        user.setGender(correctInfo.getGender());
-//        usersRepository.save(user);
-//        return user;
-//    }
 @Override
 public UserDto update(String id, UserDto usersDto) {
-    return null;
+        Users users = usersRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User Not Fount"));
+    Users update = userMapper.toUpdate(users, usersDto);
+    Users save = usersRepository.save(update);
+    UserDto userDto = userMapper.toDto(save);
+    return userDto;
 }
+
+    public UserDto login(LoginDto loginDto) {
+
+        Users user = usersRepository.findByEmail(loginDto.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid password");
+        }
+
+        return userMapper.toDto(user);
+    }
 }

@@ -1,0 +1,22 @@
+# JavaScript dependencies and generated output
+node_modules/
+dist/
+build/
+.next/
+coverage/
+
+# Java/Maven build output
+target/
+
+# Logs and crash reports
+*.log
+hs_err_pid*.log
+
+# Local configuration
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
