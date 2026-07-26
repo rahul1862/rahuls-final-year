@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Store</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(0,0,0,0.1);
+            border-radius: 50%;
+            border-top: 4px solid #3b82f6;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // ============================================================
+        // API client
+        // Base URL of the Spring Boot backend (server.port=8989)
+        // ============================================================
+        const API_BASE_URL = 'http://localhost:8989';
+
+        const apiClient = axios.create({
+            baseURL: API_BASE_URL,
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        apiClient.interceptors.response.use(
+            response => response,
+            error => {
+                console.error('API Error:', error);
+                return Promise.reject(error);
+            }
+        );
+
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+
+        // ============================================================
+        // Account helpers
+        // Cart operations on this backend require a REAL user record
+        // (CartServiceImpl looks the user up by ID and throws if it
+        // doesn't exist), so there is no such thing as "guest checkout"
+        // here. Browsing is open to everyone; adding to cart requires
+        // being logged in.
+        // ============================================================
+
+        function getCurrentUser() {
+            const raw = localStorage.getItem('currentUser');
+            return raw ? JSON.parse(raw) : null;
+        }
+
+        function setCurrentUser(user) {
+            if (user) {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+            } else {
+                localStorage.removeItem('currentUser');
+            }
+        }
+
+        // ============================================================
+        // Auth Modal — optional login / create account
+        // Matches the real backend contract:
+        //   POST /auth        { name, email, address, gender, password } -> register
+        //   POST /auth/login  { email, password }                       -> login
+        // ============================================================
+
+        const AuthModal = ({ onClose, onAuthenticated }) => {
+            const [mode, setMode] = useState('login'); // 'login' | 'register'
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState('');
+
+            const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+            const [registerForm, setRegisterForm] = useState({
+                name: '',
+                email: '',
+                address: '',
+                gender: '',
+                password: ''
+            });
+
+            const handleLogin = async (e) => {
+                e.preventDefault();
+                setError('');
+                setLoading(true);
+                try {
+                    const response = await apiClient.post('/auth/login', loginForm);
+                    const user = response.data.data;
+                    setCurrentUser(user);
+                    onAuthenticated(user);
+                } catch (err) {
+                    setError(
+                        err.response?.data?.message ||
+                        'Login failed. Check your email and password.'
+                    );
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const handleRegister = async (e) => {
+                e.preventDefault();
+                setError('');
+                setLoading(true);
+                try {
+                    await apiClient.post('/auth', registerForm);
+                    setMode('login');
+                    setLoginForm({ email: registerForm.email, password: '' });
+                    alert('Account created! Please log in.');
+                } catch (err) {
+                    const msg = err.response?.data?.message;
+                    setError(
+                        typeof msg === 'string'
+                            ? msg
+                            : 'Registration failed. Please check your details and try again.'
+                    );
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            return (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-8 relative max-h-[90vh] overflow-y-auto">
+                        <button
+                            onClick={onClose}
+                            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl leading-none"
+                        >
+                            &times;
+                        </button>
+
+                        <h2 className="text-2xl font-bold text-blue-600 mb-1">
+                            {mode === 'login' ? 'Log In' : 'Create Account'}
+                        </h2>
+                        <p className="text-gray-500 text-sm mb-6">
+                            {mode === 'login'
+                                ? 'Log in to add items to your cart.'
+                                : 'Create an account to start shopping. Browsing is always free.'}
+                        </p>
+
+                        {error && (
+                            <div className="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm">{error}</div>
+                        )}
+
+                        {mode === 'login' ? (
+                            <form onSubmit={handleLogin} className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-semibold mb-1">Email</label>
+                                    <input
+                                        type="email"
+                                        required
+                                        value={loginForm.email}
+                                        onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
+                                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-600"
+                                        placeholder="you@example.com"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-semibold mb-1">Password</label>
+                                    <input
+                                        type="password"
+                                        required
+                                        value={loginForm.password}
+                                        onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+                                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-600"
+                                        placeholder="••••••••"
+                                    />
+                                </div>
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="w-full bg-blue-600 text-white py-2 rounded-lg font-bold hover:bg-blue-700 disabled:bg-gray-400"
+                                >
+                                    {loading ? 'Logging in...' : 'Log In'}
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => { setMode('register'); setError(''); }}
+                                    className="w-full text-blue-600 font-semibold hover:text-blue-700 text-sm"
+                                >
+                                    Don't have an account? Create one
+                                </button>
+                            </form>
+                        ) : (
+                            <form onSubmit={handleRegister} className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-semibold mb-1">Full Name</label>
+                                    <input
+                                        type="text"
+                                        required
+                                        value={registerForm.name}
+                                        onChange={(e) => setRegisterForm({ ...registerForm, name: e.target.value })}
+                                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-600"
+                                        placeholder="Jane Doe"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-semibold mb-1">Email</label>
+                                    <input
+                                        type="email"
+                                        required
+                                        value={registerForm.email}
+                                        onChange={(e) => setRegisterForm({ ...registerForm, email: e.target.value })}
+                                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-600"
+                                        placeholder="you@example.com"
+                                    />
+                                </div>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label className="block text-sm font-semibold mb-1">Gender</label>
+                                        <select
+                                            value={registerForm.gender}
+                                            onChange={(e) => setRegisterForm({ ...registerForm, gender: e.target.value })}
+                                            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-600"
+                                        >
+                                            <option value="">Prefer not to say</option>
+                                            <option value="MALE">Male</option>
+                                            <option value="FEMALE">Female</option>
+                                            <option value="OTHER">Other</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-semibold mb-1">Address</label>
+                                        <input
+                                            type="text"
+                                            value={registerForm.address}
+                                            onChange={(e) => setRegisterForm({ ...registerForm, address: e.target.value })}
+                                            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-600"
+                                            placeholder="Optional"
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-semibold mb-1">Password</label>
+                                    <input
+                                        type="password"
+                                        required
+                                        value={registerForm.password}
+                                        onChange={(e) => setRegisterForm({ ...registerForm, password: e.target.value })}
+                                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-600"
+                                        placeholder="••••••••"
+                                    />
+                                    <p className="text-xs text-gray-500 mt-1">
+                                        At least 8 characters, with an uppercase letter, a lowercase letter, a number, and a special character (e.g. @#$%^&+=).
+                                    </p>
+                                </div>
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="w-full bg-green-600 text-white py-2 rounded-lg font-bold hover:bg-green-700 disabled:bg-gray-400"
+                                >
+                                    {loading ? 'Creating account...' : 'Create Account'}
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => { setMode('login'); setError(''); }}
+                                    className="w-full text-blue-600 font-semibold hover:text-blue-700 text-sm"
+                                >
+                                    Already have an account? Log in
+                                </button>
+                            </form>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        // ============================================================
+        // Navbar
+        // ============================================================
+
+        const Navbar = ({ cartCount, onCartClick, currentUser, onLoginClick, onLogout }) => {
+            const [isOpen, setIsOpen] = useState(false);
+
+            return (
+                <nav className="bg-blue-600 text-white shadow-lg sticky top-0 z-40">
+                    <div className="max-w-7xl mx-auto px-4">
+                        <div className="flex justify-between items-center h-16">
+                            <h1 className="text-2xl font-bold">ShopHub</h1>
+
+                            <div className="hidden md:flex items-center space-x-4">
+                                <a href="#" className="hover:text-blue-200">Home</a>
+                                <a href="#" className="hover:text-blue-200">Products</a>
+
+                                {currentUser ? (
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-sm">Hi, {currentUser.name}</span>
+                                        <button
+                                            onClick={onLogout}
+                                            className="bg-red-500 px-3 py-1.5 rounded hover:bg-red-600 text-sm"
+                                        >
+                                            Log Out
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <button
+                                        onClick={onLoginClick}
+                                        className="bg-white text-blue-600 px-4 py-1.5 rounded-lg font-semibold hover:bg-gray-100 text-sm"
+                                    >
+                                        Log In / Sign Up
+                                    </button>
+                                )}
+
+                                <button
+                                    onClick={onCartClick}
+                                    className="relative bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100"
+                                >
+                                    🛒 Cart
+                                    {cartCount > 0 && (
+                                        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">
+                                            {cartCount}
+                                        </span>
+                                    )}
+                                </button>
+                            </div>
+
+                            <button onClick={() => setIsOpen(!isOpen)} className="md:hidden">
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        {isOpen && (
+                            <div className="md:hidden pb-4 space-y-2">
+                                {currentUser ? (
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-sm">Hi, {currentUser.name}</span>
+                                        <button
+                                            onClick={onLogout}
+                                            className="bg-red-500 px-3 py-1.5 rounded hover:bg-red-600 text-sm"
+                                        >
+                                            Log Out
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <button
+                                        onClick={onLoginClick}
+                                        className="w-full text-left bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100"
+                                    >
+                                        Log In / Sign Up
+                                    </button>
+                                )}
+                                <button
+                                    onClick={onCartClick}
+                                    className="w-full text-left bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100"
+                                >
+                                    🛒 Cart ({cartCount})
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </nav>
+            );
+        };
+
+        // ============================================================
+        // Product Card
+        // ============================================================
+
+        const ProductCard = ({ product, onAddToCart }) => {
+            const [isLoading, setIsLoading] = useState(false);
+
+            const handleAddToCart = async () => {
+                setIsLoading(true);
+                try {
+                    await onAddToCart(product);
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            return (
+                <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
+                    <div className="h-48 bg-gray-200 flex items-center justify-center">
+                        {product.image ? (
+                            <img
+                                src={`data:image/png;base64,${product.image}`}
+                                alt={product.title}
+                                className="w-full h-full object-cover"
+                            />
+                        ) : (
+                            <div className="text-gray-400">No Image</div>
+                        )}
+                    </div>
+                    <div className="p-4 flex flex-col flex-1">
+                        <h3 className="font-semibold text-lg mb-2 truncate" title={product.title}>{product.title}</h3>
+                        <p className="text-gray-600 text-sm mb-2 line-clamp-2 flex-1">{product.description}</p>
+                        <div className="flex justify-between items-center mb-3">
+                            <span className="text-blue-600 font-bold text-lg">₹{product.price}</span>
+                            <span className="text-sm text-gray-500">Qty: {product.quantity}</span>
+                        </div>
+                        <button
+                            onClick={handleAddToCart}
+                            disabled={isLoading}
+                            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
+                        >
+                            {isLoading ? 'Adding...' : 'Add to Cart'}
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        // ============================================================
+        // Cart Panel
+        // Note: the backend only exposes POST /carts/{userId} to add
+        // items — there is no endpoint to fetch an existing cart or to
+        // remove a single item. So this panel reflects what was added
+        // during this browser session (returned by the add-to-cart
+        // response each time), and "Remove" only clears it from this
+        // local view.
+        // ============================================================
+
+        const CartPanel = ({ cart, show, onClose, onRemoveLocally }) => {
+            if (!show) return null;
+
+            const totalPrice = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+
+            return (
+                <div className="fixed top-20 right-4 bg-white shadow-xl rounded-lg z-50 w-96 max-w-[90vw] max-h-[70vh] overflow-y-auto">
+                    <div className="sticky top-0 bg-blue-600 text-white p-4 flex justify-between items-center">
+                        <h3 className="font-bold">Shopping Cart ({cart.length})</h3>
+                        <button onClick={onClose} className="text-xl leading-none">&times;</button>
+                    </div>
+                    {cart.length === 0 ? (
+                        <p className="p-4 text-center text-gray-500">
+                            Your cart is empty. Add a product to see it here.
+                        </p>
+                    ) : (
+                        <>
+                            <div className="p-4 space-y-2">
+                                {cart.map(item => (
+                                    <div key={item.cartItemId} className="flex justify-between items-center border-b pb-2">
+                                        <div>
+                                            <p className="font-semibold text-sm">{item.productDto?.title}</p>
+                                            <p className="text-xs text-gray-600">Qty: {item.quantity}</p>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <span className="font-bold">₹{item.totalPrice}</span>
+                                            <button
+                                                onClick={() => onRemoveLocally(item.cartItemId)}
+                                                className="text-red-500 hover:text-red-700 text-sm"
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="border-t-2 bg-gray-50 p-4">
+                                <div className="flex justify-between font-bold text-lg mb-4">
+                                    <span>Total:</span>
+                                    <span className="text-blue-600">₹{totalPrice.toFixed(2)}</span>
+                                </div>
+                                <button className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 font-bold">
+                                    Checkout
+                                </button>
+                            </div>
+                        </>
+                    )}
+                </div>
+            );
+        };
+
+        // ============================================================
+        // Dashboard (main app)
+        // ============================================================
+
+        const Dashboard = () => {
+            const [products, setProducts] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [errorMsg, setErrorMsg] = useState('');
+            const [cart, setCart] = useState([]);
+            const [showCart, setShowCart] = useState(false);
+            const [showAuth, setShowAuth] = useState(false);
+            const [currentPage, setCurrentPage] = useState(0);
+            const [totalPages, setTotalPages] = useState(1);
+            const [currentUser, setCurrentUserState] = useState(getCurrentUser());
+
+            useEffect(() => {
+                fetchProducts();
+                // eslint-disable-next-line
+            }, [currentPage]);
+
+            const fetchProducts = async () => {
+                setLoading(true);
+                setErrorMsg('');
+                try {
+                    const response = await apiClient.get(
+                        `/product?pageNo=${currentPage}&pageSize=12&sortDir=asc&sortedBy=title`
+                    );
+                    // PageableResponse<ProductDto>: { data, pageSize, totalElements, pageNo, totalPage, lastPage }
+                    const page = response.data;
+                    setProducts(page.data || []);
+                    setTotalPages(page.totalPage || 1);
+                } catch (error) {
+                    console.error('Failed to fetch products:', error);
+                    setErrorMsg('Could not load products. Make sure the backend is running at ' + API_BASE_URL);
+                    setProducts([]);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const handleAddToCart = async (product) => {
+                if (!currentUser) {
+                    setShowAuth(true);
+                    return;
+                }
+                try {
+                    // POST /carts/{userId} body: { productId, quantity }
+                    const response = await apiClient.post(`/carts/${currentUser.userId}`, {
+                        productId: product.productId,
+                        quantity: 1
+                    });
+                    const cartDto = response.data.data;
+                    setCart(cartDto.cartItemsDto || []);
+                    setShowCart(true);
+                } catch (error) {
+                    console.error('Failed to add to cart:', error);
+                    const msg = error.response?.data?.message;
+                    alert(typeof msg === 'string' ? msg : 'Failed to add product to cart.');
+                }
+            };
+
+            const handleRemoveLocally = (cartItemId) => {
+                setCart(cart.filter(item => item.cartItemId !== cartItemId));
+            };
+
+            const handleAuthenticated = (user) => {
+                setCurrentUserState(user);
+                setShowAuth(false);
+            };
+
+            const handleLogout = () => {
+                setCurrentUser(null);
+                setCurrentUserState(null);
+                setCart([]);
+            };
+
+            return (
+                <div>
+                    <Navbar
+                        cartCount={cart.length}
+                        onCartClick={() => setShowCart(!showCart)}
+                        currentUser={currentUser}
+                        onLoginClick={() => setShowAuth(true)}
+                        onLogout={handleLogout}
+                    />
+
+                    {showAuth && (
+                        <AuthModal
+                            onClose={() => setShowAuth(false)}
+                            onAuthenticated={handleAuthenticated}
+                        />
+                    )}
+
+                    <CartPanel
+                        cart={cart}
+                        show={showCart}
+                        onClose={() => setShowCart(false)}
+                        onRemoveLocally={handleRemoveLocally}
+                    />
+
+                    <div className="max-w-7xl mx-auto px-4 py-8">
+                        <div className="flex justify-between items-center mb-8">
+                            <h2 className="text-3xl font-bold">Products</h2>
+                            {!currentUser && (
+                                <button
+                                    onClick={() => setShowAuth(true)}
+                                    className="text-sm text-blue-600 hover:text-blue-700 font-semibold"
+                                >
+                                    Log in to shop →
+                                </button>
+                            )}
+                        </div>
+
+                        {errorMsg && (
+                            <div className="bg-red-100 text-red-700 p-4 rounded mb-6">
+                                {errorMsg}
+                            </div>
+                        )}
+
+                        {loading ? (
+                            <div className="flex justify-center items-center h-96">
+                                <div className="loading-spinner"></div>
+                            </div>
+                        ) : products.length === 0 ? (
+                            <div className="text-center text-gray-500 py-24">
+                                No products found. Try adding some via the API, or check another page.
+                            </div>
+                        ) : (
+                            <>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                                    {products.map(product => (
+                                        <ProductCard
+                                            key={product.productId}
+                                            product={product}
+                                            onAddToCart={handleAddToCart}
+                                        />
+                                    ))}
+                                </div>
+
+                                {totalPages > 1 && (
+                                    <div className="flex justify-center gap-2 mb-8 flex-wrap">
+                                        {Array.from({ length: totalPages }).map((_, i) => (
+                                            <button
+                                                key={i}
+                                                onClick={() => setCurrentPage(i)}
+                                                className={`px-4 py-2 rounded ${
+                                                    currentPage === i
+                                                        ? 'bg-blue-600 text-white'
+                                                        : 'bg-gray-200 hover:bg-gray-300'
+                                                }`}
+                                            >
+                                                {i + 1}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<Dashboard />);
+    </script>
+</body>
+</html>

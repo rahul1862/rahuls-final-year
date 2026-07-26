@@ -1,6 +1,7 @@
 package com.example.e_commerce.dto;
 
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -21,12 +22,20 @@ public class ProductDto {
     private String description;
     @NotNull @Min(1)
     private double price;
-    private double discountedPrice;
+    private int discountedPrice;
     @NotNull @Min(1)
     private int quantity;
     private Date addedDate;
     @NotNull
     private Boolean stock;
     private Boolean live;
+    private byte[] image;
+
+    private Double rating;
+    private Integer reviews;
+    private String country;
+    private String flag;
+    private String imageUrl;
+    private String category;
 
 }
