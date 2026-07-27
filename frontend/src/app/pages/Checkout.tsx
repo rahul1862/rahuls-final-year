@@ -167,9 +167,6 @@ export function Checkout() {
           zipCode: formData.zipCode.trim(),
         },
         paymentMethod,
-        cardNumber: formData.cardNumber,
-        expiry: formData.expiry,
-        cvv: formData.cvv,
       });
       setOrderPlaced(true);
       clearCart();

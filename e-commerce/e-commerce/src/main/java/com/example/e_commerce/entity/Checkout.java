@@ -34,15 +34,6 @@ public class Checkout {
     @Column(name = "postal_code")
     private String postalCode;
 
-    @Column(name = "card_number")
-    private String cardNumber;
-
-    @Column(name = "expiry_date_card")
-    private String expiryDateCard;
-
-    @Column(name = "cvc")
-    private String cvc;
-
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
