@@ -8,6 +8,8 @@ import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { ProductCard } from '../components/ProductCard';
+import { PriceComparison } from '../components/PriceComparison';
+import { StorePriceComparison } from '../components/StorePriceComparison';
 
 export function ProductDetail() {
   const { id } = useParams();
@@ -133,6 +135,11 @@ export function ProductDetail() {
               )}
 
               <p className="text-sm leading-relaxed text-[#71717a]">{product.description}</p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <PriceComparison priceUsd={product.price} />
+              <StorePriceComparison productId={product.id} productName={product.name} priceUsd={product.price} />
             </div>
 
             {/* Quantity selector */}
