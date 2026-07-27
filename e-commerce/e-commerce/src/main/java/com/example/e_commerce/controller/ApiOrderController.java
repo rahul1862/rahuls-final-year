@@ -344,9 +344,6 @@ public class ApiOrderController {
                     .address((String) body.getOrDefault("address", ""))
                     .city((String) body.getOrDefault("city", ""))
                     .postalCode((String) body.getOrDefault("zipCode", ""))
-                    .cardNumber((String) body.getOrDefault("cardNumber", ""))
-                    .expiryDateCard((String) body.getOrDefault("expiry", ""))
-                    .cvc((String) body.getOrDefault("cvv", ""))
                     .createdAt(new Date())
                     .userId(user.getUserId())
                     .build();

@@ -31,9 +31,6 @@ export interface Order {
     zipCode: string;
   };
   paymentMethod: string;
-  cardNumber?: string;
-  expiry?: string;
-  cvv?: string;
 }
 
 interface OrderContextType {
@@ -101,9 +98,6 @@ export function OrderProvider({ children }: { children: ReactNode }) {
           address: order.shippingInfo.address,
           city: order.shippingInfo.city,
           zipCode: order.shippingInfo.zipCode,
-          cardNumber: order.paymentMethod === 'card' ? order.cardNumber || '' : '',
-          expiry: order.paymentMethod === 'card' ? order.expiry || '' : '',
-          cvv: order.paymentMethod === 'card' ? order.cvv || '' : '',
         });
       } catch (error) {
         console.error('Failed to save checkout to backend:', error);
