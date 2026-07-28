@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { Lock, ArrowLeft, CheckCircle, AlertCircle, ShieldCheck, CreditCard } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useCountry } from '../context/CountryContext';
+import { Button, LinkButton } from '../components/ui/Button';
 
 function formatCardNumber(value: string) {
   return value.replace(/\D/g, '').slice(0, 16).replace(/(.{4})/g, '$1 ').trim();
@@ -54,8 +55,8 @@ function validateCard(number: string, expiry: string, cvc: string, name: string)
   return null;
 }
 
-const inputCls = "w-full px-3.5 py-2.5 rounded-lg border border-[#e4e4e7] text-sm text-[#0a0a0a] placeholder:text-[#a1a1aa] outline-none focus:border-[#0a0a0a] transition-colors";
-const labelCls = "block text-xs font-medium text-[#71717a] mb-1.5";
+const inputCls = "w-full px-3.5 py-2.5 rounded-lg border border-border bg-card text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary transition-colors";
+const labelCls = "block text-xs font-medium text-muted-foreground mb-1.5";
 
 export function Payment() {
   const navigate = useNavigate();
@@ -107,12 +108,10 @@ export function Payment() {
 
   if (cart.length === 0 && !succeeded) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
-          <p className="mb-4 text-sm text-[#71717a]">Your cart is empty.</p>
-          <Link to="/products" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors">
-            Browse products
-          </Link>
+          <p className="mb-4 text-sm text-muted-foreground">Your cart is empty.</p>
+          <LinkButton to="/products">Browse products</LinkButton>
         </div>
       </div>
     );
@@ -120,35 +119,35 @@ export function Payment() {
 
   if (succeeded) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center py-12 px-6">
-          <div className="w-16 h-16 rounded-full bg-[#0a0a0a] flex items-center justify-center mx-auto mb-6">
-            <CheckCircle className="w-8 h-8 text-white" />
+          <div className="w-16 h-16 rounded-full bg-accent-pine flex items-center justify-center mx-auto mb-6">
+            <CheckCircle className="w-8 h-8 text-accent-pine-foreground" />
           </div>
-          <h2 className="text-2xl font-bold text-[#0a0a0a] mb-2">Payment successful</h2>
-          <p className="text-sm text-[#71717a]">
+          <h2 className="font-display text-2xl font-semibold text-foreground mb-2">Payment successful</h2>
+          <p className="text-sm text-muted-foreground">
             {cardType || 'Card'} ending in {last4} was charged {currency.symbol}{total.toFixed(2)}.
           </p>
-          <p className="text-xs text-[#a1a1aa] mt-4">Taking you back to products…</p>
+          <p className="text-xs text-muted-foreground/70 mt-4">Taking you back to products…</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-[#0a0a0a] mb-1 tracking-tight">Payment</h1>
-          <p className="text-sm text-[#71717a]">Complete your purchase.</p>
+          <h1 className="font-display text-3xl font-semibold text-foreground mb-1 tracking-tight">Payment</h1>
+          <p className="text-sm text-muted-foreground">Complete your purchase.</p>
         </div>
 
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
             <div className="lg:col-span-3">
-              <div className="border border-[#e4e4e7] rounded-lg p-6 divide-y divide-[#e4e4e7]">
+              <div className="border border-border rounded-xl p-6 divide-y divide-border bg-card">
                 <div className="pb-6">
-                  <h2 className="text-sm font-semibold text-[#0a0a0a] mb-4">Contact</h2>
+                  <h2 className="text-sm font-semibold text-foreground mb-4">Contact</h2>
                   <div className="space-y-4">
                     <div>
                       <label className={labelCls}>Full name</label>
@@ -163,8 +162,8 @@ export function Payment() {
 
                 <div className="pt-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-sm font-semibold text-[#0a0a0a]">Card details</h2>
-                    <span className="flex items-center gap-1.5 text-xs text-[#a1a1aa]">
+                    <h2 className="text-sm font-semibold text-foreground">Card details</h2>
+                    <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
                       <Lock className="w-3.5 h-3.5" /> Encrypted
                     </span>
                   </div>
@@ -173,7 +172,7 @@ export function Payment() {
                     <div>
                       <label className={labelCls}>Card number</label>
                       <div className="relative">
-                        <CreditCard className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a1a1aa]" />
+                        <CreditCard className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                         <input
                           type="text"
                           inputMode="numeric"
@@ -184,7 +183,7 @@ export function Payment() {
                           className={`${inputCls} pl-11 pr-16`}
                         />
                         {cardType && (
-                          <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-medium px-2 py-0.5 rounded-md bg-[#fafafa] text-[#71717a] border border-[#e4e4e7]">
+                          <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-medium px-2 py-0.5 rounded-md bg-surface text-muted-foreground border border-border">
                             {cardType}
                           </span>
                         )}
@@ -212,68 +211,61 @@ export function Payment() {
                   </div>
 
                   {error && (
-                    <div className={`mt-4 flex items-start gap-2 text-sm rounded-lg px-3.5 py-3 ${declined ? 'bg-red-50 text-red-700' : 'text-red-600'}`}>
+                    <div className={`mt-4 flex items-start gap-2 text-sm rounded-lg px-3.5 py-3 ${declined ? 'bg-destructive/10 text-destructive' : 'text-destructive'}`}>
                       <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
                       {error}
                     </div>
                   )}
 
-                  <div className="mt-5 flex items-center gap-5 text-xs text-[#a1a1aa]">
+                  <div className="mt-5 flex items-center gap-5 text-xs text-muted-foreground">
                     <span className="flex items-center gap-1"><ShieldCheck className="w-3.5 h-3.5" /> 256-bit SSL</span>
                     <span>Visa · Mastercard · Amex · Discover</span>
                   </div>
                 </div>
               </div>
 
-              <button
-                type="submit"
-                disabled={processing}
-                className="mt-5 w-full flex items-center justify-center gap-2 py-3.5 rounded-lg font-medium text-sm text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
+              <Button type="submit" size="lg" loading={processing} className="mt-5 w-full">
                 {processing ? 'Processing…' : <><Lock className="w-4 h-4" /> Pay {currency.symbol}{total.toFixed(2)}</>}
-              </button>
+              </Button>
 
-              <Link
-                to="/checkout"
-                className="mt-3 flex items-center justify-center gap-1.5 text-sm text-[#71717a] hover:text-[#0a0a0a] transition-colors"
-              >
+              <LinkButton to="/checkout" variant="ghost" className="mt-3 w-full">
                 <ArrowLeft className="w-4 h-4" /> Back to checkout
-              </Link>
+              </LinkButton>
             </div>
 
             <div className="lg:col-span-2">
-              <div className="border border-dashed border-[#e4e4e7] rounded-lg p-6 sticky top-24">
-                <h2 className="text-sm font-semibold text-[#0a0a0a] mb-5">Order summary</h2>
-                <div className="space-y-3 mb-5 pb-5 border-b border-[#e4e4e7]">
+              <div className="border border-dashed border-border rounded-xl p-6 sticky top-24 bg-card">
+                <h2 className="text-sm font-semibold text-foreground mb-5">Order summary</h2>
+                <div className="space-y-3 mb-5 pb-5 border-b border-border">
                   {cart.map(item => (
                     <div key={item.id} className="flex gap-3">
-                      <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-[#e4e4e7] relative">
+                      <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-border relative">
                         <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium text-[#0a0a0a] line-clamp-2 leading-snug">{item.name}</p>
-                        <p className="text-xs mt-0.5 text-[#a1a1aa]">{item.flag} {item.country} · Qty {item.quantity}</p>
+                        <p className="text-xs font-medium text-foreground line-clamp-2 leading-snug">{item.name}</p>
+                        <p className="text-xs mt-0.5 text-muted-foreground">{item.flag} {item.country} · Qty {item.quantity}</p>
                       </div>
-                      <p className="text-xs font-semibold text-[#0a0a0a] shrink-0">{currency.symbol}{(item.price * item.quantity).toFixed(2)}</p>
+                      <p className="text-xs font-semibold text-foreground shrink-0">{currency.symbol}{(item.price * item.quantity).toFixed(2)}</p>
                     </div>
                   ))}
                 </div>
                 <div className="space-y-2.5 text-sm font-mono">
                   <div className="flex justify-between">
-                    <span className="text-[#71717a]">Subtotal</span>
-                    <span className="text-[#0a0a0a]">{currency.symbol}{subtotal.toFixed(2)}</span>
+                    <span className="text-muted-foreground">Subtotal</span>
+                    <span className="text-foreground">{currency.symbol}{subtotal.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#71717a]">Shipping</span>
-                    <span className="text-[#0a0a0a]">{shipping === 0 ? 'Free' : `${currency.symbol}${shipping.toFixed(2)}`}</span>
+                    <span className="text-muted-foreground">Shipping</span>
+                    <span className="text-foreground">{shipping === 0 ? 'Free' : `${currency.symbol}${shipping.toFixed(2)}`}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#71717a]">Tax (8%)</span>
-                    <span className="text-[#0a0a0a]">{currency.symbol}{tax.toFixed(2)}</span>
+                    <span className="text-muted-foreground">Tax (8%)</span>
+                    <span className="text-foreground">{currency.symbol}{tax.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between pt-3 border-t border-[#e4e4e7] font-semibold">
-                    <span className="text-[#0a0a0a]">Total</span>
-                    <span className="text-[#0a0a0a]">{currency.symbol}{total.toFixed(2)}</span>
+                  <div className="flex justify-between pt-3 border-t border-border font-semibold">
+                    <span className="text-foreground">Total</span>
+                    <span className="text-foreground">{currency.symbol}{total.toFixed(2)}</span>
                   </div>
                 </div>
               </div>

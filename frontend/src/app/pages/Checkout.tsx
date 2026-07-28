@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useCart } from '../context/CartContext';
 import { useOrders } from '../context/OrderContext';
-import { CreditCard, Wallet, Smartphone, Lock, CheckCircle } from 'lucide-react';
+import { CreditCard, Wallet, Smartphone, Lock, CheckCircle, Tag } from 'lucide-react';
+import { Button } from '../components/ui/Button';
 
 type PaymentMethod = 'card' | 'paypal' | 'applepay' | 'googlepay';
 
@@ -95,21 +96,21 @@ function Field({
 }: { label: string; error?: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-xs font-medium text-[#71717a] mb-1.5">{label}</label>
+      <label className="block text-xs font-medium text-muted-foreground mb-1.5">{label}</label>
       {children}
-      {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
+      {error && <p className="mt-1 text-xs text-destructive">{error}</p>}
     </div>
   );
 }
 
 function inputCls(hasError?: boolean) {
-  return `w-full px-3.5 py-2.5 rounded-lg border text-sm text-[#0a0a0a] placeholder:text-[#a1a1aa] outline-none transition-colors ${
-    hasError ? 'border-red-400 focus:border-red-500' : 'border-[#e4e4e7] focus:border-[#0a0a0a]'
+  return `w-full px-3.5 py-2.5 rounded-lg border text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors bg-card ${
+    hasError ? 'border-destructive focus:border-destructive' : 'border-border focus:border-primary'
   }`;
 }
 
 export function Checkout() {
-  const { cart, getCartTotal, clearCart } = useCart();
+  const { cart, getCartTotal, clearCart, discountCode, discountPercent } = useCart();
   const { addOrder } = useOrders();
   const navigate = useNavigate();
 
@@ -125,7 +126,8 @@ export function Checkout() {
   const subtotal = getCartTotal();
   const shipping = subtotal > 100 ? 0 : 9.99;
   const tax = subtotal * 0.08;
-  const total = subtotal + shipping + tax;
+  const discount = subtotal * discountPercent;
+  const total = subtotal + shipping + tax - discount;
 
   useEffect(() => {
     if (cart.length === 0 && !orderPlaced) navigate('/cart', { replace: true });
@@ -178,32 +180,32 @@ export function Checkout() {
 
   if (orderPlaced) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center py-12 px-6">
-          <div className="w-16 h-16 rounded-full bg-[#0a0a0a] flex items-center justify-center mx-auto mb-6">
-            <CheckCircle className="w-8 h-8 text-white" />
+          <div className="w-16 h-16 rounded-full bg-accent-pine flex items-center justify-center mx-auto mb-6">
+            <CheckCircle className="w-8 h-8 text-accent-pine-foreground" />
           </div>
-          <h2 className="text-2xl font-bold text-[#0a0a0a] mb-2">Order placed</h2>
-          <p className="text-sm text-[#71717a] mb-1">You'll get a confirmation email shortly.</p>
-          <p className="text-xs text-[#a1a1aa]">Taking you to your orders…</p>
+          <h2 className="font-display text-2xl font-semibold text-foreground mb-2">Order placed</h2>
+          <p className="text-sm text-muted-foreground mb-1">You'll get a confirmation email shortly.</p>
+          <p className="text-xs text-muted-foreground/70">Taking you to your orders…</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-[#0a0a0a] mb-1 tracking-tight">Checkout</h1>
-          <p className="text-[#71717a] text-sm">{cart.length} item{cart.length !== 1 ? 's' : ''} in your cart</p>
+          <h1 className="font-display text-3xl font-semibold text-foreground mb-1 tracking-tight">Checkout</h1>
+          <p className="text-muted-foreground text-sm">{cart.length} item{cart.length !== 1 ? 's' : ''} in your cart</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-              <div className="border border-[#e4e4e7] rounded-lg p-6">
-                <h2 className="text-sm font-semibold text-[#0a0a0a] mb-5">Shipping information</h2>
+              <div className="border border-border rounded-xl p-6 bg-card">
+                <h2 className="text-sm font-semibold text-foreground mb-5">Shipping information</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <Field label="First name" error={errors.firstName}>
                     <input name="firstName" value={formData.firstName} onChange={handleChange} className={inputCls(!!errors.firstName)} />
@@ -230,8 +232,8 @@ export function Checkout() {
                 </div>
               </div>
 
-              <div className="border border-[#e4e4e7] rounded-lg p-6">
-                <h2 className="text-sm font-semibold text-[#0a0a0a] mb-5">Payment method</h2>
+              <div className="border border-border rounded-xl p-6 bg-card">
+                <h2 className="text-sm font-semibold text-foreground mb-5">Payment method</h2>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
                   {PAYMENT_METHODS.map(({ id, label, Icon }) => {
@@ -242,7 +244,7 @@ export function Checkout() {
                         type="button"
                         onClick={() => setPaymentMethod(id)}
                         className={`flex flex-col items-center gap-2 p-3 rounded-lg border text-sm font-medium transition-colors ${
-                          active ? 'border-[#0a0a0a] text-[#0a0a0a]' : 'border-[#e4e4e7] text-[#71717a] hover:bg-[#fafafa]'
+                          active ? 'border-primary text-primary bg-accent-soft' : 'border-border text-muted-foreground hover:bg-surface'
                         }`}
                       >
                         <Icon className="w-5 h-5" />
@@ -271,7 +273,7 @@ export function Checkout() {
                   </div>
                 ) : (
                   <div className="text-center py-8">
-                    <p className="text-sm text-[#71717a]">
+                    <p className="text-sm text-muted-foreground">
                       {paymentMethod === 'paypal' && "You'll be redirected to PayPal after placing your order."}
                       {paymentMethod === 'applepay' && 'Confirm with Apple Pay when prompted.'}
                       {paymentMethod === 'googlepay' && 'Confirm with Google Pay when prompted.'}
@@ -279,58 +281,60 @@ export function Checkout() {
                   </div>
                 )}
 
-                <div className="mt-5 flex items-center gap-2 text-xs text-[#a1a1aa]">
+                <div className="mt-5 flex items-center gap-2 text-xs text-muted-foreground">
                   <Lock className="w-3.5 h-3.5" />
                   256-bit SSL encrypted
                 </div>
               </div>
 
-              <button
-                type="submit"
-                disabled={submitting}
-                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
+              <Button type="submit" size="lg" loading={submitting} className="w-full">
                 <Lock className="w-4 h-4" />
                 {submitting ? 'Placing order…' : `Place order — $${total.toFixed(2)}`}
-              </button>
+              </Button>
             </form>
           </div>
 
           <div>
-            <div className="border border-[#e4e4e7] rounded-lg p-6 sticky top-24">
-              <h2 className="text-sm font-semibold text-[#0a0a0a] mb-5">Order summary</h2>
+            <div className="border border-border rounded-xl p-6 bg-card sticky top-24">
+              <h2 className="text-sm font-semibold text-foreground mb-5">Order summary</h2>
 
-              <div className="space-y-3 mb-5 pb-5 border-b border-[#e4e4e7]">
+              <div className="space-y-3 mb-5 pb-5 border-b border-border">
                 {cart.map(item => (
                   <div key={item.id} className="flex gap-3">
-                    <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-[#e4e4e7]">
+                    <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-border">
                       <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-medium text-[#0a0a0a] line-clamp-2 leading-snug">{item.name}</p>
-                      <p className="text-xs mt-0.5 text-[#a1a1aa]">{item.flag} {item.country} · Qty {item.quantity}</p>
+                      <p className="text-xs font-medium text-foreground line-clamp-2 leading-snug">{item.name}</p>
+                      <p className="text-xs mt-0.5 text-muted-foreground">{item.flag} {item.country} · Qty {item.quantity}</p>
                     </div>
-                    <p className="text-xs font-semibold text-[#0a0a0a] shrink-0">${(item.price * item.quantity).toFixed(2)}</p>
+                    <p className="text-xs font-semibold text-foreground shrink-0 tabular-nums">${(item.price * item.quantity).toFixed(2)}</p>
                   </div>
                 ))}
               </div>
 
               <div className="space-y-2.5 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-[#71717a]">Subtotal</span>
-                  <span className="text-[#0a0a0a]">${subtotal.toFixed(2)}</span>
+                  <span className="text-muted-foreground">Subtotal</span>
+                  <span className="text-foreground tabular-nums">${subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#71717a]">Shipping</span>
-                  <span className="text-[#0a0a0a]">{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
+                  <span className="text-muted-foreground">Shipping</span>
+                  <span className="text-foreground tabular-nums">{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#71717a]">Tax (8%)</span>
-                  <span className="text-[#0a0a0a]">${tax.toFixed(2)}</span>
+                  <span className="text-muted-foreground">Tax (8%)</span>
+                  <span className="text-foreground tabular-nums">${tax.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between pt-3 border-t border-[#e4e4e7] font-semibold text-[#0a0a0a]">
+                {discountPercent > 0 && (
+                  <div className="flex justify-between">
+                    <span className="text-accent-pine flex items-center gap-1.5"><Tag className="w-3.5 h-3.5" aria-hidden="true" /> {discountCode}</span>
+                    <span className="text-accent-pine tabular-nums">−${discount.toFixed(2)}</span>
+                  </div>
+                )}
+                <div className="flex justify-between pt-3 border-t border-border font-semibold text-foreground">
                   <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span className="tabular-nums">${total.toFixed(2)}</span>
                 </div>
               </div>
             </div>

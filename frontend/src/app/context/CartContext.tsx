@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useRef, useState, ReactNode } from 'react';
 import { useAuth } from './AuthContext';
 import { api } from '../utils/api';
+import { getDiscountPercent, isValidDiscountCode, validateDiscountCode } from '../utils/discountCodes';
 
 export interface Product {
   id: number;
@@ -19,6 +20,11 @@ export interface CartItem extends Product {
   quantity: number;
 }
 
+interface DiscountResult {
+  ok: boolean;
+  message: string;
+}
+
 interface CartContextType {
   cart: CartItem[];
   addToCart: (product: Product, quantity?: number) => void;
@@ -27,9 +33,15 @@ interface CartContextType {
   clearCart: () => void;
   getCartTotal: () => number;
   getCartCount: () => number;
+  discountCode: string | null;
+  discountPercent: number;
+  applyDiscount: (code: string) => DiscountResult;
+  clearDiscount: () => void;
 }
 
 const CART_STORAGE_KEY = 'vendr-cart';
+const DISCOUNT_STORAGE_KEY = 'vendr-cart-discount';
+
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 function loadCart(): CartItem[] {
@@ -43,11 +55,31 @@ function loadCart(): CartItem[] {
   }
 }
 
+function loadDiscountCode(): string | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const saved = window.localStorage.getItem(DISCOUNT_STORAGE_KEY);
+    return saved && isValidDiscountCode(saved) ? saved : null;
+  } catch {
+    return null;
+  }
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const [cart, setCart] = useState<CartItem[]>(loadCart);
+  const [discountCode, setDiscountCode] = useState<string | null>(loadDiscountCode);
 
   const skipSync = useRef(false);
+
+  useEffect(() => {
+    try {
+      if (discountCode) window.localStorage.setItem(DISCOUNT_STORAGE_KEY, discountCode);
+      else window.localStorage.removeItem(DISCOUNT_STORAGE_KEY);
+    } catch {
+      // Storage failed silently
+    }
+  }, [discountCode]);
 
   useEffect(() => {
     if (!user?.id) return;
@@ -105,12 +137,27 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
   };
 
-  const clearCart = () => setCart([]);
+  const clearCart = () => { setCart([]); setDiscountCode(null); };
   const getCartTotal = () => cart.reduce((total, item) => total + item.price * item.quantity, 0);
   const getCartCount = () => cart.reduce((count, item) => count + item.quantity, 0);
 
+  const discountPercent = getDiscountPercent(discountCode);
+
+  const applyDiscount = (code: string): DiscountResult => {
+    const result = validateDiscountCode(code);
+    if (result.ok && result.code) setDiscountCode(result.code);
+    return { ok: result.ok, message: result.message };
+  };
+
+  const clearDiscount = () => setDiscountCode(null);
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart, getCartTotal, getCartCount }}>
+    <CartContext.Provider
+      value={{
+        cart, addToCart, removeFromCart, updateQuantity, clearCart, getCartTotal, getCartCount,
+        discountCode, discountPercent, applyDiscount, clearDiscount,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

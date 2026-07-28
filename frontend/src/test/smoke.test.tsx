@@ -8,6 +8,7 @@ import { CartProvider } from '../app/context/CartContext';
 import { WishlistProvider } from '../app/context/WishlistContext';
 import { OrderProvider } from '../app/context/OrderContext';
 import { ProductsProvider } from '../app/context/ProductsContext';
+import { ToastProvider } from '../app/context/ToastContext';
 import { products } from '../app/data/products';
 import { Home } from '../app/pages/Home';
 import { Products } from '../app/pages/Products';
@@ -25,7 +26,9 @@ function withProviders(children: React.ReactNode, initialEntry = '/') {
           <CountryProvider>
             <CartProvider>
               <WishlistProvider>
-                <OrderProvider>{children}</OrderProvider>
+                <OrderProvider>
+                  <ToastProvider>{children}</ToastProvider>
+                </OrderProvider>
               </WishlistProvider>
             </CartProvider>
           </CountryProvider>

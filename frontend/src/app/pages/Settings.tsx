@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { Menu, User, Lock, Bell, CheckCircle, AlertCircle } from 'lucide-react';
+import { Menu, User, Lock, Bell } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../utils/api';
 import { AccountSidebar } from '../components/AccountSidebar';
+import { Button } from '../components/ui/Button';
+import { Banner } from '../components/ui/Banner';
 
-const inputCls = "w-full px-3.5 py-2.5 rounded-lg border text-sm text-[#0a0a0a] placeholder:text-[#a1a1aa] outline-none transition-colors";
+const inputCls = "w-full px-3.5 py-2.5 rounded-lg border text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors";
 const PHONE_RE = /^[0-9+()\-.\s]{7,20}$/;
 const NOTIF_KEY = 'vendr-notification-prefs';
 
@@ -34,7 +36,7 @@ function Field({
 }) {
   return (
     <div>
-      <label className="block text-xs font-medium text-[#71717a] mb-1.5">{label}</label>
+      <label className="block text-xs font-medium text-muted-foreground mb-1.5">{label}</label>
       <input
         type={type}
         value={value}
@@ -42,36 +44,21 @@ function Field({
         disabled={disabled}
         placeholder={placeholder}
         className={`${inputCls} ${
-          disabled ? 'bg-[#fafafa] text-[#a1a1aa] cursor-not-allowed border-[#e4e4e7]'
-          : error ? 'border-red-400 focus:border-red-500'
-          : 'border-[#e4e4e7] focus:border-[#0a0a0a]'
+          disabled ? 'bg-surface text-muted-foreground cursor-not-allowed border-border'
+          : error ? 'bg-card border-destructive focus:border-destructive'
+          : 'bg-card border-border focus:border-primary'
         }`}
       />
-      {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
-    </div>
-  );
-}
-
-function Notice({ type, msg }: { type: 'success' | 'error'; msg: string }) {
-  return (
-    <div className={`flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium border ${
-      type === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200'
-    }`}>
-      {type === 'success' ? <CheckCircle className="w-4 h-4 shrink-0" /> : <AlertCircle className="w-4 h-4 shrink-0" />}
-      {msg}
+      {error && <p className="mt-1 text-xs text-destructive">{error}</p>}
     </div>
   );
 }
 
 function SaveBtn({ loading, label = 'Save changes' }: { loading: boolean; label?: string }) {
   return (
-    <button
-      type="submit"
-      disabled={loading}
-      className="px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-    >
+    <Button type="submit" loading={loading}>
       {loading ? 'Saving…' : label}
-    </button>
+    </Button>
   );
 }
 
@@ -156,29 +143,29 @@ export function Settings() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <div className="flex min-h-screen">
         <AccountSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
         <main className="flex-1 min-w-0 px-4 sm:px-6 lg:px-8 py-8">
           <div className="max-w-2xl mx-auto">
             <div className="flex items-center gap-3 mb-6 lg:hidden">
-              <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-lg border border-[#e4e4e7] text-[#71717a]">
+              <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-lg border border-border text-muted-foreground">
                 <Menu className="w-5 h-5" />
               </button>
-              <h1 className="text-lg font-bold text-[#0a0a0a]">Settings</h1>
+              <h1 className="text-lg font-bold text-foreground">Settings</h1>
             </div>
             <div className="hidden lg:block mb-8">
-              <h1 className="text-3xl font-bold text-[#0a0a0a] mb-1 tracking-tight">Settings</h1>
-              <p className="text-[#71717a] text-sm">Manage your profile, security, and notifications.</p>
+              <h1 className="font-display text-3xl font-semibold text-foreground mb-1 tracking-tight">Settings</h1>
+              <p className="text-muted-foreground text-sm">Manage your profile, security, and notifications.</p>
             </div>
 
-            <section className="border border-[#e4e4e7] rounded-lg p-6 mb-6">
+            <section className="border border-border rounded-lg p-6 mb-6">
               <div className="flex items-center gap-3 mb-5">
-                <User className="w-4 h-4 text-[#0a0a0a]" />
+                <User className="w-4 h-4 text-primary" />
                 <div>
-                  <p className="text-sm font-semibold text-[#0a0a0a]">Profile</p>
-                  <p className="text-xs text-[#a1a1aa]">Your name and contact number</p>
+                  <p className="text-sm font-semibold text-foreground">Profile</p>
+                  <p className="text-xs text-muted-foreground">Your name and contact number</p>
                 </div>
               </div>
 
@@ -194,19 +181,19 @@ export function Settings() {
                   placeholder="+1 555 000 0000"
                   error={profileFieldErrors.phone}
                 />
-                {profileStatus && <Notice type={profileStatus.type} msg={profileStatus.msg} />}
+                {profileStatus && <Banner variant={profileStatus.type}>{profileStatus.msg}</Banner>}
                 <div className="flex justify-end pt-1">
                   <SaveBtn loading={profileLoading} />
                 </div>
               </form>
             </section>
 
-            <section className="border border-[#e4e4e7] rounded-lg p-6 mb-6">
+            <section className="border border-border rounded-lg p-6 mb-6">
               <div className="flex items-center gap-3 mb-5">
-                <Lock className="w-4 h-4 text-[#0a0a0a]" />
+                <Lock className="w-4 h-4 text-primary" />
                 <div>
-                  <p className="text-sm font-semibold text-[#0a0a0a]">Password</p>
-                  <p className="text-xs text-[#a1a1aa]">Change your account password</p>
+                  <p className="text-sm font-semibold text-foreground">Password</p>
+                  <p className="text-xs text-muted-foreground">Change your account password</p>
                 </div>
               </div>
 
@@ -228,7 +215,7 @@ export function Settings() {
                     placeholder="Repeat new password" error={pwFieldErrors.confirmPw}
                   />
                 </div>
-                {pwStatus && <Notice type={pwStatus.type} msg={pwStatus.msg} />}
+                {pwStatus && <Banner variant={pwStatus.type}>{pwStatus.msg}</Banner>}
                 <div className="flex justify-end pt-1">
                   <SaveBtn loading={pwLoading} label="Change password" />
                 </div>
@@ -237,14 +224,14 @@ export function Settings() {
 
             <section className="pt-2">
               <div className="flex items-center gap-3 mb-5">
-                <Bell className="w-4 h-4 text-[#0a0a0a]" />
+                <Bell className="w-4 h-4 text-primary" />
                 <div>
-                  <p className="text-sm font-semibold text-[#0a0a0a]">Notifications</p>
-                  <p className="text-xs text-[#a1a1aa]">Choose what we email you about</p>
+                  <p className="text-sm font-semibold text-foreground">Notifications</p>
+                  <p className="text-xs text-muted-foreground">Choose what we email you about</p>
                 </div>
               </div>
 
-              <div className="divide-y divide-[#e4e4e7] border-t border-b border-[#e4e4e7] mb-4">
+              <div className="divide-y divide-border border-t border-b border-border mb-4">
                 {([
                   { key: 'orderUpdates', label: 'Order updates', desc: 'Shipping and delivery status for your orders' },
                   { key: 'promotions', label: 'Promotions', desc: 'Sales, discounts, and limited-time offers' },
@@ -252,28 +239,25 @@ export function Settings() {
                 ] as const).map(({ key, label, desc }) => (
                   <label key={key} className="flex items-center justify-between gap-4 py-4 cursor-pointer">
                     <div>
-                      <p className="text-sm font-medium text-[#0a0a0a]">{label}</p>
-                      <p className="text-xs text-[#a1a1aa]">{desc}</p>
+                      <p className="text-sm font-medium text-foreground">{label}</p>
+                      <p className="text-xs text-muted-foreground">{desc}</p>
                     </div>
                     <input
                       type="checkbox"
                       checked={prefs[key]}
                       onChange={e => setPrefs(p => ({ ...p, [key]: e.target.checked }))}
-                      className="w-4 h-4 rounded border-[#e4e4e7] accent-[#0a0a0a]"
+                      className="w-4 h-4 rounded border-border accent-primary"
                     />
                   </label>
                 ))}
               </div>
 
-              {prefsSaved && <div className="mb-4"><Notice type="success" msg="Notification preferences saved." /></div>}
+              {prefsSaved && <div className="mb-4"><Banner variant="success">Notification preferences saved.</Banner></div>}
 
               <div className="flex justify-end">
-                <button
-                  onClick={savePrefs}
-                  className="px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors"
-                >
+                <Button onClick={savePrefs}>
                   Save preferences
-                </button>
+                </Button>
               </div>
             </section>
           </div>

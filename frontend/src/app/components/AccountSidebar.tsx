@@ -31,12 +31,12 @@ export function AccountSidebar({ open, onClose }: { open: boolean; onClose: () =
   const nav = (
     <div className="h-full flex flex-col py-6">
       <div className="px-6 mb-6 flex items-center gap-3">
-        <span className="w-9 h-9 bg-[#0a0a0a] text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0">
+        <span className="w-9 h-9 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-bold shrink-0">
           {user?.name[0]?.toUpperCase() ?? 'A'}
         </span>
         <div className="min-w-0">
-          <p className="text-sm font-semibold text-[#0a0a0a] truncate">{user?.name ?? 'Your account'}</p>
-          <p className="text-xs text-[#a1a1aa] truncate">{user?.email ?? 'Not signed in'}</p>
+          <p className="text-sm font-semibold text-foreground truncate">{user?.name ?? 'Your account'}</p>
+          <p className="text-xs text-muted-foreground truncate">{user?.email ?? 'Not signed in'}</p>
         </div>
       </div>
 
@@ -50,8 +50,8 @@ export function AccountSidebar({ open, onClose }: { open: boolean; onClose: () =
               aria-current={active ? 'page' : undefined}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left transition-colors ${
                 active
-                  ? 'bg-[#f4f4f5] text-[#0a0a0a]'
-                  : 'text-[#71717a] hover:bg-[#fafafa] hover:text-[#0a0a0a]'
+                  ? 'bg-secondary text-foreground'
+                  : 'text-muted-foreground hover:bg-surface hover:text-foreground'
               }`}
             >
               <Icon className="w-4 h-4 shrink-0" aria-hidden="true" />
@@ -61,10 +61,10 @@ export function AccountSidebar({ open, onClose }: { open: boolean; onClose: () =
         })}
       </nav>
 
-      <div className="px-3 pt-4 border-t border-[#e4e4e7]">
+      <div className="px-3 pt-4 border-t border-border">
         <button
           onClick={() => { logout(); navigate('/'); }}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#71717a] hover:text-[#0a0a0a] hover:bg-[#fafafa] transition-colors"
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-surface transition-colors"
         >
           <LogOut className="w-4 h-4" aria-hidden="true" />
           Log out
@@ -77,7 +77,7 @@ export function AccountSidebar({ open, onClose }: { open: boolean; onClose: () =
     <>
       <aside
         aria-label="Account navigation"
-        className="hidden lg:flex flex-col w-60 shrink-0 sticky top-16 self-start border-r border-[#e4e4e7] bg-white"
+        className="hidden lg:flex flex-col w-60 shrink-0 sticky top-16 self-start border-r border-border bg-background"
         style={{ height: 'calc(100vh - 4rem)' }}
       >
         {nav}
@@ -90,18 +90,18 @@ export function AccountSidebar({ open, onClose }: { open: boolean; onClose: () =
               key="backdrop"
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={onClose}
-              className="fixed inset-0 z-40 bg-black/40 lg:hidden"
+              className="fixed inset-0 z-40 bg-foreground/40 lg:hidden"
             />
             <motion.aside
               key="drawer"
               aria-label="Account navigation"
               initial={{ x: -280 }} animate={{ x: 0 }} exit={{ x: -280 }}
               transition={{ type: 'spring', damping: 24, stiffness: 280 }}
-              className="fixed top-0 left-0 h-full w-60 z-50 lg:hidden overflow-y-auto bg-white border-r border-[#e4e4e7] shadow-xl"
+              className="fixed top-0 left-0 h-full w-60 z-50 lg:hidden overflow-y-auto bg-background border-r border-border shadow-xl"
             >
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 p-1.5 rounded-lg text-[#71717a] hover:text-[#0a0a0a] hover:bg-[#f4f4f5] transition-colors"
+                className="absolute top-4 right-4 p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                 aria-label="Close menu"
               >
                 <X className="w-4 h-4" />

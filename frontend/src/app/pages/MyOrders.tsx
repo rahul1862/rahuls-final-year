@@ -1,9 +1,9 @@
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate, Link } from 'react-router';
 import {
   Package, ShoppingBag, Search, Heart, ChevronDown, ChevronUp, Download,
   RotateCcw, MessageSquare, Truck, CheckCircle, Clock, Menu, X,
-  ShoppingCart, ArrowRight, RefreshCw, Star,
+  ShoppingCart, ArrowRight, RefreshCw,
 } from 'lucide-react';
 import { useOrders } from '../context/OrderContext';
 import type { Order } from '../context/OrderContext';
@@ -11,8 +11,12 @@ import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
 import type { Product } from '../context/CartContext';
 import { useProducts } from '../context/ProductsContext';
+import { useToast } from '../context/ToastContext';
 import { getRecentlyViewed } from '../utils/recentlyViewed';
 import { AccountSidebar } from '../components/AccountSidebar';
+import { EmptyState } from '../components/ui/EmptyState';
+import { Button, LinkButton } from '../components/ui/Button';
+import { RatingStars } from '../components/ui/RatingStars';
 
 type FilterMode = 'all' | 'active' | 'Delivered' | 'Cancelled';
 type SortMode = 'latest' | 'oldest' | 'highest';
@@ -47,19 +51,19 @@ function Timeline({ status }: { status: string }) {
               <div className="flex flex-col items-center gap-1.5 shrink-0">
                 <div
                   className={`w-7 h-7 rounded-full flex items-center justify-center border ${
-                    done ? 'bg-[#0a0a0a] border-[#0a0a0a]' : 'bg-white border-[#e4e4e7]'
-                  } ${active ? 'ring-2 ring-offset-2 ring-[#0a0a0a]' : ''}`}
+                    done ? 'bg-primary border-primary' : 'bg-card border-border'
+                  } ${active ? 'ring-2 ring-offset-2 ring-primary' : ''}`}
                 >
                   {done
-                    ? <CheckCircle className="w-3.5 h-3.5 text-white" />
-                    : <div className="w-1.5 h-1.5 rounded-full bg-[#e4e4e7]" />}
+                    ? <CheckCircle className="w-3.5 h-3.5 text-primary-foreground" />
+                    : <div className="w-1.5 h-1.5 rounded-full bg-border" />}
                 </div>
                 <span className="text-[10px] font-medium text-center leading-tight" style={{ maxWidth: 56 }}>
-                  <span className={done ? 'text-[#0a0a0a]' : 'text-[#a1a1aa]'}>{label}</span>
+                  <span className={done ? 'text-foreground' : 'text-muted-foreground'}>{label}</span>
                 </span>
               </div>
               {i < TIMELINE_STEPS.length - 1 && (
-                <div className={`flex-1 h-px mt-3.5 mx-1 ${i < step ? 'bg-[#0a0a0a]' : 'bg-[#e4e4e7]'}`} />
+                <div className={`flex-1 h-px mt-3.5 mx-1 ${i < step ? 'bg-primary' : 'bg-border'}`} />
               )}
             </div>
           );
@@ -76,10 +80,10 @@ function ActionBtn({
   primary?: boolean; danger?: boolean;
 }) {
   const cls = primary
-    ? 'bg-[#0a0a0a] text-white border-transparent hover:bg-[#2a2a2a]'
+    ? 'bg-primary text-primary-foreground border-transparent hover:bg-primary-hover'
     : danger
-    ? 'text-red-600 border-red-200 hover:bg-red-50'
-    : 'text-[#71717a] border-[#e4e4e7] hover:bg-[#fafafa]';
+    ? 'text-destructive border-destructive/30 hover:bg-destructive/10'
+    : 'text-muted-foreground border-border hover:bg-surface';
   return (
     <button
       onClick={onClick}
@@ -109,24 +113,24 @@ function OrderCard({
     new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 
   return (
-    <div className="rounded-lg border border-[#e4e4e7] overflow-hidden">
+    <div className="rounded-xl border border-border overflow-hidden">
       <button
         onClick={() => setExpanded(v => !v)}
-        className={`w-full flex items-center gap-4 px-5 py-4 text-left transition-colors ${expanded ? 'bg-[#fafafa]' : 'hover:bg-[#fafafa]'}`}
+        className={`w-full flex items-center gap-4 px-5 py-4 text-left transition-colors ${expanded ? 'bg-surface' : 'hover:bg-surface'}`}
       >
-        <div className="w-10 h-10 rounded-lg border border-[#e4e4e7] flex items-center justify-center shrink-0">
-          <Package className="w-4 h-4 text-[#0a0a0a]" />
+        <div className="w-10 h-10 rounded-lg border border-border flex items-center justify-center shrink-0">
+          <Package className="w-4 h-4 text-primary" />
         </div>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <p className="text-sm font-semibold text-[#0a0a0a]">{order.id}</p>
+            <p className="text-sm font-semibold text-foreground">{order.id}</p>
             <span className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium border ${style.text}`}>
               <span className={`w-1.5 h-1.5 rounded-full ${style.dot}`} />
               {status}
             </span>
           </div>
-          <p className="text-xs mt-0.5 text-[#a1a1aa]">
+          <p className="text-xs mt-0.5 text-muted-foreground">
             {fmtDate(order.date)}
             {order.estimatedDelivery && !isClosed ? ` · Est. ${fmtDate(order.estimatedDelivery)}` : ''}
           </p>
@@ -134,19 +138,19 @@ function OrderCard({
 
         <div className="flex items-center gap-4 shrink-0">
           <div className="text-right hidden sm:block">
-            <p className="text-sm font-semibold text-[#0a0a0a]">${order.total.toFixed(2)}</p>
-            <p className="text-[10px] text-[#a1a1aa]">
+            <p className="text-sm font-semibold text-foreground">${order.total.toFixed(2)}</p>
+            <p className="text-[10px] text-muted-foreground">
               {order.items.length} item{order.items.length !== 1 ? 's' : ''}
             </p>
           </div>
           {expanded
-            ? <ChevronUp className="w-4 h-4 text-[#a1a1aa]" />
-            : <ChevronDown className="w-4 h-4 text-[#a1a1aa]" />}
+            ? <ChevronUp className="w-4 h-4 text-muted-foreground" />
+            : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
         </div>
       </button>
 
       {expanded && (
-        <div className="px-5 pb-5 border-t border-[#e4e4e7]">
+        <div className="px-5 pb-5 border-t border-border">
           {!isClosed ? (
             <Timeline status={status} />
           ) : (
@@ -163,24 +167,19 @@ function OrderCard({
           <div className="space-y-3 mb-5">
             {order.items.map(item => (
               <div key={item.id} className="flex gap-3 items-center">
-                <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-[#e4e4e7]">
+                <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-border">
                   <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-medium text-[#0a0a0a] truncate">{item.name}</p>
-                  <p className="text-[10px] mt-0.5 text-[#a1a1aa]">
+                  <p className="text-xs font-medium text-foreground truncate">{item.name}</p>
+                  <p className="text-[10px] mt-0.5 text-muted-foreground">
                     {item.flag} {item.country} · Qty {item.quantity}
                   </p>
-                  <div className="flex gap-0.5 mt-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`w-2.5 h-2.5 ${i < Math.floor(item.rating) ? 'text-amber-400 fill-amber-400' : 'text-[#e4e4e7]'}`}
-                      />
-                    ))}
+                  <div className="mt-1">
+                    <RatingStars rating={item.rating} size="xs" />
                   </div>
                 </div>
-                <p className="text-xs font-semibold text-[#0a0a0a] shrink-0">
+                <p className="text-xs font-semibold text-foreground shrink-0">
                   ${(item.price * item.quantity).toFixed(2)}
                 </p>
               </div>
@@ -190,25 +189,25 @@ function OrderCard({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-[#a1a1aa]">Subtotal</span>
-                <span className="text-[#71717a]">${order.subtotal.toFixed(2)}</span>
+                <span className="text-muted-foreground">Subtotal</span>
+                <span className="text-muted-foreground">${order.subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[#a1a1aa]">Shipping</span>
-                <span className="text-[#71717a]">{order.shipping === 0 ? 'Free' : `$${order.shipping.toFixed(2)}`}</span>
+                <span className="text-muted-foreground">Shipping</span>
+                <span className="text-muted-foreground">{order.shipping === 0 ? 'Free' : `$${order.shipping.toFixed(2)}`}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[#a1a1aa]">Tax</span>
-                <span className="text-[#71717a]">${order.tax.toFixed(2)}</span>
+                <span className="text-muted-foreground">Tax</span>
+                <span className="text-muted-foreground">${order.tax.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between pt-2 border-t border-[#e4e4e7] font-semibold text-[#0a0a0a]">
+              <div className="flex justify-between pt-2 border-t border-border font-semibold text-foreground">
                 <span>Total</span>
                 <span>${order.total.toFixed(2)}</span>
               </div>
             </div>
 
-            <div className="text-xs space-y-1 text-[#71717a]">
-              <p className="text-[#0a0a0a] font-semibold text-sm mb-2">Shipped to</p>
+            <div className="text-xs space-y-1 text-muted-foreground">
+              <p className="text-foreground font-semibold text-sm mb-2">Shipped to</p>
               <p>{order.shippingInfo.firstName} {order.shippingInfo.lastName}</p>
               <p>{order.shippingInfo.address}</p>
               <p>{order.shippingInfo.city}, {order.shippingInfo.zipCode}</p>
@@ -240,13 +239,13 @@ function OrderCard({
 
 function StatTile({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string | number }) {
   return (
-    <div className="border border-[#e4e4e7] rounded-lg p-4 flex items-center gap-3">
-      <div className="w-9 h-9 rounded-lg border border-[#e4e4e7] flex items-center justify-center shrink-0">
-        <Icon className="w-4 h-4 text-[#0a0a0a]" />
+    <div className="border border-border rounded-xl p-4 flex items-center gap-3">
+      <div className="w-9 h-9 rounded-lg border border-border flex items-center justify-center shrink-0">
+        <Icon className="w-4 h-4 text-primary" />
       </div>
       <div>
-        <p className="text-lg font-bold text-[#0a0a0a] leading-none mb-0.5">{value}</p>
-        <p className="text-xs text-[#a1a1aa]">{label}</p>
+        <p className="text-lg font-bold text-foreground leading-none mb-0.5">{value}</p>
+        <p className="text-xs text-muted-foreground">{label}</p>
       </div>
     </div>
   );
@@ -258,21 +257,21 @@ function ProductMiniCard({ product }: { product: Product }) {
   return (
     <div
       onClick={() => navigate(`/products/${product.id}`)}
-      className="cursor-pointer rounded-lg overflow-hidden shrink-0 w-44 border border-[#e4e4e7] hover:border-[#0a0a0a] transition-colors"
+      className="cursor-pointer rounded-lg overflow-hidden shrink-0 w-44 border border-border hover:border-primary transition-colors"
     >
-      <div className="w-full h-32 overflow-hidden bg-[#fafafa]">
+      <div className="w-full h-32 overflow-hidden bg-surface">
         <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
       </div>
       <div className="p-3">
-        <p className="text-[10px] mb-0.5 text-[#a1a1aa]">{product.flag} {product.country}</p>
-        <p className="text-xs font-medium text-[#0a0a0a] line-clamp-2 leading-snug mb-2">{product.name}</p>
+        <p className="text-[10px] mb-0.5 text-muted-foreground">{product.flag} {product.country}</p>
+        <p className="text-xs font-medium text-foreground line-clamp-2 leading-snug mb-2">{product.name}</p>
         <div className="flex items-center justify-between">
-          <span className="text-sm font-semibold text-[#0a0a0a]">${product.price.toFixed(2)}</span>
+          <span className="text-sm font-semibold text-foreground">${product.price.toFixed(2)}</span>
           <button
             onClick={e => { e.stopPropagation(); addToCart(product); }}
-            className="w-7 h-7 rounded-lg border border-[#e4e4e7] flex items-center justify-center hover:bg-[#fafafa]"
+            className="w-7 h-7 rounded-lg border border-border flex items-center justify-center hover:bg-surface"
           >
-            <ShoppingCart className="w-3.5 h-3.5 text-[#0a0a0a]" />
+            <ShoppingCart className="w-3.5 h-3.5 text-primary" />
           </button>
         </div>
       </div>
@@ -285,8 +284,8 @@ function ProductCarousel({ title, items }: { title: string; items: Product[] }) 
   return (
     <div className="mb-8">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-base font-semibold text-[#0a0a0a]">{title}</h3>
-        <Link to="/products" className="text-xs font-medium flex items-center gap-1 text-[#71717a] hover:text-[#0a0a0a]">
+        <h3 className="font-display text-base font-semibold text-foreground">{title}</h3>
+        <Link to="/products" className="text-xs font-medium flex items-center gap-1 text-muted-foreground hover:text-primary">
           See all <ArrowRight className="w-3 h-3" />
         </Link>
       </div>
@@ -305,37 +304,28 @@ function ProductCarousel({ title, items }: { title: string; items: Product[] }) 
   );
 }
 
-function EmptyState() {
-  const navigate = useNavigate();
+function NoOrdersYet() {
   const recentlyViewed = getRecentlyViewed();
   const { products } = useProducts();
   const trending = [...products].sort((a, b) => b.reviews - a.reviews).slice(0, 10);
   const flashDeals = products.filter(p => p.price < 80).slice(0, 10);
   return (
     <div>
-      <div className="text-center py-16 border border-[#e4e4e7] rounded-lg mb-10">
-        <div className="w-14 h-14 rounded-lg border border-[#e4e4e7] flex items-center justify-center mx-auto mb-5">
-          <ShoppingBag className="w-6 h-6 text-[#a1a1aa]" />
-        </div>
-        <h2 className="text-xl font-semibold text-[#0a0a0a] mb-2">No orders yet</h2>
-        <p className="text-sm text-[#71717a] mb-6 max-w-xs mx-auto">
-          Once you place an order, you'll be able to track it here.
-        </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <button
-            onClick={() => navigate('/products')}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors"
-          >
-            <ShoppingCart className="w-4 h-4" />
-            Browse products
-          </button>
-          <button
-            onClick={() => navigate('/deals')}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium border border-[#e4e4e7] text-[#71717a] hover:bg-[#fafafa] transition-colors"
-          >
-            See deals
-          </button>
-        </div>
+      <div className="border border-border rounded-xl mb-10">
+        <EmptyState
+          icon={ShoppingBag}
+          title="No orders yet"
+          description="Once you place an order, you'll be able to track it here."
+          action={
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <LinkButton to="/products">
+                <ShoppingCart className="w-4 h-4" />
+                Browse products
+              </LinkButton>
+              <LinkButton to="/deals" variant="secondary">See deals</LinkButton>
+            </div>
+          }
+        />
       </div>
 
       {recentlyViewed.length > 0 && <ProductCarousel title="Recently viewed" items={recentlyViewed} />}
@@ -349,17 +339,12 @@ export function MyOrders() {
   const { orders, updateOrderStatus } = useOrders();
   const { getWishlistCount } = useWishlist();
   const { addToCart } = useCart();
+  const { show: showToast } = useToast();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<FilterMode>('all');
   const [sort, setSort] = useState<SortMode>('latest');
-  const [toast, setToast] = useState<string | null>(null);
-
-  const showToast = (msg: string) => {
-    setToast(msg);
-    setTimeout(() => setToast(null), 3000);
-  };
 
   const totalSpent = orders.reduce((s, o) => s + o.total, 0);
   const inProgress = orders.filter(o =>
@@ -420,25 +405,25 @@ th{font-weight:600;color:#111;border-bottom:2px solid #ddd}.total{font-size:1rem
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <div className="flex min-h-screen">
         <AccountSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
         <main className="flex-1 min-w-0 px-4 sm:px-6 lg:px-8 py-8">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center gap-3 mb-6 lg:hidden">
-              <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-lg border border-[#e4e4e7] text-[#71717a]">
+              <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-lg border border-border text-muted-foreground">
                 <Menu className="w-5 h-5" />
               </button>
               <div>
-                <h1 className="text-lg font-bold text-[#0a0a0a]">My orders</h1>
-                <p className="text-xs text-[#a1a1aa]">Track your purchases</p>
+                <h1 className="text-lg font-bold text-foreground">My orders</h1>
+                <p className="text-xs text-muted-foreground">Track your purchases</p>
               </div>
             </div>
 
             <div className="hidden lg:block mb-8">
-              <h1 className="text-3xl font-bold text-[#0a0a0a] mb-1 tracking-tight">My orders</h1>
-              <p className="text-[#71717a] text-sm">Track and manage everything you've bought.</p>
+              <h1 className="font-display text-3xl font-semibold text-foreground mb-1 tracking-tight">My orders</h1>
+              <p className="text-muted-foreground text-sm">Track and manage everything you've bought.</p>
             </div>
 
             {orders.length > 0 && (
@@ -452,16 +437,16 @@ th{font-weight:600;color:#111;border-bottom:2px solid #ddd}.total{font-size:1rem
 
             {orders.length > 0 && (
               <div className="mb-6 space-y-3">
-                <div className="flex items-center gap-3 px-4 py-3 rounded-lg border border-[#e4e4e7]">
-                  <Search className="w-4 h-4 shrink-0 text-[#a1a1aa]" />
+                <div className="flex items-center gap-3 px-4 py-3 rounded-lg border border-border bg-card">
+                  <Search className="w-4 h-4 shrink-0 text-muted-foreground" />
                   <input
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     placeholder="Search by order ID or product name…"
-                    className="flex-1 bg-transparent text-sm text-[#0a0a0a] placeholder:text-[#a1a1aa] outline-none"
+                    className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
                   />
                   {search && (
-                    <button onClick={() => setSearch('')} className="text-[#a1a1aa] hover:text-[#0a0a0a]">
+                    <button onClick={() => setSearch('')} className="text-muted-foreground hover:text-foreground">
                       <X className="w-4 h-4" />
                     </button>
                   )}
@@ -472,8 +457,8 @@ th{font-weight:600;color:#111;border-bottom:2px solid #ddd}.total{font-size:1rem
                     <button
                       key={f}
                       onClick={() => setFilter(f)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
-                        filter === f ? 'bg-[#0a0a0a] text-white border-[#0a0a0a]' : 'border-[#e4e4e7] text-[#71717a] hover:bg-[#fafafa]'
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+                        filter === f ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:bg-surface'
                       }`}
                     >
                       {f === 'all' ? 'All orders' : f === 'active' ? 'In progress' : f}
@@ -484,31 +469,28 @@ th{font-weight:600;color:#111;border-bottom:2px solid #ddd}.total{font-size:1rem
                     <select
                       value={sort}
                       onChange={e => setSort(e.target.value as SortMode)}
-                      className="text-xs pl-3 pr-7 py-1.5 rounded-lg outline-none appearance-none cursor-pointer border border-[#e4e4e7] text-[#71717a]"
+                      className="text-xs pl-3 pr-7 py-1.5 rounded-lg outline-none appearance-none cursor-pointer border border-border text-muted-foreground bg-card"
                     >
                       <option value="latest">Latest first</option>
                       <option value="oldest">Oldest first</option>
                       <option value="highest">Highest price</option>
                     </select>
-                    <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 pointer-events-none text-[#a1a1aa]" />
+                    <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 pointer-events-none text-muted-foreground" />
                   </div>
                 </div>
               </div>
             )}
 
             {orders.length === 0 ? (
-              <EmptyState />
+              <NoOrdersYet />
             ) : filtered.length === 0 ? (
               <div className="text-center py-20">
-                <ShoppingBag className="w-10 h-10 mx-auto mb-4 text-[#a1a1aa]" />
-                <p className="text-[#0a0a0a] font-semibold mb-1">No orders match your filters</p>
-                <p className="text-sm mb-4 text-[#71717a]">Try a different search or clear your filters.</p>
-                <button
-                  onClick={() => { setSearch(''); setFilter('all'); }}
-                  className="px-4 py-2 rounded-lg text-xs font-medium border border-[#e4e4e7] text-[#0a0a0a] hover:bg-[#fafafa]"
-                >
+                <ShoppingBag className="w-10 h-10 mx-auto mb-4 text-muted-foreground" />
+                <p className="text-foreground font-semibold mb-1">No orders match your filters</p>
+                <p className="text-sm mb-4 text-muted-foreground">Try a different search or clear your filters.</p>
+                <Button variant="secondary" size="sm" onClick={() => { setSearch(''); setFilter('all'); }}>
                   Clear filters
-                </button>
+                </Button>
               </div>
             ) : (
               <div className="space-y-4">
@@ -528,12 +510,6 @@ th{font-weight:600;color:#111;border-bottom:2px solid #ddd}.total{font-size:1rem
           </div>
         </main>
       </div>
-
-      {toast && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-5 py-3.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] shadow-lg">
-          {toast}
-        </div>
-      )}
     </div>
   );
 }

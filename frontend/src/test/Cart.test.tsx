@@ -6,6 +6,7 @@ import { MemoryRouter } from 'react-router';
 import { Cart } from '../app/pages/Cart';
 import { AuthProvider } from '../app/context/AuthContext';
 import { CartProvider, useCart } from '../app/context/CartContext';
+import { ToastProvider } from '../app/context/ToastContext';
 import { getStock } from '../app/utils/stock';
 import type { Product } from '../app/context/CartContext';
 
@@ -49,8 +50,10 @@ function renderCart(seedProducts: { product: Product; quantity: number }[] = [])
     <MemoryRouter initialEntries={['/cart']}>
       <AuthProvider>
         <CartProvider>
-          {seedProducts.length > 0 && <SeedOnMount products={seedProducts} />}
-          <Cart />
+          <ToastProvider>
+            {seedProducts.length > 0 && <SeedOnMount products={seedProducts} />}
+            <Cart />
+          </ToastProvider>
         </CartProvider>
       </AuthProvider>
     </MemoryRouter>
