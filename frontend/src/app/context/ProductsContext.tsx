@@ -15,7 +15,7 @@ export function ProductsProvider({ children, initialProducts }: { children: Reac
 
   useEffect(() => {
     if (initialProducts) return;
-    // Always use default products - no backend fetch needed for product display
+    
     setProducts(defaultProducts);
     setLoading(false);
   }, [initialProducts]);

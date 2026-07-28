@@ -40,7 +40,7 @@ export async function getExchangeRates(): Promise<ExchangeRates> {
     if (data?.result !== 'success' || !data.rates) throw new Error('Exchange rate response was malformed.');
 
     const result: ExchangeRates = {
-      base: data.base_code || 'USD',
+      base: data.base_code || 'Euro',
       rates: data.rates,
       fetchedAt: Date.now(),
     };
