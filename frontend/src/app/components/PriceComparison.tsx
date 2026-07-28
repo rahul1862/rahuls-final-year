@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { ChevronDown, ChevronUp, RefreshCw, AlertCircle } from 'lucide-react';
 import { getExchangeRates, convertFromUsd, ExchangeRates } from '../utils/exchangeRates';
 import { useCountry } from '../context/CountryContext';
@@ -17,7 +17,7 @@ function formatAmount(amount: number, currencyCode: string): string {
   }
 }
 
-export function PriceComparison({ priceUsd }: PriceComparisonProps) {
+function PriceComparisonComponent({ priceUsd }: PriceComparisonProps) {
   const { selectedCountry, getCurrency } = useCountry();
   const [expanded, setExpanded] = useState(false);
   const [rates, setRates] = useState<ExchangeRates | null>(null);
@@ -43,27 +43,27 @@ export function PriceComparison({ priceUsd }: PriceComparisonProps) {
   const currencyList = Array.from(new Set([localCurrency, ...DISPLAY_CURRENCIES]));
 
   return (
-    <div className="rounded-lg border border-[#e4e4e7]">
+    <div className="rounded-xl border border-border">
       <button
         type="button"
         onClick={() => setExpanded(v => !v)}
         aria-expanded={expanded}
-        className="w-full flex items-center justify-between px-5 py-4 text-sm font-medium text-[#0a0a0a]"
+        className="w-full flex items-center justify-between px-5 py-4 text-sm font-medium text-foreground"
       >
         Compare price in other currencies
-        {expanded ? <ChevronUp className="w-4 h-4 text-[#71717a]" /> : <ChevronDown className="w-4 h-4 text-[#71717a]" />}
+        {expanded ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
       </button>
 
       {expanded && (
-        <div className="px-5 pb-5 pt-1 border-t border-[#e4e4e7]">
+        <div className="px-5 pb-5 pt-1 border-t border-border">
           {loading ? (
             <div className="space-y-2 pt-4" aria-label="Loading exchange rates">
               {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="h-5 bg-[#f4f4f5] rounded animate-pulse" />
+                <div key={i} className="h-5 bg-secondary rounded animate-pulse" />
               ))}
             </div>
           ) : error ? (
-            <div className="flex items-center justify-between gap-3 text-sm text-[#71717a] pt-4">
+            <div className="flex items-center justify-between gap-3 text-sm text-muted-foreground pt-4">
               <span className="flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 {error}
@@ -71,7 +71,7 @@ export function PriceComparison({ priceUsd }: PriceComparisonProps) {
               <button
                 type="button"
                 onClick={load}
-                className="flex items-center gap-1.5 text-[#0a0a0a] font-medium hover:underline underline-offset-2 shrink-0"
+                className="flex items-center gap-1.5 text-primary font-medium hover:underline underline-offset-2 shrink-0"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
                 Retry
@@ -79,24 +79,24 @@ export function PriceComparison({ priceUsd }: PriceComparisonProps) {
             </div>
           ) : rates ? (
             <>
-              <ul className="divide-y divide-[#f0f0f0] pt-2">
+              <ul className="divide-y divide-border pt-2">
                 {currencyList.map(code => {
                   const converted = convertFromUsd(priceUsd, rates.rates, code);
                   const isLocal = code === localCurrency;
                   return (
                     <li key={code} className="flex items-center justify-between py-2 text-sm">
-                      <span className={isLocal ? 'font-semibold text-[#0a0a0a]' : 'text-[#71717a]'}>
+                      <span className={isLocal ? 'font-semibold text-foreground' : 'text-muted-foreground'}>
                         {code}
                         {isLocal && selectedCountry ? ` · ${selectedCountry}` : ''}
                       </span>
-                      <span className={isLocal ? 'font-semibold text-[#0a0a0a]' : 'font-medium text-[#71717a]'}>
+                      <span className={isLocal ? 'font-semibold text-foreground tabular-nums' : 'font-medium text-muted-foreground tabular-nums'}>
                         {converted !== null ? formatAmount(converted, code) : 'Not available'}
                       </span>
                     </li>
                   );
                 })}
               </ul>
-              <p className="text-xs text-[#a1a1aa] mt-3">
+              <p className="text-xs text-muted-foreground mt-3">
                 Live rates via exchangerate-api.com, as of {new Date(rates.fetchedAt).toLocaleString()}. For reference only — you're charged in USD at checkout.
               </p>
             </>
@@ -106,3 +106,5 @@ export function PriceComparison({ priceUsd }: PriceComparisonProps) {
     </div>
   );
 }
+
+export const PriceComparison = memo(PriceComparisonComponent);

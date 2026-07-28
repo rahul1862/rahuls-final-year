@@ -4,6 +4,10 @@ import { Menu, MapPin, Plus, Pencil, Trash2, X, Star, AlertCircle } from 'lucide
 import { useAuth } from '../context/AuthContext';
 import { api } from '../utils/api';
 import { AccountSidebar } from '../components/AccountSidebar';
+import { Button } from '../components/ui/Button';
+import { EmptyState } from '../components/ui/EmptyState';
+import { Badge } from '../components/ui/Badge';
+import { useToast } from '../context/ToastContext';
 
 interface Address {
   id: string;
@@ -32,13 +36,14 @@ function saveAddresses(list: Address[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
 }
 
-const inputCls = "w-full px-3.5 py-2.5 rounded-lg border border-[#e4e4e7] text-sm text-[#0a0a0a] placeholder:text-[#a1a1aa] outline-none focus:border-[#0a0a0a] transition-colors";
-const labelCls = "block text-xs font-medium text-[#71717a] mb-1.5";
+const inputCls = "w-full px-3.5 py-2.5 rounded-lg border border-border bg-card text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary transition-colors";
+const labelCls = "block text-xs font-medium text-muted-foreground mb-1.5";
 const EMPTY_FORM = { address: '', city: '', zip: '', country: '' };
 
 export function Addresses() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { show } = useToast();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const [addresses, setAddresses] = useState<Address[]>(loadAddresses);
@@ -47,7 +52,6 @@ export function Addresses() {
   const [confirmingDeleteId, setConfirmingDeleteId] = useState<string | null>(null);
   const [form, setForm] = useState(EMPTY_FORM);
   const [formErrors, setFormErrors] = useState<Partial<Record<keyof typeof EMPTY_FORM, string>>>({});
-  const [toast, setToast] = useState<string | null>(null);
 
   useEffect(() => {
     if (!user) { navigate('/login'); return; }
@@ -71,11 +75,6 @@ export function Addresses() {
   }, [user]);
 
   if (!user) return null;
-
-  const showToast = (msg: string) => {
-    setToast(msg);
-    setTimeout(() => setToast(null), 3000);
-  };
 
   const syncDefaultToProfile = (addr: Address) => {
     api.put('/api/user/profile', { address: addr.address, city: addr.city, zip: addr.zip, country: addr.country }).catch(() => {});
@@ -123,14 +122,14 @@ export function Addresses() {
         if (updated?.isDefault) syncDefaultToProfile(updated);
         return next;
       });
-      showToast('Address updated.');
+      show('Address updated.');
     } else {
       const addr: Address = { id: Date.now().toString(36), ...form, isDefault: addresses.length === 0 };
       const next = [...addresses, addr];
       setAddresses(next);
       saveAddresses(next);
       if (addr.isDefault) syncDefaultToProfile(addr);
-      showToast('Address added.');
+      show('Address added.');
     }
     closeForm();
   };
@@ -147,7 +146,7 @@ export function Addresses() {
       return next;
     });
     setConfirmingDeleteId(null);
-    showToast('Address removed.');
+    show('Address removed.');
   };
 
   const makeDefault = (id: string) => {
@@ -158,106 +157,102 @@ export function Addresses() {
       if (newDefault) syncDefaultToProfile(newDefault);
       return next;
     });
-    showToast('Default address updated.');
+    show('Default address updated.');
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <div className="flex min-h-screen">
         <AccountSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
         <main className="flex-1 min-w-0 px-4 sm:px-6 lg:px-8 py-8">
           <div className="max-w-2xl mx-auto">
             <div className="flex items-center gap-3 mb-6 lg:hidden">
-              <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-lg border border-[#e4e4e7] text-[#71717a]">
+              <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-lg border border-border text-muted-foreground">
                 <Menu className="w-5 h-5" />
               </button>
-              <h1 className="text-lg font-bold text-[#0a0a0a]">Addresses</h1>
+              <h1 className="text-lg font-bold text-foreground">Addresses</h1>
             </div>
 
             <div className="flex items-center justify-between mb-8">
               <div className="hidden lg:block">
-                <h1 className="text-3xl font-bold text-[#0a0a0a] mb-1 tracking-tight">Addresses</h1>
-                <p className="text-[#71717a] text-sm">Shipping addresses saved to your account.</p>
+                <h1 className="font-display text-3xl font-semibold text-foreground mb-1 tracking-tight">Addresses</h1>
+                <p className="text-muted-foreground text-sm">Shipping addresses saved to your account.</p>
               </div>
               {addresses.length > 0 && (
-                <button
-                  onClick={startAdd}
-                  className="ml-auto flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors"
-                >
+                <Button onClick={startAdd} className="ml-auto">
                   <Plus className="w-4 h-4" /> Add address
-                </button>
+                </Button>
               )}
             </div>
 
             {addresses.length === 0 && !showForm ? (
-              <div className="text-center py-16 rounded-lg border border-[#e4e4e7]">
-                <MapPin className="w-10 h-10 mx-auto mb-4 text-[#a1a1aa]" />
-                <p className="text-[#0a0a0a] font-semibold mb-1">No saved addresses</p>
-                <p className="text-sm text-[#71717a] mb-5">Add one so you don't have to re-type it at checkout.</p>
-                <button
-                  onClick={startAdd}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors"
-                >
-                  <Plus className="w-4 h-4" /> Add an address
-                </button>
-              </div>
+              <EmptyState
+                icon={MapPin}
+                title="No saved addresses"
+                description="Add one so you don't have to re-type it at checkout."
+                action={
+                  <Button onClick={startAdd}>
+                    <Plus className="w-4 h-4" /> Add an address
+                  </Button>
+                }
+              />
             ) : (
               <div className="space-y-3">
                 {addresses.map(addr => (
-                  <div key={addr.id} className="rounded-lg border border-[#e4e4e7] p-5">
+                  <div key={addr.id} className="rounded-lg border border-border p-5">
                     {confirmingDeleteId === addr.id ? (
                       <div className="flex items-center gap-3">
-                        <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
-                        <p className="text-sm text-[#0a0a0a] flex-1">Remove this address?</p>
+                        <AlertCircle className="w-4 h-4 text-destructive shrink-0" />
+                        <p className="text-sm text-foreground flex-1">Remove this address?</p>
                         <button
                           onClick={() => deleteAddress(addr.id)}
-                          className="px-3 py-1.5 rounded-lg text-xs font-medium text-white bg-red-600 hover:bg-red-700 transition-colors"
+                          className="px-3 py-1.5 rounded-lg text-xs font-medium text-destructive-foreground bg-destructive hover:bg-destructive/90 transition-colors"
                         >
                           Remove
                         </button>
                         <button
                           onClick={() => setConfirmingDeleteId(null)}
-                          className="px-3 py-1.5 rounded-lg text-xs font-medium border border-[#e4e4e7] text-[#71717a] hover:bg-[#fafafa] transition-colors"
+                          className="px-3 py-1.5 rounded-lg text-xs font-medium border border-border text-muted-foreground hover:bg-surface transition-colors"
                         >
                           Cancel
                         </button>
                       </div>
                     ) : (
                       <div className="flex items-start gap-4">
-                        <div className="w-9 h-9 rounded-lg border border-[#e4e4e7] flex items-center justify-center shrink-0">
-                          <MapPin className="w-4 h-4 text-[#0a0a0a]" />
+                        <div className="w-9 h-9 rounded-lg border border-border flex items-center justify-center shrink-0">
+                          <MapPin className="w-4 h-4 text-primary" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <p className="text-sm font-medium text-[#0a0a0a]">{addr.address}</p>
+                            <p className="text-sm font-medium text-foreground">{addr.address}</p>
                             {addr.isDefault && (
-                              <span className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-[#0a0a0a] bg-[#fafafa] border border-[#e4e4e7] px-2 py-0.5 rounded-full">
+                              <Badge variant="neutral" className="rounded-full uppercase border border-border">
                                 <Star className="w-3 h-3 fill-current" /> Default
-                              </span>
+                              </Badge>
                             )}
                           </div>
-                          <p className="text-xs mt-1 text-[#71717a]">{addr.city}, {addr.zip} · {addr.country}</p>
+                          <p className="text-xs mt-1 text-muted-foreground">{addr.city}, {addr.zip} · {addr.country}</p>
                         </div>
                         <div className="flex items-center gap-1 shrink-0">
                           {!addr.isDefault && (
                             <button
                               onClick={() => makeDefault(addr.id)}
-                              className="text-xs font-medium text-[#71717a] hover:text-[#0a0a0a] transition-colors px-2 py-1 rounded-lg hover:bg-[#fafafa]"
+                              className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded-lg hover:bg-surface"
                             >
                               Make default
                             </button>
                           )}
                           <button
                             onClick={() => startEdit(addr)}
-                            className="p-1.5 rounded-lg text-[#71717a] hover:text-[#0a0a0a] hover:bg-[#fafafa] transition-colors"
+                            className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-surface transition-colors"
                             aria-label="Edit address"
                           >
                             <Pencil className="w-3.5 h-3.5" />
                           </button>
                           <button
                             onClick={() => setConfirmingDeleteId(addr.id)}
-                            className="p-1.5 rounded-lg text-red-600 hover:bg-red-50 transition-colors"
+                            className="p-1.5 rounded-lg text-destructive hover:bg-destructive/10 transition-colors"
                             aria-label="Remove address"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -271,10 +266,10 @@ export function Addresses() {
             )}
 
             {showForm && (
-              <div className="mt-4 rounded-lg border border-[#e4e4e7] p-6">
+              <div className="mt-4 rounded-lg border border-border p-6">
                 <div className="flex items-center justify-between mb-5">
-                  <p className="text-sm font-semibold text-[#0a0a0a]">{editingId ? 'Edit address' : 'Add new address'}</p>
-                  <button onClick={closeForm} className="text-[#a1a1aa] hover:text-[#0a0a0a]">
+                  <p className="text-sm font-semibold text-foreground">{editingId ? 'Edit address' : 'Add new address'}</p>
+                  <button onClick={closeForm} className="text-muted-foreground hover:text-foreground">
                     <X className="w-4 h-4" />
                   </button>
                 </div>
@@ -288,33 +283,33 @@ export function Addresses() {
                       placeholder="123 Main St"
                       className={inputCls}
                     />
-                    {formErrors.address && <p className="mt-1 text-xs text-red-600">{formErrors.address}</p>}
+                    {formErrors.address && <p className="mt-1 text-xs text-destructive">{formErrors.address}</p>}
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className={labelCls}>City</label>
                       <input value={form.city} onChange={e => setForm(f => ({ ...f, city: e.target.value }))} placeholder="New York" className={inputCls} />
-                      {formErrors.city && <p className="mt-1 text-xs text-red-600">{formErrors.city}</p>}
+                      {formErrors.city && <p className="mt-1 text-xs text-destructive">{formErrors.city}</p>}
                     </div>
                     <div>
                       <label className={labelCls}>ZIP / postal code</label>
                       <input value={form.zip} onChange={e => setForm(f => ({ ...f, zip: e.target.value }))} placeholder="10001" className={inputCls} />
-                      {formErrors.zip && <p className="mt-1 text-xs text-red-600">{formErrors.zip}</p>}
+                      {formErrors.zip && <p className="mt-1 text-xs text-destructive">{formErrors.zip}</p>}
                     </div>
                   </div>
                   <div>
                     <label className={labelCls}>Country</label>
                     <input value={form.country} onChange={e => setForm(f => ({ ...f, country: e.target.value }))} placeholder="United States" className={inputCls} />
-                    {formErrors.country && <p className="mt-1 text-xs text-red-600">{formErrors.country}</p>}
+                    {formErrors.country && <p className="mt-1 text-xs text-destructive">{formErrors.country}</p>}
                   </div>
 
                   <div className="flex justify-end gap-3 pt-1">
-                    <button type="button" onClick={closeForm} className="px-4 py-2.5 rounded-lg text-sm font-medium border border-[#e4e4e7] text-[#71717a] hover:bg-[#fafafa] transition-colors">
+                    <Button type="button" variant="secondary" onClick={closeForm}>
                       Cancel
-                    </button>
-                    <button type="submit" className="px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors">
+                    </Button>
+                    <Button type="submit">
                       {editingId ? 'Save changes' : 'Add address'}
-                    </button>
+                    </Button>
                   </div>
                 </form>
               </div>
@@ -322,12 +317,6 @@ export function Addresses() {
           </div>
         </main>
       </div>
-
-      {toast && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-5 py-3.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] shadow-lg">
-          {toast}
-        </div>
-      )}
     </div>
   );
 }

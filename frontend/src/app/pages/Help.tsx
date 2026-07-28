@@ -1,6 +1,7 @@
 import { ChevronDown, Search, X } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router';
+import { LinkButton } from '../components/ui/Button';
 
 type Category = 'Orders' | 'Shipping' | 'Customs & duties' | 'Returns' | 'Account' | 'Payments';
 
@@ -130,11 +131,11 @@ export function Help() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <section className="pt-20 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl lg:text-5xl font-bold text-[#0a0a0a] mb-4 tracking-tight">Help</h1>
-          <p className="text-[#71717a] text-lg max-w-xl">
+          <h1 className="font-display text-4xl lg:text-5xl font-bold text-foreground mb-4 tracking-tight">Help</h1>
+          <p className="text-muted-foreground text-lg max-w-xl">
             Answers to the most common questions about orders, shipping, and your account.
             If something's not here, use the contact form.
           </p>
@@ -148,12 +149,12 @@ export function Help() {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(activeCategory === cat ? null : cat)}
-                className={`text-left bg-white rounded-lg p-5 border transition-colors ${
-                  activeCategory === cat ? 'border-[#0a0a0a]' : 'border-[#e4e4e7] hover:border-[#0a0a0a]'
+                className={`text-left bg-card rounded-lg p-5 border transition-colors ${
+                  activeCategory === cat ? 'border-primary' : 'border-border hover:border-primary'
                 }`}
               >
-                <p className="text-[#0a0a0a] text-sm font-medium mb-1">{cat}</p>
-                <p className="text-[#a1a1aa] text-xs">
+                <p className="text-foreground text-sm font-medium mb-1">{cat}</p>
+                <p className="text-muted-foreground text-xs">
                   {cat === 'Orders' && 'Track or change an order'}
                   {cat === 'Returns' && 'Start a return or exchange'}
                   {cat === 'Shipping' && 'Rates and delivery times'}
@@ -164,23 +165,23 @@ export function Help() {
           </div>
 
           <div className="max-w-2xl">
-            <h2 className="text-2xl font-bold text-[#0a0a0a] mb-4 tracking-tight">Common questions</h2>
+            <h2 className="font-display text-2xl font-bold text-foreground mb-4 tracking-tight">Common questions</h2>
 
             <div className="flex flex-col sm:flex-row gap-2 mb-2">
               <div className="relative flex-1">
-                <Search className="w-4 h-4 text-[#a1a1aa] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Search className="w-4 h-4 text-muted-foreground absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   value={query}
                   onChange={e => setQuery(e.target.value)}
                   placeholder="Search, e.g. customs, tracking, password..."
-                  className="w-full pl-10 pr-3.5 py-2.5 border border-[#e4e4e7] rounded-lg bg-white text-[#0a0a0a] focus:outline-none focus:border-[#0a0a0a] placeholder-[#a1a1aa] text-sm transition-colors"
+                  className="w-full pl-10 pr-3.5 py-2.5 border border-border rounded-lg bg-card text-foreground focus:outline-none focus:border-primary placeholder:text-muted-foreground text-sm transition-colors"
                 />
               </div>
               <select
                 value={activeCategory ?? ''}
                 onChange={e => setActiveCategory((e.target.value || null) as Category | null)}
-                className="px-3.5 py-2.5 border border-[#e4e4e7] rounded-lg bg-white text-[#0a0a0a] focus:outline-none focus:border-[#0a0a0a] text-sm appearance-none"
+                className="px-3.5 py-2.5 border border-border rounded-lg bg-card text-foreground focus:outline-none focus:border-primary text-sm appearance-none"
               >
                 <option value="">All categories</option>
                 {categories.map(c => <option key={c} value={c}>{c}</option>)}
@@ -189,11 +190,11 @@ export function Help() {
 
             {(query || activeCategory) && (
               <div className="flex items-center justify-between mb-4">
-                <p className="text-[#a1a1aa] text-xs">
+                <p className="text-muted-foreground text-xs">
                   {filtered.length} {filtered.length === 1 ? 'result' : 'results'}
                   {activeCategory ? ` in ${activeCategory}` : ''}
                 </p>
-                <button onClick={clearFilters} className="text-[#71717a] text-xs flex items-center gap-1 hover:text-[#0a0a0a]">
+                <button onClick={clearFilters} className="text-muted-foreground text-xs flex items-center gap-1 hover:text-foreground">
                   <X className="w-3 h-3" /> Clear
                 </button>
               </div>
@@ -201,9 +202,9 @@ export function Help() {
 
             <div className="space-y-2 mt-4">
               {filtered.length === 0 ? (
-                <div className="bg-[#fafafa] rounded-lg border border-[#e4e4e7] p-6 text-center">
-                  <p className="text-[#71717a] text-sm mb-3">No questions match "{query}".</p>
-                  <Link to="/contact" className="text-[#0a0a0a] text-sm font-medium hover:underline">
+                <div className="bg-surface rounded-lg border border-border p-6 text-center">
+                  <p className="text-muted-foreground text-sm mb-3">No questions match "{query}".</p>
+                  <Link to="/contact" className="text-foreground text-sm font-medium hover:underline">
                     Ask us directly instead →
                   </Link>
                 </div>
@@ -211,18 +212,18 @@ export function Help() {
                 filtered.map((faq) => {
                   const i = faqs.indexOf(faq);
                   return (
-                    <div key={faq.q} className="bg-white rounded-lg border border-[#e4e4e7] overflow-hidden">
+                    <div key={faq.q} className="bg-card rounded-lg border border-border overflow-hidden">
                       <button
                         onClick={() => setOpen(open === i ? null : i)}
                         className="w-full text-left px-5 py-4 flex items-center justify-between gap-4"
                       >
-                        <span className="text-[#0a0a0a] text-sm font-medium">{faq.q}</span>
+                        <span className="text-foreground text-sm font-medium">{faq.q}</span>
                         <ChevronDown
-                          className={`w-4 h-4 text-[#a1a1aa] shrink-0 transition-transform duration-200 ${open === i ? 'rotate-180' : ''}`}
+                          className={`w-4 h-4 text-muted-foreground shrink-0 transition-transform duration-200 ${open === i ? 'rotate-180' : ''}`}
                         />
                       </button>
                       <div className={`overflow-hidden transition-all duration-200 ${open === i ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'}`}>
-                        <p className="px-5 pb-4 text-[#71717a] text-sm leading-relaxed">{faq.a}</p>
+                        <p className="px-5 pb-4 text-muted-foreground text-sm leading-relaxed">{faq.a}</p>
                       </div>
                     </div>
                   );
@@ -235,17 +236,14 @@ export function Help() {
 
       <section className="pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-[#fafafa] rounded-lg border border-[#e4e4e7] p-8 max-w-2xl">
-            <h3 className="text-lg font-semibold text-[#0a0a0a] mb-2">Still stuck?</h3>
-            <p className="text-[#71717a] text-sm mb-5">
+          <div className="bg-surface rounded-lg border border-border p-8 max-w-2xl">
+            <h3 className="text-lg font-semibold text-foreground mb-2">Still stuck?</h3>
+            <p className="text-muted-foreground text-sm mb-5">
               Our support team usually responds within a few hours. You can also reach us on live chat.
             </p>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 bg-[#0a0a0a] text-white px-5 py-2.5 rounded-lg font-medium text-sm hover:bg-[#2a2a2a] transition-colors"
-            >
+            <LinkButton to="/contact">
               Contact us
-            </Link>
+            </LinkButton>
           </div>
         </div>
       </section>

@@ -2,26 +2,16 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { useProducts } from '../context/ProductsContext';
 import { ProductCard } from '../components/ProductCard';
-import { Grid3X3, LayoutList, ChevronLeft, ChevronRight, SlidersHorizontal, X } from 'lucide-react';
+import { Grid3X3, LayoutList, ChevronLeft, ChevronRight, SlidersHorizontal, X, PackageSearch } from 'lucide-react';
+import { ProductCardSkeleton } from '../components/ui/Skeleton';
+import { EmptyState } from '../components/ui/EmptyState';
+import { Button, LinkButton } from '../components/ui/Button';
 
 type SortOption = 'default' | 'price-asc' | 'price-desc' | 'rating' | 'name';
 
 const PAGE_SIZE = 12;
 
 const SIMULATED_LOAD_MS = 350;
-
-function ProductSkeleton() {
-  return (
-    <div className="border border-[#e4e4e7] rounded-xl overflow-hidden animate-pulse">
-      <div className="aspect-square bg-[#f4f4f5]" />
-      <div className="p-4 space-y-2">
-        <div className="h-3 w-1/3 bg-[#f4f4f5] rounded" />
-        <div className="h-4 w-4/5 bg-[#f4f4f5] rounded" />
-        <div className="h-4 w-1/2 bg-[#f4f4f5] rounded mt-3" />
-      </div>
-    </div>
-  );
-}
 
 export function Products() {
   const { products } = useProducts();
@@ -85,13 +75,13 @@ export function Products() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="pt-14 pb-8 border-b border-[#e4e4e7]">
+    <div className="min-h-screen bg-background">
+      <div className="pt-14 pb-8 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h1 className="text-3xl lg:text-4xl font-bold text-[#0a0a0a] mb-2 tracking-tight">All products</h1>
-              <p className="text-[#71717a] text-sm">
+              <h1 className="font-display text-3xl lg:text-4xl font-semibold text-foreground mb-2 tracking-tight">All products</h1>
+              <p className="text-muted-foreground text-sm">
                 {products.length} items from {countries.length - 1} countries
               </p>
             </div>
@@ -100,7 +90,7 @@ export function Products() {
                 {searchQuery && (
                   <button
                     onClick={() => setSearchParams(p => { p.delete('q'); return p; })}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm border border-[#e4e4e7] text-[#71717a] hover:text-[#0a0a0a] hover:bg-[#fafafa] transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm border border-border text-muted-foreground hover:text-foreground hover:bg-surface transition-colors"
                   >
                     <X className="w-3.5 h-3.5" />
                     "{searchQuery}"
@@ -109,7 +99,7 @@ export function Products() {
                 {countryParam && (
                   <button
                     onClick={() => setSearchParams(p => { p.delete('country'); return p; })}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm border border-[#e4e4e7] text-[#71717a] hover:text-[#0a0a0a] hover:bg-[#fafafa] transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm border border-border text-muted-foreground hover:text-foreground hover:bg-surface transition-colors"
                   >
                     <X className="w-3.5 h-3.5" />
                     {countryParam}
@@ -122,12 +112,12 @@ export function Products() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="mb-8 border border-[#e4e4e7] rounded-lg p-4 sm:p-5 bg-[#fafafa]">
-          <div className="flex items-center gap-2 mb-4 text-[#71717a]">
+        <div className="mb-8 border border-border rounded-xl p-4 sm:p-5 bg-surface">
+          <div className="flex items-center gap-2 mb-4 text-muted-foreground">
             <SlidersHorizontal className="w-3.5 h-3.5" />
             <span className="text-xs font-semibold uppercase tracking-wide">Filters</span>
             {hasActiveFilters && (
-              <button onClick={resetFilters} className="ml-auto text-xs text-[#71717a] hover:text-[#0a0a0a] underline underline-offset-2">
+              <button onClick={resetFilters} className="ml-auto text-xs text-muted-foreground hover:text-primary underline underline-offset-2">
                 Clear all
               </button>
             )}
@@ -140,10 +130,10 @@ export function Products() {
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-3.5 py-1.5 rounded-lg text-sm font-medium border transition-colors ${
+                  className={`px-3.5 py-1.5 rounded-full text-sm font-medium border transition-colors ${
                     active
-                      ? 'bg-[#0a0a0a] text-white border-[#0a0a0a]'
-                      : 'bg-white text-[#71717a] border-[#e4e4e7] hover:text-[#0a0a0a] hover:border-[#0a0a0a]'
+                      ? 'bg-primary text-primary-foreground border-primary'
+                      : 'bg-card text-muted-foreground border-border hover:text-foreground hover:border-primary/40'
                   }`}
                 >
                   {category}
@@ -153,17 +143,17 @@ export function Products() {
           </div>
 
           {countryParam ? (
-            <p className="text-sm text-[#71717a]">
-              Showing products from <span className="text-[#0a0a0a] font-medium">{countryParam}</span> — remove the filter chip above to see everything.
+            <p className="text-sm text-muted-foreground">
+              Showing products from <span className="text-foreground font-medium">{countryParam}</span> — remove the filter chip above to see everything.
             </p>
           ) : (
             <div className="flex items-center gap-2">
-              <label className="text-sm text-[#71717a]" htmlFor="country-filter">Country</label>
+              <label className="text-sm text-muted-foreground" htmlFor="country-filter">Country</label>
               <select
                 id="country-filter"
                 value={selectedLocalCountry}
                 onChange={e => setSelectedLocalCountry(e.target.value)}
-                className="px-3 py-1.5 rounded-lg text-sm border border-[#e4e4e7] bg-white text-[#0a0a0a] outline-none cursor-pointer"
+                className="px-3 py-1.5 rounded-lg text-sm border border-border bg-card text-foreground outline-none cursor-pointer"
               >
                 {countries.map(country => (
                   <option key={country} value={country}>{country === 'All' ? 'All countries' : country}</option>
@@ -175,21 +165,21 @@ export function Products() {
 
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {Array.from({ length: 8 }).map((_, i) => <ProductSkeleton key={i} />)}
+            {Array.from({ length: 8 }).map((_, i) => <ProductCardSkeleton key={i} />)}
           </div>
         ) : filteredProducts.length > 0 ? (
           <>
             <div className="mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <p className="text-sm text-[#71717a]">
+              <p className="text-sm text-muted-foreground">
                 {filteredProducts.length} product{filteredProducts.length === 1 ? '' : 's'}
-                {searchQuery && <span> matching "<span className="text-[#0a0a0a]">{searchQuery}</span>"</span>}
+                {searchQuery && <span> matching "<span className="text-foreground">{searchQuery}</span>"</span>}
               </p>
 
               <div className="flex items-center gap-3">
                 <select
                   value={sortBy}
                   onChange={e => setSortBy(e.target.value as SortOption)}
-                  className="text-sm px-3 py-2 rounded-lg border border-[#e4e4e7] bg-white text-[#0a0a0a] outline-none cursor-pointer"
+                  className="text-sm px-3 py-2 rounded-lg border border-border bg-card text-foreground outline-none cursor-pointer"
                 >
                   <option value="default">Sort: Featured</option>
                   <option value="price-asc">Price: Low to high</option>
@@ -198,18 +188,18 @@ export function Products() {
                   <option value="name">Name: A to Z</option>
                 </select>
 
-                <div className="flex rounded-lg overflow-hidden border border-[#e4e4e7]">
+                <div className="flex rounded-lg overflow-hidden border border-border">
                   <button
                     onClick={() => setViewMode('grid')}
                     aria-label="Grid view"
-                    className={`p-2 transition-colors ${viewMode === 'grid' ? 'bg-[#0a0a0a] text-white' : 'bg-white text-[#a1a1aa] hover:text-[#0a0a0a]'}`}
+                    className={`p-2 transition-colors ${viewMode === 'grid' ? 'bg-primary text-primary-foreground' : 'bg-card text-muted-foreground hover:text-foreground'}`}
                   >
                     <Grid3X3 className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => setViewMode('list')}
                     aria-label="List view"
-                    className={`p-2 transition-colors ${viewMode === 'list' ? 'bg-[#0a0a0a] text-white' : 'bg-white text-[#a1a1aa] hover:text-[#0a0a0a]'}`}
+                    className={`p-2 transition-colors ${viewMode === 'list' ? 'bg-primary text-primary-foreground' : 'bg-card text-muted-foreground hover:text-foreground'}`}
                   >
                     <LayoutList className="w-4 h-4" />
                   </button>
@@ -229,23 +219,23 @@ export function Products() {
                   <Link
                     key={product.id}
                     to={`/products/${product.id}`}
-                    className="flex gap-5 rounded-lg overflow-hidden border border-[#e4e4e7] hover:border-[#0a0a0a] transition-colors group"
+                    className="flex gap-5 rounded-xl overflow-hidden border border-border hover:border-primary/40 hover:shadow-soft transition-all group"
                   >
-                    <div className="w-32 h-32 sm:w-40 sm:h-40 shrink-0 overflow-hidden bg-[#f4f4f5]">
+                    <div className="w-32 h-32 sm:w-40 sm:h-40 shrink-0 overflow-hidden bg-secondary">
                       <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     </div>
                     <div className="py-4 pr-6 flex flex-col justify-center flex-1 min-w-0">
-                      <div className="flex items-center gap-1.5 mb-1 text-xs text-[#a1a1aa]">
+                      <div className="flex items-center gap-1.5 mb-1 text-xs text-muted-foreground">
                         <span>{product.flag}</span>
                         <span>{product.country}</span>
                         <span>·</span>
                         <span>{product.category}</span>
                       </div>
-                      <h3 className="font-semibold text-[#0a0a0a] text-base mb-1">{product.name}</h3>
-                      <p className="text-sm text-[#71717a] line-clamp-2 mb-2">{product.description}</p>
+                      <h3 className="font-semibold text-foreground text-base mb-1">{product.name}</h3>
+                      <p className="text-sm text-muted-foreground line-clamp-2 mb-2">{product.description}</p>
                       <div className="flex items-center gap-3">
-                        <span className="text-base font-bold text-[#0a0a0a]">${product.price.toFixed(2)}</span>
-                        <span className="text-sm text-[#a1a1aa]">{product.rating} ★ ({product.reviews})</span>
+                        <span className="text-base font-bold text-foreground">${product.price.toFixed(2)}</span>
+                        <span className="text-sm text-muted-foreground">{product.rating} ★ ({product.reviews})</span>
                       </div>
                     </div>
                   </Link>
@@ -258,7 +248,7 @@ export function Products() {
                 <button
                   onClick={() => goToPage(currentPage - 1)}
                   disabled={currentPage === 1}
-                  className="p-2 rounded-lg border border-[#e4e4e7] text-[#71717a] hover:text-[#0a0a0a] hover:bg-[#fafafa] disabled:opacity-30 disabled:pointer-events-none transition-colors"
+                  className="p-2 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-surface disabled:opacity-30 disabled:pointer-events-none transition-colors"
                   aria-label="Previous page"
                 >
                   <ChevronLeft className="w-4 h-4" />
@@ -267,11 +257,11 @@ export function Products() {
                   .filter(n => n === 1 || n === totalPages || Math.abs(n - currentPage) <= 1)
                   .map((n, idx, arr) => (
                     <span key={n} className="flex items-center">
-                      {idx > 0 && arr[idx - 1] !== n - 1 && <span className="px-1 text-[#a1a1aa] text-sm">…</span>}
+                      {idx > 0 && arr[idx - 1] !== n - 1 && <span className="px-1 text-muted-foreground text-sm">…</span>}
                       <button
                         onClick={() => goToPage(n)}
                         className={`min-w-[2.25rem] px-2 py-2 rounded-lg text-sm font-medium transition-colors ${
-                          n === currentPage ? 'bg-[#0a0a0a] text-white' : 'text-[#71717a] hover:bg-[#fafafa] hover:text-[#0a0a0a]'
+                          n === currentPage ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-surface hover:text-foreground'
                         }`}
                       >
                         {n}
@@ -281,7 +271,7 @@ export function Products() {
                 <button
                   onClick={() => goToPage(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  className="p-2 rounded-lg border border-[#e4e4e7] text-[#71717a] hover:text-[#0a0a0a] hover:bg-[#fafafa] disabled:opacity-30 disabled:pointer-events-none transition-colors"
+                  className="p-2 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-surface disabled:opacity-30 disabled:pointer-events-none transition-colors"
                   aria-label="Next page"
                 >
                   <ChevronRight className="w-4 h-4" />
@@ -290,23 +280,18 @@ export function Products() {
             )}
           </>
         ) : (
-          <div className="text-center py-24 border border-[#e4e4e7] rounded-lg">
-            <h3 className="text-lg font-semibold text-[#0a0a0a] mb-2">No products match your filters</h3>
-            <p className="text-sm text-[#71717a] mb-6">Try a different category or country, or clear everything and start over.</p>
-            <div className="flex gap-3 justify-center">
-              <button
-                onClick={resetFilters}
-                className="px-5 py-2.5 rounded-lg text-sm font-medium bg-[#0a0a0a] text-white hover:bg-[#2a2a2a] transition-colors"
-              >
-                Clear filters
-              </button>
-              <Link
-                to="/"
-                className="px-5 py-2.5 rounded-lg text-sm font-medium border border-[#e4e4e7] text-[#0a0a0a] hover:bg-[#fafafa] transition-colors"
-              >
-                Back to home
-              </Link>
-            </div>
+          <div className="border border-border rounded-xl">
+            <EmptyState
+              icon={PackageSearch}
+              title="No products match your filters"
+              description="Try a different category or country, or clear everything and start over."
+              action={
+                <div className="flex gap-3 justify-center">
+                  <Button onClick={resetFilters}>Clear filters</Button>
+                  <LinkButton to="/" variant="secondary">Back to home</LinkButton>
+                </div>
+              }
+            />
           </div>
         )}
       </div>

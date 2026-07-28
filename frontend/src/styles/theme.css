@@ -3,48 +3,77 @@
 :root {
   --font-size: 16px;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --background: #ffffff;
-  --foreground: #0a0a0a;
-  --card: #fafafa;
-  --card-foreground: #0a0a0a;
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+
+  /* Warm Editorial Marketplace palette */
+  --background: #fbf8f3;
+  --foreground: #211d18;
+  --card: #ffffff;
+  --card-foreground: #211d18;
   --popover: #ffffff;
-  --popover-foreground: #0a0a0a;
-  --primary: #0a0a0a;
-  --primary-foreground: #ffffff;
-  --secondary: #f4f4f5;
-  --secondary-foreground: #0a0a0a;
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
-  --accent: #f4f4f5;
-  --accent-foreground: #0a0a0a;
-  --accent-soft: rgba(0, 0, 0, 0.05);
-  --surface: #f8f8f8;
-  --surface-strong: #f0f0f0;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: #e4e4e7;
-  --border-strong: #d4d4d8;
+  --popover-foreground: #211d18;
+
+  --primary: #b5502f;
+  --primary-hover: #9c4227;
+  --primary-foreground: #fff8f0;
+
+  --accent-pine: #2f5d50;
+  --accent-pine-hover: #24483e;
+  --accent-pine-foreground: #f4faf7;
+
+  --secondary: #f2ebe0;
+  --secondary-foreground: #211d18;
+
+  --muted: #f2ebe0;
+  --muted-foreground: #746b5d;
+
+  --accent: #f2ebe0;
+  --accent-foreground: #211d18;
+  --accent-soft: rgba(181, 80, 47, 0.08);
+
+  --surface: #fdfbf7;
+  --surface-strong: #f2ebe0;
+
+  --destructive: #b3271e;
+  --destructive-foreground: #fff8f0;
+
+  --badge-sale: #a23b2e;
+  --badge-sale-foreground: #fff6f1;
+  --badge-new: #2f5d50;
+  --badge-new-foreground: #f4faf7;
+  --badge-limited: #97672a;
+  --badge-limited-foreground: #fff9ee;
+
+  --border: #e7dfd1;
+  --border-strong: #d9ccb5;
   --input: transparent;
-  --input-background: #f4f4f5;
-  --switch-background: #d4d4d8;
+  --input-background: #f2ebe0;
+  --switch-background: #d9ccb5;
+
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: rgba(0, 0, 0, 0.15);
-  --chart-1: #0a0a0a;
-  --chart-2: #3f3f46;
-  --chart-3: #71717a;
-  --chart-4: #a1a1aa;
-  --chart-5: #d4d4d8;
-  --radius: 0.5rem;
+  --ring: rgba(181, 80, 47, 0.28);
+
+  --chart-1: #b5502f;
+  --chart-2: #2f5d50;
+  --chart-3: #97672a;
+  --chart-4: #746b5d;
+  --chart-5: #d9ccb5;
+
+  --radius: 0.625rem;
+
   --sidebar: #ffffff;
-  --sidebar-foreground: #0a0a0a;
-  --sidebar-primary: #0a0a0a;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f4f4f5;
-  --sidebar-accent-foreground: #0a0a0a;
-  --sidebar-border: #e4e4e7;
-  --sidebar-ring: rgba(0, 0, 0, 0.15);
+  --sidebar-foreground: #211d18;
+  --sidebar-primary: #b5502f;
+  --sidebar-primary-foreground: #fff8f0;
+  --sidebar-accent: #f2ebe0;
+  --sidebar-accent-foreground: #211d18;
+  --sidebar-border: #e7dfd1;
+  --sidebar-ring: rgba(181, 80, 47, 0.28);
+
+  --shadow-soft: 0 1px 2px rgba(33, 29, 24, 0.04), 0 2px 8px rgba(33, 29, 24, 0.04);
+  --shadow-lift: 0 8px 24px rgba(33, 29, 24, 0.1), 0 2px 6px rgba(33, 29, 24, 0.06);
+  --shadow-card-hover: 0 12px 32px rgba(181, 80, 47, 0.12), 0 2px 8px rgba(33, 29, 24, 0.06);
 }
 
 @theme inline {
@@ -55,7 +84,11 @@
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
+  --color-accent-pine: var(--accent-pine);
+  --color-accent-pine-hover: var(--accent-pine-hover);
+  --color-accent-pine-foreground: var(--accent-pine-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -65,6 +98,12 @@
   --color-accent-soft: var(--accent-soft);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-badge-sale: var(--badge-sale);
+  --color-badge-sale-foreground: var(--badge-sale-foreground);
+  --color-badge-new: var(--badge-new);
+  --color-badge-new-foreground: var(--badge-new-foreground);
+  --color-badge-limited: var(--badge-limited);
+  --color-badge-limited-foreground: var(--badge-limited-foreground);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
   --color-input: var(--input);
@@ -90,6 +129,11 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  --shadow-soft: var(--shadow-soft);
+  --shadow-lift: var(--shadow-lift);
+  --shadow-card-hover: var(--shadow-card-hover);
 }
 
 @layer base {
@@ -104,8 +148,8 @@
   }
 
   ::selection {
-    background: rgba(0, 0, 0, 0.1);
-    color: #0a0a0a;
+    background: var(--accent-soft);
+    color: var(--primary);
   }
 
   html {
@@ -118,7 +162,6 @@
     font-weight: 700;
     line-height: 1.1;
     letter-spacing: -0.02em;
-    font-family: var(--font-display);
   }
 
   h2 {
@@ -126,14 +169,12 @@
     font-weight: 700;
     line-height: 1.2;
     letter-spacing: -0.01em;
-    font-family: var(--font-display);
   }
 
   h3 {
     font-size: var(--text-lg);
     font-weight: 600;
     line-height: 1.3;
-    font-family: var(--font-display);
   }
 
   h4 {

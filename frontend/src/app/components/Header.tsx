@@ -5,6 +5,7 @@ import { ShoppingCart, Heart, Search, Menu, X, LogOut } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
+import { Button } from './ui/Button';
 
 const NAV_ITEMS = [
   { label: 'Products',  path: '/products' },
@@ -68,8 +69,8 @@ export function Header() {
   const isActive = (path: string) => location.pathname === path;
 
   const navLinkClass = (path: string) =>
-    `text-sm font-medium transition-colors duration-200 hover:text-[#0a0a0a] ${
-      isActive(path) ? 'text-[#0a0a0a]' : 'text-[#71717a]'
+    `relative text-sm font-medium py-2 transition-colors duration-200 after:content-[''] after:absolute after:left-0 after:right-0 after:-bottom-px after:h-[2px] after:bg-primary after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100 ${
+      isActive(path) ? 'text-foreground after:scale-x-100' : 'text-muted-foreground hover:text-foreground after:scale-x-0'
     }`;
 
   return (
@@ -80,10 +81,9 @@ export function Header() {
       className="sticky top-0 z-50"
     >
       <div
-        className="transition-all duration-300"
+        className="transition-all duration-300 border-b border-border"
         style={{
-          background:     scrolled ? 'rgba(255,255,255,0.92)' : '#ffffff',
-          borderBottom:   '1px solid #e4e4e7',
+          background:     scrolled ? 'rgba(251,248,243,0.88)' : 'var(--background)',
           backdropFilter: scrolled ? 'blur(16px)' : 'none',
         }}
       >
@@ -92,7 +92,7 @@ export function Header() {
 
             <button
               onClick={() => navigate('/')}
-              className="text-xl font-bold tracking-tight text-[#0a0a0a] hover:opacity-70 transition-opacity"
+              className="font-display italic text-2xl font-semibold tracking-tight text-foreground hover:text-primary transition-colors duration-200"
             >
               Vendr
             </button>
@@ -113,7 +113,7 @@ export function Header() {
             <div className="flex items-center gap-1">
               <button
                 onClick={() => setSearchOpen(v => !v)}
-                className="p-2 rounded-lg text-[#71717a] hover:text-[#0a0a0a] hover:bg-[#f4f4f5] transition-all"
+                className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
                 aria-label="Search"
                 aria-expanded={searchOpen}
                 aria-controls="header-search"
@@ -123,12 +123,12 @@ export function Header() {
 
               <button
                 onClick={() => navigate('/wishlist')}
-                className="relative p-2 rounded-lg text-[#71717a] hover:text-[#0a0a0a] hover:bg-[#f4f4f5] transition-all"
+                className="relative p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
                 aria-label={wishlistCount > 0 ? `Wishlist, ${wishlistCount} items` : 'Wishlist'}
               >
                 <Heart style={{ width: '1.05rem', height: '1.05rem' }} aria-hidden="true" />
                 {wishlistCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-[17px] h-[17px] bg-[#0a0a0a] text-white rounded-full text-[9px] font-bold flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 w-[17px] h-[17px] bg-primary text-primary-foreground rounded-full text-[9px] font-bold flex items-center justify-center">
                     {wishlistCount}
                   </span>
                 )}
@@ -136,12 +136,12 @@ export function Header() {
 
               <button
                 onClick={() => navigate('/cart')}
-                className="relative p-2 rounded-lg text-[#71717a] hover:text-[#0a0a0a] hover:bg-[#f4f4f5] transition-all"
+                className="relative p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
                 aria-label={cartCount > 0 ? `Cart, ${cartCount} items` : 'Cart'}
               >
                 <ShoppingCart style={{ width: '1.05rem', height: '1.05rem' }} aria-hidden="true" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-[17px] h-[17px] bg-[#0a0a0a] text-white rounded-full text-[9px] font-bold flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 w-[17px] h-[17px] bg-primary text-primary-foreground rounded-full text-[9px] font-bold flex items-center justify-center">
                     {cartCount}
                   </span>
                 )}
@@ -151,29 +151,29 @@ export function Header() {
                 <div className="relative hidden sm:block">
                   <button
                     onClick={() => setUserMenuOpen(v => !v)}
-                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[#e4e4e7] hover:bg-[#f4f4f5] transition-all text-sm"
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border hover:bg-secondary transition-all text-sm"
                     aria-haspopup="menu"
                     aria-expanded={userMenuOpen}
                   >
-                    <span className="w-6 h-6 bg-[#0a0a0a] text-white rounded-full flex items-center justify-center text-[11px] font-bold shrink-0">
+                    <span className="w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-[11px] font-bold shrink-0">
                       {user.name[0]?.toUpperCase()}
                     </span>
-                    <span className="text-[#0a0a0a] font-medium max-w-[80px] truncate">
+                    <span className="text-foreground font-medium max-w-[80px] truncate">
                       {user.name.split(' ')[0]}
                     </span>
                   </button>
                   {userMenuOpen && (
                     <>
                       <div className="fixed inset-0 z-40" onClick={() => setUserMenuOpen(false)} />
-                      <div role="menu" className="absolute right-0 top-full mt-2 w-48 bg-white border border-[#e4e4e7] rounded-xl shadow-lg py-1.5 z-50">
-                        <div className="px-3.5 py-2.5 border-b border-[#e4e4e7]">
-                          <p className="text-xs font-semibold text-[#0a0a0a] truncate">{user.name}</p>
-                          <p className="text-xs text-[#a1a1aa] truncate">{user.email}</p>
+                      <div role="menu" className="absolute right-0 top-full mt-2 w-48 bg-card border border-border rounded-xl shadow-lift py-1.5 z-50">
+                        <div className="px-3.5 py-2.5 border-b border-border">
+                          <p className="text-xs font-semibold text-foreground truncate">{user.name}</p>
+                          <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                         </div>
                         <button
                           role="menuitem"
                           onClick={() => { logout(); setUserMenuOpen(false); }}
-                          className="w-full text-left px-3.5 py-2.5 text-sm text-[#71717a] hover:text-[#0a0a0a] hover:bg-[#f4f4f5] transition-colors flex items-center gap-2"
+                          className="w-full text-left px-3.5 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors flex items-center gap-2"
                         >
                           <LogOut className="w-4 h-4" aria-hidden="true" /> Sign out
                         </button>
@@ -182,26 +182,22 @@ export function Header() {
                   )}
                 </div>
               ) : (
-                <button
-                  onClick={() => navigate('/login')}
-                  className="hidden sm:block px-3.5 py-2 text-sm font-medium text-[#71717a] hover:text-[#0a0a0a] border border-[#e4e4e7] rounded-lg hover:bg-[#f4f4f5] transition-all"
-                >
-                  Sign in
-                </button>
+                <div className="hidden sm:block">
+                  <Button variant="secondary" size="sm" onClick={() => navigate('/login')}>
+                    Sign in
+                  </Button>
+                </div>
               )}
 
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => navigate('/products')}
-                className="hidden sm:block ml-1 px-4 py-2 bg-[#0a0a0a] text-white text-sm font-medium rounded-lg hover:bg-[#2a2a2a] transition-colors"
-              >
-                Shop now
-              </motion.button>
+              <div className="hidden sm:block ml-1">
+                <Button size="sm" onClick={() => navigate('/products')}>
+                  Shop now
+                </Button>
+              </div>
 
               <button
                 onClick={() => setMobileOpen(v => !v)}
-                className="md:hidden p-2 text-[#71717a] hover:text-[#0a0a0a] transition-colors"
+                className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
                 aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={mobileOpen}
                 aria-controls="mobile-nav"
@@ -224,8 +220,8 @@ export function Header() {
               >
                 <form onSubmit={handleSearch} className="pb-4">
                   <label htmlFor="header-search-input" className="sr-only">Search products</label>
-                  <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl border border-[#e4e4e7] bg-[#fafafa] focus-within:border-[#0a0a0a] transition-colors">
-                    <Search className="w-4 h-4 text-[#a1a1aa] flex-shrink-0" aria-hidden="true" />
+                  <div className="flex items-center gap-3 px-4 py-2.5 rounded-full border border-border bg-surface focus-within:border-primary transition-colors">
+                    <Search className="w-4 h-4 text-muted-foreground flex-shrink-0" aria-hidden="true" />
                     <input
                       id="header-search-input"
                       autoFocus
@@ -233,10 +229,10 @@ export function Header() {
                       value={searchQuery}
                       onChange={e => setSearchQuery(e.target.value)}
                       placeholder="Search products..."
-                      className="flex-1 bg-transparent text-sm text-[#0a0a0a] placeholder-[#a1a1aa] outline-none"
+                      className="flex-1 bg-transparent text-sm text-foreground placeholder-muted-foreground outline-none"
                     />
                     {searchQuery && (
-                      <button type="button" onClick={() => setSearchQuery('')} className="text-[#a1a1aa] hover:text-[#0a0a0a]" aria-label="Clear search">
+                      <button type="button" onClick={() => setSearchQuery('')} className="text-muted-foreground hover:text-foreground" aria-label="Clear search">
                         <X className="w-4 h-4" />
                       </button>
                     )}
@@ -256,19 +252,19 @@ export function Header() {
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.22 }}
-              className="md:hidden overflow-hidden border-t border-[#e4e4e7] bg-white"
+              className="md:hidden overflow-hidden border-t border-border bg-background"
             >
               <div className="px-6 py-6 flex flex-col gap-1">
-                <form onSubmit={handleSearch} className="flex items-center gap-3 px-4 py-2.5 rounded-xl border border-[#e4e4e7] bg-[#fafafa] mb-4 focus-within:border-[#0a0a0a] transition-colors">
+                <form onSubmit={handleSearch} className="flex items-center gap-3 px-4 py-2.5 rounded-full border border-border bg-surface mb-4 focus-within:border-primary transition-colors">
                   <label htmlFor="mobile-search-input" className="sr-only">Search products</label>
-                  <Search className="w-4 h-4 text-[#a1a1aa]" aria-hidden="true" />
+                  <Search className="w-4 h-4 text-muted-foreground" aria-hidden="true" />
                   <input
                     id="mobile-search-input"
                     type="text"
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
                     placeholder="Search products..."
-                    className="flex-1 bg-transparent text-sm text-[#0a0a0a] placeholder-[#a1a1aa] outline-none"
+                    className="flex-1 bg-transparent text-sm text-foreground placeholder-muted-foreground outline-none"
                   />
                 </form>
 
@@ -282,53 +278,44 @@ export function Header() {
                     aria-current={isActive(item.path) ? 'page' : undefined}
                     className="text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors"
                     style={{
-                      color:      isActive(item.path) ? '#0a0a0a' : '#71717a',
-                      background: isActive(item.path) ? '#f4f4f5'  : 'transparent',
+                      color:      isActive(item.path) ? 'var(--foreground)' : 'var(--muted-foreground)',
+                      background: isActive(item.path) ? 'var(--secondary)'  : 'transparent',
                     }}
                   >
                     {item.label}
                   </motion.button>
                 ))}
 
-                <button
-                  onClick={() => { navigate('/products'); setMobileOpen(false); }}
-                  className="mt-4 px-5 py-3 bg-[#0a0a0a] text-white text-sm font-medium rounded-lg hover:bg-[#2a2a2a] transition-colors"
-                >
+                <Button className="mt-4" onClick={() => { navigate('/products'); setMobileOpen(false); }}>
                   Shop now
-                </button>
+                </Button>
 
                 {user ? (
-                  <div className="mt-4 pt-4 border-t border-[#e4e4e7]">
+                  <div className="mt-4 pt-4 border-t border-border">
                     <div className="flex items-center gap-3 px-2 py-2 mb-2">
-                      <span className="w-8 h-8 bg-[#0a0a0a] text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0">
+                      <span className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-bold shrink-0">
                         {user.name[0]?.toUpperCase()}
                       </span>
                       <div className="min-w-0">
-                        <p className="text-sm font-medium text-[#0a0a0a] truncate">{user.name}</p>
-                        <p className="text-xs text-[#a1a1aa] truncate">{user.email}</p>
+                        <p className="text-sm font-medium text-foreground truncate">{user.name}</p>
+                        <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                       </div>
                     </div>
                     <button
                       onClick={() => { logout(); setMobileOpen(false); }}
-                      className="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-[#71717a] hover:text-[#0a0a0a] hover:bg-[#f4f4f5] transition-colors flex items-center gap-2"
+                      className="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors flex items-center gap-2"
                     >
                       <LogOut className="w-4 h-4" aria-hidden="true" /> Sign out
                     </button>
                   </div>
                 ) : (
-                  <div className="mt-4 pt-4 border-t border-[#e4e4e7] flex flex-col gap-2">
-                    <button
-                      onClick={() => { navigate('/login'); setMobileOpen(false); }}
-                      className="px-5 py-3 border border-[#e4e4e7] text-[#0a0a0a] text-sm font-medium rounded-lg hover:bg-[#f4f4f5] transition-colors"
-                    >
+                  <div className="mt-4 pt-4 border-t border-border flex flex-col gap-2">
+                    <Button variant="secondary" onClick={() => { navigate('/login'); setMobileOpen(false); }}>
                       Sign in
-                    </button>
-                    <button
-                      onClick={() => { navigate('/register'); setMobileOpen(false); }}
-                      className="px-5 py-3 bg-[#0a0a0a] text-white text-sm font-medium rounded-lg hover:bg-[#2a2a2a] transition-colors"
-                    >
+                    </Button>
+                    <Button variant="secondary" onClick={() => { navigate('/register'); setMobileOpen(false); }}>
                       Create account
-                    </button>
+                    </Button>
                   </div>
                 )}
               </div>

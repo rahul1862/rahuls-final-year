@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router';
 import { motion } from 'framer-motion';
-import { Eye, EyeOff, AlertCircle, WifiOff } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { Button } from '../components/ui/Button';
+import { Banner } from '../components/ui/Banner';
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -61,54 +63,44 @@ export function Login() {
   };
 
   const inputCls = (hasError: boolean) =>
-    `w-full px-3.5 py-2.5 border rounded-lg bg-white text-[#0a0a0a] focus:outline-none placeholder-[#a1a1aa] text-sm transition-colors ${
-      hasError ? 'border-red-400 focus:border-red-500' : 'border-[#e4e4e7] focus:border-[#0a0a0a]'
+    `w-full px-3.5 py-2.5 border rounded-lg bg-card text-foreground focus:outline-none placeholder-muted-foreground text-sm transition-colors ${
+      hasError ? 'border-destructive focus:border-destructive' : 'border-border focus:border-primary'
     }`;
 
   return (
-    <div className="min-h-screen bg-[#fafafa] flex items-center justify-center px-4 py-16">
+    <div className="min-h-screen bg-surface flex items-center justify-center px-4 py-16">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: EASE }}
         className="w-full max-w-md"
       >
-        <div className="bg-white border border-[#e4e4e7] rounded-2xl p-8">
+        <div className="bg-card border border-border rounded-2xl p-8 shadow-soft">
           <button
             onClick={() => navigate('/')}
-            className="text-xl font-bold tracking-tight text-[#0a0a0a] hover:opacity-70 transition-opacity mb-8 block"
+            className="font-display italic text-xl font-semibold tracking-tight text-foreground hover:text-primary transition-colors mb-8 block"
           >
-            Vendrr
+            Vendr
           </button>
 
-          <h1 className="text-2xl font-bold text-[#0a0a0a] mb-1">Welcome back</h1>
-          <p className="text-sm text-[#71717a] mb-6">Sign in to your account to continue.</p>
+          <h1 className="font-display text-2xl font-semibold text-foreground mb-1">Welcome back</h1>
+          <p className="text-sm text-muted-foreground mb-6">Sign in to your account to continue.</p>
 
           {offline && (
-            <motion.div
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-start gap-2.5 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg px-4 py-3 mb-5 text-sm"
-            >
-              <WifiOff className="w-4 h-4 shrink-0 mt-0.5" />
-              Can't reach the server right now. Check your connection and try again.
+            <motion.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} className="mb-5">
+              <Banner variant="warning">Can't reach the server right now. Check your connection and try again.</Banner>
             </motion.div>
           )}
 
           {formError && (
-            <motion.div
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-start gap-2.5 bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 mb-5 text-sm"
-            >
-              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-              {formError}
+            <motion.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} className="mb-5">
+              <Banner variant="error">{formError}</Banner>
             </motion.div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4" noValidate>
             <div>
-              <label htmlFor="login-email" className="block text-sm text-[#71717a] mb-1.5">Email</label>
+              <label htmlFor="login-email" className="block text-sm text-muted-foreground mb-1.5">Email</label>
               <input
                 id="login-email"
                 type="email"
@@ -120,15 +112,15 @@ export function Login() {
                 aria-invalid={!!fieldErrors.email}
                 autoFocus
               />
-              {fieldErrors.email && <p className="text-xs text-red-600 mt-1.5">{fieldErrors.email}</p>}
+              {fieldErrors.email && <p className="text-xs text-destructive mt-1.5">{fieldErrors.email}</p>}
             </div>
 
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label htmlFor="login-password" className="text-sm text-[#71717a]">Password</label>
+                <label htmlFor="login-password" className="text-sm text-muted-foreground">Password</label>
                 <button
                   type="button"
-                  className="text-xs text-[#71717a] hover:text-[#0a0a0a] transition-colors"
+                  className="text-xs text-muted-foreground hover:text-primary transition-colors"
                 >
                   Forgot password?
                 </button>
@@ -147,30 +139,24 @@ export function Login() {
                 <button
                   type="button"
                   onClick={() => setShowPw(v => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#a1a1aa] hover:text-[#0a0a0a] transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                   aria-label={showPw ? 'Hide password' : 'Show password'}
                 >
                   {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              {fieldErrors.password && <p className="text-xs text-red-600 mt-1.5">{fieldErrors.password}</p>}
+              {fieldErrors.password && <p className="text-xs text-destructive mt-1.5">{fieldErrors.password}</p>}
             </div>
 
-            <motion.button
-              type="submit"
-              disabled={loading}
-              whileHover={{ scale: loading ? 1 : 1.01 }}
-              whileTap={{ scale: loading ? 1 : 0.99 }}
-              className="w-full py-2.5 bg-[#0a0a0a] text-white text-sm font-medium rounded-lg hover:bg-[#2a2a2a] transition-colors disabled:opacity-60 disabled:cursor-not-allowed mt-2"
-            >
+            <Button type="submit" loading={loading} className="w-full mt-2">
               {loading ? 'Signing in…' : 'Sign in'}
-            </motion.button>
+            </Button>
           </form>
         </div>
 
-        <p className="text-center text-sm text-[#71717a] mt-5">
+        <p className="text-center text-sm text-muted-foreground mt-5">
           Don't have an account?{' '}
-          <Link to="/register" className="font-medium text-[#0a0a0a] hover:underline underline-offset-2">
+          <Link to="/register" className="font-medium text-primary hover:underline underline-offset-2">
             Create one
           </Link>
         </p>

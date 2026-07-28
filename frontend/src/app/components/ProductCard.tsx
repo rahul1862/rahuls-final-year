@@ -1,32 +1,30 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { Link } from 'react-router';
+import { motion } from 'framer-motion';
 import { ShoppingCart, Heart } from 'lucide-react';
 import { Product } from '../context/CartContext';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { Badge } from './ui/Badge';
+import { getStock, isLowStock } from '../utils/stock';
+import { getProductBadge, getDiscountPercent } from '../utils/productBadges';
 
 interface ProductCardProps {
   product: Product;
 }
 
-function isOutOfStock(id: number) {
-  return id % 7 === 0;
-}
-
-function getDiscountPercent(id: number) {
-  if (id % 4 !== 0) return null;
-  return 10 + (id % 3) * 5;
-}
-
-export function ProductCard({ product }: ProductCardProps) {
+function ProductCardComponent({ product }: ProductCardProps) {
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const [added, setAdded] = useState(false);
   const isWishlisted = isInWishlist(product.id);
 
-  const outOfStock = isOutOfStock(product.id);
-  const discountPercent = outOfStock ? null : getDiscountPercent(product.id);
+  const stock = getStock(product.id);
+  const outOfStock = stock === 0;
+  const lowStock = isLowStock(product.id);
+  const badge = getProductBadge(product.id, outOfStock);
+  const discountPercent = getDiscountPercent(product.id);
   const originalPrice = discountPercent ? product.price / (1 - discountPercent / 100) : null;
 
   const handleAddToCart = (e: React.MouseEvent) => {
@@ -44,71 +42,87 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Link to={`/products/${product.id}`} className="group block h-full">
-      <div className="border border-[#e4e4e7] rounded-xl overflow-hidden bg-white h-full flex flex-col transition-all duration-300 group-hover:border-[#0a0a0a] group-focus-within:border-[#0a0a0a] group-hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
-        <div className="aspect-square overflow-hidden relative bg-[#f4f4f5]">
+      <div className="rounded-2xl overflow-hidden bg-card h-full flex flex-col border border-border transition-all duration-300 ease-out group-hover:-translate-y-1 group-hover:border-primary/30 group-hover:shadow-card-hover group-focus-within:-translate-y-1 group-focus-within:border-primary/30 group-focus-within:shadow-card-hover">
+        <div className="aspect-square overflow-hidden relative bg-secondary">
           <ImageWithFallback
             src={product.image}
             alt={product.name}
-            className={`w-full h-full object-cover transition-transform duration-500 ${
-              outOfStock ? 'grayscale opacity-70' : 'group-hover:scale-105'
+            className={`w-full h-full object-cover transition-transform duration-500 ease-out ${
+              outOfStock ? 'grayscale opacity-70' : 'group-hover:scale-[1.07]'
             }`}
           />
+
+          {!outOfStock && (
+            <div className="absolute inset-0 bg-gradient-to-t from-foreground/25 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+          )}
 
           <button
             onClick={handleWishlist}
             aria-label={isWishlisted ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
             aria-pressed={isWishlisted}
-            className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 transition-opacity bg-white border border-[#e4e4e7] hover:border-[#0a0a0a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0a0a0a]"
+            className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 transition-opacity bg-white/95 border border-border hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <Heart
-              className="w-4 h-4"
-              aria-hidden="true"
-              style={{ color: isWishlisted ? '#0a0a0a' : '#a1a1aa', fill: isWishlisted ? '#0a0a0a' : 'none' }}
-            />
+            <motion.span
+              key={isWishlisted ? 'on' : 'off'}
+              initial={{ scale: 0.5 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 500, damping: 15 }}
+              className="flex"
+            >
+              <Heart
+                className="w-4 h-4"
+                aria-hidden="true"
+                style={{
+                  color: isWishlisted ? 'var(--primary)' : 'var(--muted-foreground)',
+                  fill: isWishlisted ? 'var(--primary)' : 'none',
+                }}
+              />
+            </motion.span>
           </button>
 
           <div className="absolute top-3 left-3 flex flex-col items-start gap-1.5">
-            <div className="px-2 py-1 bg-white/90 backdrop-blur-sm rounded-md text-xs font-medium text-[#0a0a0a] border border-[#e4e4e7]">
+            <Badge variant="country">
               {product.flag} {product.country}
-            </div>
-            {discountPercent && (
-              <div className="px-2 py-1 bg-[#0a0a0a] rounded-md text-xs font-semibold text-white">
-                -{discountPercent}%
-              </div>
-            )}
+            </Badge>
+            {badge && <Badge variant={badge.variant}>{badge.label}</Badge>}
           </div>
 
           {outOfStock && (
-            <div className="absolute inset-x-0 bottom-0 bg-[#0a0a0a]/90 text-white text-xs font-medium text-center py-1.5">
+            <div className="absolute inset-x-0 bottom-0 bg-foreground/90 text-white text-xs font-medium text-center py-1.5">
               Out of stock
             </div>
           )}
         </div>
 
         <div className="p-4 flex-1 flex flex-col">
-          <p className="text-xs text-[#a1a1aa] mb-1">{product.category}</p>
-          <h3 className="text-sm font-semibold text-[#0a0a0a] mb-3 line-clamp-2 leading-snug flex-1">
+          <p className="text-xs text-muted-foreground mb-1">{product.category}</p>
+          <h3 className="text-sm font-semibold text-foreground mb-3 line-clamp-2 leading-snug flex-1">
             {product.name}
           </h3>
-          <div className="flex items-center justify-between pt-3 border-t border-[#f0f0f0]">
-            <div className="flex items-baseline gap-1.5 min-w-0">
-              <span className={`text-base font-bold ${outOfStock ? 'text-[#a1a1aa]' : 'text-[#0a0a0a]'}`}>
-                ${product.price.toFixed(2)}
-              </span>
-              {originalPrice && (
-                <span className="text-xs text-[#a1a1aa] line-through">${originalPrice.toFixed(2)}</span>
+          <div className="flex items-center justify-between gap-2 pt-3 border-t border-border">
+            <div className="min-w-0">
+              <div className="flex items-baseline gap-1.5">
+                <span className={`text-base font-bold tabular-nums ${outOfStock ? 'text-muted-foreground' : 'text-foreground'}`}>
+                  ${product.price.toFixed(2)}
+                </span>
+                {originalPrice && (
+                  <span className="text-xs text-muted-foreground line-through tabular-nums">${originalPrice.toFixed(2)}</span>
+                )}
+              </div>
+              {!outOfStock && lowStock && (
+                <p className="text-[11px] font-medium text-primary mt-0.5">Only {stock} left</p>
               )}
             </div>
             <button
               onClick={handleAddToCart}
               disabled={outOfStock}
               aria-label={outOfStock ? `${product.name} is out of stock` : added ? 'Added to cart' : `Add ${product.name} to cart`}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0a0a0a] ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors duration-200 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                 outOfStock
-                  ? 'border-[#e4e4e7] text-[#a1a1aa] cursor-not-allowed'
+                  ? 'border-border text-muted-foreground cursor-not-allowed'
                   : added
-                    ? 'bg-[#0a0a0a] text-white border-[#0a0a0a]'
-                    : 'border-[#e4e4e7] text-[#0a0a0a] hover:bg-[#0a0a0a] hover:text-white hover:border-[#0a0a0a]'
+                    ? 'bg-accent-pine text-accent-pine-foreground border-accent-pine'
+                    : 'border-border text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary'
               }`}
             >
               <ShoppingCart className="w-3.5 h-3.5" aria-hidden="true" />
@@ -120,3 +134,5 @@ export function ProductCard({ product }: ProductCardProps) {
     </Link>
   );
 }
+
+export const ProductCard = memo(ProductCardComponent);
