@@ -255,10 +255,10 @@ const baseProducts: Product[] = [
   },
   {
     id: 22,
-    name: 'Swiss Chocolate Box',
+    name: 'Mens Beard Trimmer',
     price: 39.99,
     image: 'https://images.unsplash.com/photo-1548946526-f69e2424cf45?auto=format&fit=crop&w=800&q=80',
-    description: 'Artisanal Swiss chocolates made with premium cocoa and milk.',
+    description: 'Mens Beard trimmer made by Rahul.',
     category: 'Food',
     rating: 4.9,
     reviews: 765,
@@ -303,7 +303,7 @@ const baseProducts: Product[] = [
   },
   {
     id: 26,
-    name: 'Kerala Masala Pack',
+    name: 'indian Masala Pack',
     price: 19.99,
     image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80',
     description: 'Fresh spice blend from Kerala for authentic Indian cooking.',
