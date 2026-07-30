@@ -255,10 +255,10 @@ const baseProducts: Product[] = [
   },
   {
     id: 22,
-    name: 'Mens Beard Trimmer',
+    name: 'Swiss Chocolate Box',
     price: 39.99,
     image: 'https://images.unsplash.com/photo-1548946526-f69e2424cf45?auto=format&fit=crop&w=800&q=80',
-    description: 'Mens Beard trimmer made by Rahul.',
+    description: 'Artisanal Swiss chocolates made with premium cocoa and milk.',
     category: 'Food',
     rating: 4.9,
     reviews: 765,
