@@ -12,11 +12,11 @@ describe('CountryContext', () => {
     expect(result.current.selectedCountry).toBeNull();
   });
 
-  it('defaults to USD when no country is selected', () => {
+  it('defaults to EUR when no country is selected', () => {
     const { result } = renderHook(() => useCountry(), { wrapper });
     const currency = result.current.getCurrency();
-    expect(currency.code).toBe('USD');
-    expect(currency.symbol).toBe('$');
+    expect(currency.code).toBe('EUR');
+    expect(currency.symbol).toBe('€');
   });
 
   it('updates selectedCountry when setSelectedCountry is called', () => {
@@ -65,7 +65,7 @@ describe('CountryContext', () => {
     expect(currency.symbol).toBe('¥');
   });
 
-  it('returns USD as fallback for unknown country', () => {
+  it('returns EUR as fallback for unknown country', () => {
     const { result } = renderHook(() => useCountry(), { wrapper });
 
     act(() => {
@@ -73,7 +73,8 @@ describe('CountryContext', () => {
     });
 
     const currency = result.current.getCurrency();
-    expect(currency.code).toBe('USD');
+    expect(currency.code).toBe('EUR');
+    expect(currency.symbol).toBe('€');
   });
 
   it('persists selected country to localStorage', () => {

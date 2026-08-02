@@ -9,6 +9,7 @@ import { useProducts } from '../context/ProductsContext';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useToast } from '../context/ToastContext';
+import { useCountry } from '../context/CountryContext';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { ProductCard } from '../components/ProductCard';
 import { PriceComparison } from '../components/PriceComparison';
@@ -58,6 +59,8 @@ export function ProductDetail() {
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const { show: showToast } = useToast();
+  const { getCurrency } = useCountry();
+  const currency = getCurrency();
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
   const zoomOverlayRef = useRef<HTMLDivElement>(null);
@@ -213,10 +216,10 @@ export function ProductDetail() {
               </div>
 
               <div className="flex items-baseline gap-3 mb-4">
-                <span className="text-4xl font-bold text-foreground tabular-nums">${product.price.toFixed(2)}</span>
+                <span className="text-4xl font-bold text-foreground tabular-nums">{currency.symbol}{product.price.toFixed(2)}</span>
                 {originalPrice && (
                   <>
-                    <span className="text-lg text-muted-foreground line-through tabular-nums">${originalPrice.toFixed(2)}</span>
+                    <span className="text-lg text-muted-foreground line-through tabular-nums">{currency.symbol}{originalPrice.toFixed(2)}</span>
                     <Badge variant="sale">Save {discountPercent}%</Badge>
                   </>
                 )}

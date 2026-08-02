@@ -9,6 +9,7 @@ import { ImageWithFallback } from './figma/ImageWithFallback';
 import { Badge } from './ui/Badge';
 import { getStock, isLowStock } from '../utils/stock';
 import { getProductBadge, getDiscountPercent } from '../utils/productBadges';
+import { useCountry } from '../context/CountryContext';
 
 interface ProductCardProps {
   product: Product;
@@ -17,6 +18,8 @@ interface ProductCardProps {
 function ProductCardComponent({ product }: ProductCardProps) {
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const { getCurrency } = useCountry();
+  const currency = getCurrency();
   const [added, setAdded] = useState(false);
   const isWishlisted = isInWishlist(product.id);
 
@@ -103,10 +106,10 @@ function ProductCardComponent({ product }: ProductCardProps) {
             <div className="min-w-0">
               <div className="flex items-baseline gap-1.5">
                 <span className={`text-base font-bold tabular-nums ${outOfStock ? 'text-muted-foreground' : 'text-foreground'}`}>
-                  ${product.price.toFixed(2)}
+                  {currency.symbol}{product.price.toFixed(2)}
                 </span>
                 {originalPrice && (
-                  <span className="text-xs text-muted-foreground line-through tabular-nums">${originalPrice.toFixed(2)}</span>
+                  <span className="text-xs text-muted-foreground line-through tabular-nums">{currency.symbol}{originalPrice.toFixed(2)}</span>
                 )}
               </div>
               {!outOfStock && lowStock && (

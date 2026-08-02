@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useCart } from '../context/CartContext';
 import { useOrders } from '../context/OrderContext';
+import { useCountry } from '../context/CountryContext';
 import { CreditCard, Wallet, Smartphone, Lock, CheckCircle, Tag } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 
@@ -112,6 +113,8 @@ function inputCls(hasError?: boolean) {
 export function Checkout() {
   const { cart, getCartTotal, clearCart, discountCode, discountPercent } = useCart();
   const { addOrder } = useOrders();
+  const { getCurrency } = useCountry();
+  const currency = getCurrency();
   const navigate = useNavigate();
 
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('card');
@@ -289,7 +292,7 @@ export function Checkout() {
 
               <Button type="submit" size="lg" loading={submitting} className="w-full">
                 <Lock className="w-4 h-4" />
-                {submitting ? 'Placing order…' : `Place order — $${total.toFixed(2)}`}
+                {submitting ? 'Placing order…' : `Place order — ${currency.symbol}${total.toFixed(2)}`}
               </Button>
             </form>
           </div>
@@ -308,7 +311,7 @@ export function Checkout() {
                       <p className="text-xs font-medium text-foreground line-clamp-2 leading-snug">{item.name}</p>
                       <p className="text-xs mt-0.5 text-muted-foreground">{item.flag} {item.country} · Qty {item.quantity}</p>
                     </div>
-                    <p className="text-xs font-semibold text-foreground shrink-0 tabular-nums">${(item.price * item.quantity).toFixed(2)}</p>
+                    <p className="text-xs font-semibold text-foreground shrink-0 tabular-nums">{currency.symbol}{(item.price * item.quantity).toFixed(2)}</p>
                   </div>
                 ))}
               </div>
@@ -316,25 +319,25 @@ export function Checkout() {
               <div className="space-y-2.5 text-sm">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Subtotal</span>
-                  <span className="text-foreground tabular-nums">${subtotal.toFixed(2)}</span>
+                  <span className="text-foreground tabular-nums">{currency.symbol}{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Shipping</span>
-                  <span className="text-foreground tabular-nums">{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
+                  <span className="text-foreground tabular-nums">{shipping === 0 ? 'Free' : `${currency.symbol}${shipping.toFixed(2)}`}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Tax (8%)</span>
-                  <span className="text-foreground tabular-nums">${tax.toFixed(2)}</span>
+                  <span className="text-foreground tabular-nums">{currency.symbol}{tax.toFixed(2)}</span>
                 </div>
                 {discountPercent > 0 && (
                   <div className="flex justify-between">
                     <span className="text-accent-pine flex items-center gap-1.5"><Tag className="w-3.5 h-3.5" aria-hidden="true" /> {discountCode}</span>
-                    <span className="text-accent-pine tabular-nums">−${discount.toFixed(2)}</span>
+                    <span className="text-accent-pine tabular-nums">−{currency.symbol}{discount.toFixed(2)}</span>
                   </div>
                 )}
                 <div className="flex justify-between pt-3 border-t border-border font-semibold text-foreground">
                   <span>Total</span>
-                  <span className="tabular-nums">${total.toFixed(2)}</span>
+                  <span className="tabular-nums">{currency.symbol}{total.toFixed(2)}</span>
                 </div>
               </div>
             </div>

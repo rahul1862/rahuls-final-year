@@ -6,6 +6,7 @@ import { useToast } from '../context/ToastContext';
 import { getStock } from '../utils/stock';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Button, LinkButton } from '../components/ui/Button';
+import { useCountry } from '../context/CountryContext';
 
 const UNDO_WINDOW_MS = 6000;
 const FREE_SHIPPING_THRESHOLD = 100;
@@ -15,6 +16,8 @@ const TAX_RATE = 0.08;
 export function Cart() {
   const { cart, removeFromCart, updateQuantity, addToCart, getCartTotal, discountCode, discountPercent, applyDiscount, clearDiscount } = useCart();
   const { show: showToast } = useToast();
+  const { getCurrency } = useCountry();
+  const currency = getCurrency();
   const [pendingRemoval, setPendingRemoval] = useState<CartItem | null>(null);
   const [codeInput, setCodeInput] = useState('');
   const undoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -131,7 +134,7 @@ export function Cart() {
                         </button>
                       </div>
                       <div className="text-right">
-                        <div className="font-bold text-foreground text-base tabular-nums">${(item.price * item.quantity).toFixed(2)}</div>
+                        <div className="font-bold text-foreground text-base tabular-nums">{currency.symbol}{(item.price * item.quantity).toFixed(2)}</div>
                         <button
                           onClick={() => handleRemove(item)}
                           className="flex items-center gap-1 text-xs mt-1 text-muted-foreground hover:text-primary transition-colors"
@@ -154,7 +157,7 @@ export function Cart() {
               <div className="mb-5 pb-5 border-b border-border">
                 <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
                   <span className="flex items-center gap-1.5"><Truck className="w-3.5 h-3.5" aria-hidden="true" /> Free shipping progress</span>
-                  <span>{shipping === 0 ? 'Unlocked' : `$${(FREE_SHIPPING_THRESHOLD - subtotal).toFixed(2)} to go`}</span>
+                  <span>{shipping === 0 ? 'Unlocked' : `${currency.symbol}${(FREE_SHIPPING_THRESHOLD - subtotal).toFixed(2)} to go`}</span>
                 </div>
                 <div className="h-1.5 rounded-full bg-secondary overflow-hidden">
                   <motion.div
@@ -169,29 +172,29 @@ export function Cart() {
               <div className="space-y-3 mb-5 pb-5 border-b border-border">
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Subtotal</span>
-                  <span className="text-foreground tabular-nums">${subtotal.toFixed(2)}</span>
+                  <span className="text-foreground tabular-nums">{currency.symbol}{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Shipping</span>
-                  <span className="text-foreground tabular-nums">{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
+                  <span className="text-foreground tabular-nums">{shipping === 0 ? 'Free' : `${currency.symbol}${shipping.toFixed(2)}`}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Tax (8%)</span>
-                  <span className="text-foreground tabular-nums">${tax.toFixed(2)}</span>
+                  <span className="text-foreground tabular-nums">{currency.symbol}{tax.toFixed(2)}</span>
                 </div>
                 {discountPercent > 0 && (
                   <div className="flex justify-between text-sm">
                     <span className="text-accent-pine flex items-center gap-1.5">
                       <Tag className="w-3.5 h-3.5" aria-hidden="true" /> {discountCode}
                     </span>
-                    <span className="text-accent-pine tabular-nums">−${discount.toFixed(2)}</span>
+                    <span className="text-accent-pine tabular-nums">−{currency.symbol}{discount.toFixed(2)}</span>
                   </div>
                 )}
               </div>
 
               <div className="flex justify-between items-center mb-6">
                 <span className="font-bold text-foreground">Total</span>
-                <span className="text-xl font-bold text-foreground tabular-nums">${total.toFixed(2)}</span>
+                <span className="text-xl font-bold text-foreground tabular-nums">{currency.symbol}{total.toFixed(2)}</span>
               </div>
 
               {discountCode ? (
@@ -217,7 +220,7 @@ export function Cart() {
 
               {subtotal <= FREE_SHIPPING_THRESHOLD && (
                 <div className="rounded-lg px-3 py-2.5 text-xs mb-5 border border-border text-muted-foreground bg-surface">
-                  Add ${(FREE_SHIPPING_THRESHOLD - subtotal).toFixed(2)} more for free shipping.
+                  Add {currency.symbol}{(FREE_SHIPPING_THRESHOLD - subtotal).toFixed(2)} more for free shipping.
                 </div>
               )}
 

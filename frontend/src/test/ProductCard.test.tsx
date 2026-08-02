@@ -40,9 +40,9 @@ describe('ProductCard', () => {
     expect(screen.getByText('Premium Wireless Headphones')).toBeInTheDocument();
   });
 
-  it('renders the product price formatted to 2 decimal places', () => {
+  it('renders the product price formatted to 2 decimal places in euro by default', () => {
     renderProductCard();
-    expect(screen.getByText('$299.99')).toBeInTheDocument();
+    expect(screen.getByText('€299.99')).toBeInTheDocument();
   });
 
   it('renders the product category', () => {
