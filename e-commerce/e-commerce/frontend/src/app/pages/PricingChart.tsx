@@ -52,7 +52,7 @@ const tiers: Tier[] = [
     annualPrice: 49,
     features: [
       'Everything in Free',
-      'Free standard shipping over $35',
+      'Free standard shipping over €35',
       '2% cashback on every order',
       'Priority email support, same day',
     ],
@@ -199,7 +199,7 @@ export function PricingChart() {
                   <p className="text-[#71717a] text-sm mt-1 mb-6">{tier.description}</p>
 
                   <div className="mb-6">
-                    <span className="text-3xl font-bold text-[#0a0a0a]">${displayPrice.toFixed(displayPrice % 1 === 0 ? 0 : 2)}</span>
+                    <span className="text-3xl font-bold text-[#0a0a0a]">€{displayPrice.toFixed(displayPrice % 1 === 0 ? 0 : 2)}</span>
                     <span className="text-[#a1a1aa] text-sm ml-1">
                       {tier.monthlyPrice === 0 ? '' : billing === 'monthly' ? '/month' : '/year'}
                     </span>
@@ -283,13 +283,13 @@ export function PricingChart() {
                       axisLine={false}
                       tickLine={false}
                       width={48}
-                      tickFormatter={(v: number) => `$${v}`}
-                      label={{ value: 'Dollars per year', angle: -90, position: 'insideLeft', fill: '#a1a1aa', fontSize: 12 }}
+                      tickFormatter={(v: number) => `€${v}`}
+                      label={{ value: 'Euros per year', angle: -90, position: 'insideLeft', fill: '#a1a1aa', fontSize: 12 }}
                     />
                     <Tooltip
                       cursor={{ fill: '#fafafa' }}
                       contentStyle={{ borderRadius: 8, border: '1px solid #e4e4e7', fontSize: 13 }}
-                      formatter={(value, name) => [`$${value}`, name]}
+                      formatter={(value, name) => [`€${value}`, name]}
                     />
                     <Legend
                       formatter={(value: string) => <span style={{ color: '#71717a', fontSize: 13 }}>{value}</span>}
@@ -302,8 +302,8 @@ export function PricingChart() {
             )}
 
             <p className="text-[#a1a1aa] text-xs mt-4 pt-4 border-t border-[#e4e4e7]">
-              Assumes a ${AVG_ORDER_VALUE} average order, standard shipping at ${STANDARD_SHIPPING_COST.toFixed(2)}, and express at ${EXPRESS_SHIPPING_COST.toFixed(2)}.
-              Plus assumes roughly {Math.round(PLUS_FREE_SHIP_QUALIFY_RATE * 100)}% of orders clear the $35 free-shipping minimum. Your actual savings will vary with what you buy.
+              Assumes a €{AVG_ORDER_VALUE} average order, standard shipping at €{STANDARD_SHIPPING_COST.toFixed(2)}, and express at €{EXPRESS_SHIPPING_COST.toFixed(2)}.
+              Plus assumes roughly {Math.round(PLUS_FREE_SHIP_QUALIFY_RATE * 100)}% of orders clear the €35 free-shipping minimum. Your actual savings will vary with what you buy.
             </p>
           </div>
         </div>
@@ -320,7 +320,7 @@ export function PricingChart() {
                 <h3 className="text-[#0a0a0a] font-medium mb-1.5">{addon.name}</h3>
                 <p className="text-[#71717a] text-sm leading-relaxed mb-4">{addon.description}</p>
                 <p className="text-[#0a0a0a] font-semibold">
-                  ${addon.price} <span className="text-[#a1a1aa] font-normal text-sm">{addon.unit}</span>
+                  €{addon.price} <span className="text-[#a1a1aa] font-normal text-sm">{addon.unit}</span>
                 </p>
               </div>
             ))}

@@ -112,7 +112,7 @@ export function Cart() {
                         </button>
                       </div>
                       <div className="text-right">
-                        <div className="font-bold text-[#0a0a0a] text-base">${(item.price * item.quantity).toFixed(2)}</div>
+                        <div className="font-bold text-[#0a0a0a] text-base">€{(item.price * item.quantity).toFixed(2)}</div>
                         <button
                           onClick={() => handleRemove(item)}
                           className="flex items-center gap-1 text-xs mt-1 text-[#a1a1aa] hover:text-[#0a0a0a] transition-colors"
@@ -135,26 +135,26 @@ export function Cart() {
               <div className="space-y-3 mb-5 pb-5 border-b border-[#e4e4e7]">
                 <div className="flex justify-between text-sm">
                   <span className="text-[#71717a]">Subtotal</span>
-                  <span className="text-[#0a0a0a]">${subtotal.toFixed(2)}</span>
+                  <span className="text-[#0a0a0a]">€{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-[#71717a]">Shipping</span>
-                  <span className="text-[#0a0a0a]">{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
+                  <span className="text-[#0a0a0a]">{shipping === 0 ? 'Free' : `€${shipping.toFixed(2)}`}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-[#71717a]">Tax (8%)</span>
-                  <span className="text-[#0a0a0a]">${tax.toFixed(2)}</span>
+                  <span className="text-[#0a0a0a]">€{tax.toFixed(2)}</span>
                 </div>
               </div>
 
               <div className="flex justify-between items-center mb-6">
                 <span className="font-bold text-[#0a0a0a]">Total</span>
-                <span className="text-xl font-bold text-[#0a0a0a]">${total.toFixed(2)}</span>
+                <span className="text-xl font-bold text-[#0a0a0a]">€{total.toFixed(2)}</span>
               </div>
 
               {subtotal <= FREE_SHIPPING_THRESHOLD && (
                 <div className="rounded-lg px-3 py-2.5 text-xs mb-5 border border-[#e4e4e7] text-[#71717a] bg-[#fafafa]">
-                  Add ${(FREE_SHIPPING_THRESHOLD - subtotal).toFixed(2)} more for free shipping.
+                  Add €{(FREE_SHIPPING_THRESHOLD - subtotal).toFixed(2)} more for free shipping.
                 </div>
               )}
 

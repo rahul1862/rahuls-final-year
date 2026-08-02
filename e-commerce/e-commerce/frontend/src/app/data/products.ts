@@ -4,7 +4,7 @@ const baseProducts: Product[] = [
   {
     id: 1,
     name: 'Premium Wireless Headphones',
-    price: 299.99,
+    price: 275.99,
     image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80',
     description: 'Experience crystal-clear audio with active noise cancellation and 30-hour battery life.',
     category: 'Electronics',
@@ -16,7 +16,7 @@ const baseProducts: Product[] = [
   {
     id: 2,
     name: 'Smart Watch Pro',
-    price: 399.99,
+    price: 367.99,
     image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=800&q=80',
     description: 'Track your fitness goals, receive notifications, and stay connected on the go.',
     category: 'Electronics',
@@ -28,7 +28,7 @@ const baseProducts: Product[] = [
   {
     id: 3,
     name: 'Ultra Thin Laptop',
-    price: 1299.99,
+    price: 1195.99,
     image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80',
     description: 'Powerful performance in a sleek design. Perfect for work and entertainment.',
     category: 'Electronics',
@@ -40,7 +40,7 @@ const baseProducts: Product[] = [
   {
     id: 4,
     name: 'Traditional Silk Kimono',
-    price: 589.99,
+    price: 542.79,
     image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80',
     description: 'Authentic handcrafted kimono made from premium silk with traditional patterns.',
     category: 'Fashion',
@@ -52,7 +52,7 @@ const baseProducts: Product[] = [
   {
     id: 5,
     name: 'Italian Leather Handbag',
-    price: 749.99,
+    price: 689.99,
     image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80',
     description: 'Luxury handcrafted leather bag from Florence, combining elegance and functionality.',
     category: 'Fashion',
@@ -64,7 +64,7 @@ const baseProducts: Product[] = [
   {
     id: 6,
     name: 'Swiss Luxury Watch',
-    price: 2499.99,
+    price: 2299.99,
     image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80',
     description: 'Precision-engineered timepiece with automatic movement and sapphire crystal.',
     category: 'Accessories',
@@ -76,7 +76,7 @@ const baseProducts: Product[] = [
   {
     id: 7,
     name: 'French Perfume Collection',
-    price: 189.99,
+    price: 174.79,
     image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=80',
     description: 'Exquisite fragrances from Paris, crafted by master perfumers with rare ingredients.',
     category: 'Beauty',
@@ -88,7 +88,7 @@ const baseProducts: Product[] = [
   {
     id: 8,
     name: 'Moroccan Handwoven Rug',
-    price: 899.99,
+    price: 827.99,
     image: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=800&q=80',
     description: 'Authentic Berber rug handwoven by artisans using traditional techniques.',
     category: 'Home',
@@ -100,7 +100,7 @@ const baseProducts: Product[] = [
   {
     id: 9,
     name: 'Mexican Artisan Pottery Set',
-    price: 149.99,
+    price: 137.99,
     image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=800&q=80',
     description: 'Beautiful handcrafted ceramic pieces with vibrant traditional Mexican designs.',
     category: 'Home',
@@ -112,7 +112,7 @@ const baseProducts: Product[] = [
   {
     id: 10,
     name: 'Indian Spice Gift Box',
-    price: 79.99,
+    price: 73.59,
     image: 'https://images.unsplash.com/photo-1505498753650-ac9cb50b158d?auto=format&fit=crop&w=800&q=80',
     description: 'Premium collection of authentic Indian spices sourced directly from Kerala.',
     category: 'Food',
@@ -124,7 +124,7 @@ const baseProducts: Product[] = [
   {
     id: 11,
     name: 'Scandinavian Minimalist Chair',
-    price: 449.99,
+    price: 413.99,
     image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80',
     description: 'Elegant Danish-designed chair featuring clean lines and sustainable materials.',
     category: 'Home',
@@ -136,7 +136,7 @@ const baseProducts: Product[] = [
   {
     id: 12,
     name: 'Brazilian Premium Coffee',
-    price: 34.99,
+    price: 32.19,
     image: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=800&q=80',
     description: 'Single-origin coffee beans from sustainable farms in São Paulo region.',
     category: 'Food',
@@ -148,7 +148,7 @@ const baseProducts: Product[] = [
   {
     id: 13,
     name: 'Korean Skincare Set',
-    price: 129.99,
+    price: 119.59,
     image: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?auto=format&fit=crop&w=800&q=80',
     description: 'Complete K-beauty routine with natural ingredients and innovative formulas.',
     category: 'Beauty',
@@ -160,7 +160,7 @@ const baseProducts: Product[] = [
   {
     id: 14,
     name: 'German Beer Stein Collection',
-    price: 199.99,
+    price: 183.99,
     image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80',
     description: 'Traditional Bavarian beer steins with intricate hand-painted designs.',
     category: 'Home',
@@ -172,7 +172,7 @@ const baseProducts: Product[] = [
   {
     id: 15,
     name: 'Ghanaian Shea Butter (Organic)',
-    price: 24.99,
+    price: 22.99,
     image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80',
     description: 'Cold-pressed, unrefined organic shea butter sourced from smallholder cooperatives in Ghana. Great for skin and hair.',
     category: 'Beauty',
@@ -184,7 +184,7 @@ const baseProducts: Product[] = [
   {
     id: 16,
     name: 'Flagship Smartphone',
-    price: 999.99,
+    price: 919.99,
     image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80',
     description: 'Advanced camera system, stunning display, and all-day battery life.',
     category: 'Electronics',
@@ -196,7 +196,7 @@ const baseProducts: Product[] = [
   {
     id: 17,
     name: 'Bavarian Cuckoo Clock',
-    price: 129.99,
+    price: 119.59,
     image: 'https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?auto=format&fit=crop&w=800&q=80',
     description: 'Hand-carved traditional cuckoo clock from the Black Forest region.',
     category: 'Home',
@@ -208,7 +208,7 @@ const baseProducts: Product[] = [
   {
     id: 18,
     name: 'K-Pop Headliner Hoodie',
-    price: 69.99,
+    price: 64.39,
     image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80',
     description: 'Comfortable premium hoodie inspired by contemporary K-culture designs.',
     category: 'Fashion',
@@ -220,7 +220,7 @@ const baseProducts: Product[] = [
   {
     id: 19,
     name: 'American Denim Jacket',
-    price: 119.99,
+    price: 110.39,
     image: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=800&q=80',
     description: 'Classic jean jacket with a modern slim fit from US designers.',
     category: 'Fashion',
@@ -232,7 +232,7 @@ const baseProducts: Product[] = [
   {
     id: 20,
     name: 'Sakura Tea Set',
-    price: 59.99,
+    price: 55.19,
     image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=800&q=80',
     description: 'Delicate cherry-blossom patterned tea set handcrafted in Japan.',
     category: 'Home',
@@ -244,7 +244,7 @@ const baseProducts: Product[] = [
   {
     id: 21,
     name: 'Tuscan Olive Oil',
-    price: 24.99,
+    price: 22.99,
     image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=800&q=80',
     description: 'Extra-virgin olive oil pressed from olives grown in Tuscany.',
     category: 'Food',
@@ -256,7 +256,7 @@ const baseProducts: Product[] = [
   {
     id: 22,
     name: 'Swiss Chocolate Box',
-    price: 39.99,
+    price: 36.79,
     image: 'https://images.unsplash.com/photo-1548946526-f69e2424cf45?auto=format&fit=crop&w=800&q=80',
     description: 'Artisanal Swiss chocolates made with premium cocoa and milk.',
     category: 'Food',
@@ -268,7 +268,7 @@ const baseProducts: Product[] = [
   {
     id: 23,
     name: 'Parisian Silk Scarf',
-    price: 89.99,
+    price: 82.79,
     image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=800&q=80',
     description: 'Elegant silk scarf designed by Parisian ateliers.',
     category: 'Fashion',
@@ -280,7 +280,7 @@ const baseProducts: Product[] = [
   {
     id: 24,
     name: 'Moroccan Argan Oil',
-    price: 29.99,
+    price: 27.59,
     image: 'https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?auto=format&fit=crop&w=800&q=80',
     description: 'Pure Argan oil sourced from Moroccan cooperatives for skincare.',
     category: 'Beauty',
@@ -292,7 +292,7 @@ const baseProducts: Product[] = [
   {
     id: 25,
     name: 'Talavera Serving Bowl',
-    price: 54.99,
+    price: 50.59,
     image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=800&q=80',
     description: 'Hand-painted Mexican ceramic serving bowl with traditional motifs.',
     category: 'Home',
@@ -304,7 +304,7 @@ const baseProducts: Product[] = [
   {
     id: 26,
     name: 'Kerala Masala Pack',
-    price: 19.99,
+    price: 18.39,
     image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80',
     description: 'Fresh spice blend from Kerala for authentic Indian cooking.',
     category: 'Food',
@@ -316,7 +316,7 @@ const baseProducts: Product[] = [
   {
     id: 27,
     name: 'Danish Candle Set',
-    price: 34.99,
+    price: 32.19,
     image: 'https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=800&q=80',
     description: 'Minimalist scented candles inspired by Scandinavian design.',
     category: 'Home',
@@ -328,7 +328,7 @@ const baseProducts: Product[] = [
   {
     id: 28,
     name: 'Brazilian Coffee Grinder',
-    price: 69.99,
+    price: 64.39,
     image: 'https://images.unsplash.com/photo-1585515320310-259814833e62?auto=format&fit=crop&w=800&q=80',
     description: 'Manual coffee grinder designed for single-origin Brazilian beans.',
     category: 'Kitchen',
@@ -340,7 +340,7 @@ const baseProducts: Product[] = [
   {
     id: 29,
     name: 'Ashanti Hand-Carved Stool',
-    price: 149.99,
+    price: 137.99,
     image: 'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=800&q=80',
     description: 'Traditional Ashanti carved wooden stool handcrafted by Ghanaian artisans — a functional piece of cultural heritage.',
     category: 'Home',
@@ -352,7 +352,7 @@ const baseProducts: Product[] = [
   {
     id: 30,
     name: 'Chinese Porcelain Tea Canister',
-    price: 44.99,
+    price: 41.39,
     image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=800&q=80',
     description: 'Finely painted porcelain canister for preserving premium teas.',
     category: 'Home',
@@ -472,7 +472,7 @@ const fillerDescriptions: Record<string, string[]> = {
   Toys:        ['Encourages imagination without needing batteries.', 'Safe materials, solid construction, genuinely fun.'],
 };
 
-const fillerPriceTiers = [12.99, 18.5, 22.99, 27.5, 34.99, 39.5, 44.99, 54.99, 64.99, 74.5, 89.99, 99.99];
+const fillerPriceTiers = [11.95, 17.02, 21.15, 25.3, 32.19, 36.34, 41.39, 50.59, 59.79, 68.54, 82.79, 91.99];
 
 const catalogCategories = Object.keys(categoryImages) as (keyof typeof categoryImages)[];
 const catalogCountries = Array.from(new Set(baseProducts.map(p => p.country)));

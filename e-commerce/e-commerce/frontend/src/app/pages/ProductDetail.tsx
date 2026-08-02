@@ -120,7 +120,7 @@ export function ProductDetail() {
                 <span className="text-sm text-[#a1a1aa]">{product.reviews} reviews</span>
               </div>
 
-              <div className="text-4xl font-bold text-[#0a0a0a] mb-4">${product.price.toFixed(2)}</div>
+              <div className="text-4xl font-bold text-[#0a0a0a] mb-4">€{product.price.toFixed(2)}</div>
 
               {outOfStock ? (
                 <p className="inline-flex items-center gap-1.5 text-sm font-medium text-[#0a0a0a] bg-[#f4f4f5] border border-[#e4e4e7] rounded-lg px-3 py-1.5 mb-5">
@@ -138,8 +138,8 @@ export function ProductDetail() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <PriceComparison priceUsd={product.price} />
-              <StorePriceComparison productId={product.id} productName={product.name} priceUsd={product.price} />
+              <PriceComparison priceEur={product.price} />
+              <StorePriceComparison productId={product.id} productName={product.name} priceEur={product.price} />
             </div>
 
             {/* Quantity selector */}
@@ -165,7 +165,7 @@ export function ProductDetail() {
                     </button>
                   </div>
                   <span className="text-sm text-[#71717a]">
-                    Total: <span className="text-[#0a0a0a] font-semibold">${(product.price * quantity).toFixed(2)}</span>
+                    Total: <span className="text-[#0a0a0a] font-semibold">€{(product.price * quantity).toFixed(2)}</span>
                   </span>
                 </div>
               </div>
@@ -212,7 +212,7 @@ export function ProductDetail() {
               <p className="text-xs font-semibold uppercase tracking-wide mb-4 text-[#a1a1aa]">Included</p>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { icon: Truck, label: 'Free shipping on $100+' },
+                  { icon: Truck, label: 'Free shipping on €100+' },
                   { icon: RotateCcw, label: '30-day returns' },
                   { icon: Shield, label: '1-year warranty' },
                   { icon: Award, label: 'Authenticity guaranteed' },

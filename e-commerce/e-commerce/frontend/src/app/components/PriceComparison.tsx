@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { ChevronDown, ChevronUp, RefreshCw, AlertCircle } from 'lucide-react';
-import { getExchangeRates, convertFromUsd, ExchangeRates } from '../utils/exchangeRates';
+import { getExchangeRates, convertFromEur, ExchangeRates } from '../utils/exchangeRates';
 import { useCountry } from '../context/CountryContext';
 
-const DISPLAY_CURRENCIES = ['USD', 'EUR', 'GBP', 'JPY', 'INR', 'CNY', 'KRW', 'CHF'];
+const DISPLAY_CURRENCIES = ['EUR', 'USD', 'GBP', 'JPY', 'INR', 'CNY', 'KRW', 'CHF'];
 
 interface PriceComparisonProps {
-  priceUsd: number;
+  priceEur: number;
 }
 
 function formatAmount(amount: number, currencyCode: string): string {
@@ -17,7 +17,7 @@ function formatAmount(amount: number, currencyCode: string): string {
   }
 }
 
-export function PriceComparison({ priceUsd }: PriceComparisonProps) {
+export function PriceComparison({ priceEur }: PriceComparisonProps) {
   const { selectedCountry, getCurrency } = useCountry();
   const [expanded, setExpanded] = useState(false);
   const [rates, setRates] = useState<ExchangeRates | null>(null);
@@ -81,7 +81,7 @@ export function PriceComparison({ priceUsd }: PriceComparisonProps) {
             <>
               <ul className="divide-y divide-[#f0f0f0] pt-2">
                 {currencyList.map(code => {
-                  const converted = convertFromUsd(priceUsd, rates.rates, code);
+                  const converted = convertFromEur(priceEur, rates.rates, code);
                   const isLocal = code === localCurrency;
                   return (
                     <li key={code} className="flex items-center justify-between py-2 text-sm">
@@ -97,7 +97,7 @@ export function PriceComparison({ priceUsd }: PriceComparisonProps) {
                 })}
               </ul>
               <p className="text-xs text-[#a1a1aa] mt-3">
-                Live rates via exchangerate-api.com, as of {new Date(rates.fetchedAt).toLocaleString()}. For reference only — you're charged in USD at checkout.
+                Live rates via exchangerate-api.com, as of {new Date(rates.fetchedAt).toLocaleString()}. For reference only — you're charged in EUR at checkout.
               </p>
             </>
           ) : null}

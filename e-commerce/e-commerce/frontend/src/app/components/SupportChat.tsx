@@ -346,9 +346,9 @@ export function SupportChat() {
                       </div>
                       <div className="space-y-1 text-xs">
                         {[
-                          ['Premium Leather Wallet', '$89.99'],
-                          ['Designer Sunglasses',    '$149.99'],
-                          ['Luxury Watch',           '$299.99'],
+                          ['Premium Leather Wallet', '€89.99'],
+                          ['Designer Sunglasses',    '€149.99'],
+                          ['Luxury Watch',           '€299.99'],
                         ].map(([name, price]) => (
                           <div key={name} className="flex justify-between gap-4">
                             <span className="text-[#71717a]">{name}</span>

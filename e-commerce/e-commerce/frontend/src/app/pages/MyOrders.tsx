@@ -137,7 +137,7 @@ function OrderCard({
 
         <div className="flex items-center gap-4 shrink-0">
           <div className="text-right hidden sm:block">
-            <p className="text-sm font-semibold text-[#0a0a0a]">${order.total.toFixed(2)}</p>
+            <p className="text-sm font-semibold text-[#0a0a0a]">€{order.total.toFixed(2)}</p>
             <p className="text-[10px] text-[#a1a1aa]">
               {order.items.length} item{order.items.length !== 1 ? 's' : ''}
             </p>
@@ -184,7 +184,7 @@ function OrderCard({
                   </div>
                 </div>
                 <p className="text-xs font-semibold text-[#0a0a0a] shrink-0">
-                  ${(item.price * item.quantity).toFixed(2)}
+                  €{(item.price * item.quantity).toFixed(2)}
                 </p>
               </div>
             ))}
@@ -194,19 +194,19 @@ function OrderCard({
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-[#a1a1aa]">Subtotal</span>
-                <span className="text-[#71717a]">${order.subtotal.toFixed(2)}</span>
+                <span className="text-[#71717a]">€{order.subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#a1a1aa]">Shipping</span>
-                <span className="text-[#71717a]">{order.shipping === 0 ? 'Free' : `$${order.shipping.toFixed(2)}`}</span>
+                <span className="text-[#71717a]">{order.shipping === 0 ? 'Free' : `€${order.shipping.toFixed(2)}`}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#a1a1aa]">Tax</span>
-                <span className="text-[#71717a]">${order.tax.toFixed(2)}</span>
+                <span className="text-[#71717a]">€{order.tax.toFixed(2)}</span>
               </div>
               <div className="flex justify-between pt-2 border-t border-[#e4e4e7] font-semibold text-[#0a0a0a]">
                 <span>Total</span>
-                <span>${order.total.toFixed(2)}</span>
+                <span>€{order.total.toFixed(2)}</span>
               </div>
             </div>
 
@@ -270,7 +270,7 @@ function ProductMiniCard({ product }: { product: Product }) {
         <p className="text-[10px] mb-0.5 text-[#a1a1aa]">{product.flag} {product.country}</p>
         <p className="text-xs font-medium text-[#0a0a0a] line-clamp-2 leading-snug mb-2">{product.name}</p>
         <div className="flex items-center justify-between">
-          <span className="text-sm font-semibold text-[#0a0a0a]">${product.price.toFixed(2)}</span>
+          <span className="text-sm font-semibold text-[#0a0a0a]">€{product.price.toFixed(2)}</span>
           <button
             onClick={e => { e.stopPropagation(); addToCart(product); }}
             className="w-7 h-7 rounded-lg border border-[#e4e4e7] flex items-center justify-center hover:bg-[#fafafa]"
@@ -407,13 +407,13 @@ th{font-weight:600;color:#111;border-bottom:2px solid #ddd}.total{font-size:1rem
 <hr/>
 <table>
   <tr><th>Product</th><th>Qty</th><th>Unit</th><th>Total</th></tr>
-  ${order.items.map(i => `<tr><td>${i.name}</td><td>${i.quantity}</td><td>$${i.price.toFixed(2)}</td><td>$${(i.price * i.quantity).toFixed(2)}</td></tr>`).join('')}
+  ${order.items.map(i => `<tr><td>${i.name}</td><td>${i.quantity}</td><td>€${i.price.toFixed(2)}</td><td>€${(i.price * i.quantity).toFixed(2)}</td></tr>`).join('')}
 </table>
 <hr/>
-<p>Subtotal: $${order.subtotal.toFixed(2)}</p>
-<p>Shipping: ${order.shipping === 0 ? 'Free' : `$${order.shipping.toFixed(2)}`}</p>
-<p>Tax: $${order.tax.toFixed(2)}</p>
-<p class="total">Total: $${order.total.toFixed(2)}</p>
+<p>Subtotal: €${order.subtotal.toFixed(2)}</p>
+<p>Shipping: ${order.shipping === 0 ? 'Free' : `€${order.shipping.toFixed(2)}`}</p>
+<p>Tax: €${order.tax.toFixed(2)}</p>
+<p class="total">Total: €${order.total.toFixed(2)}</p>
 </body></html>`;
     const win = window.open('', '_blank');
     if (win) { win.document.write(html); win.document.close(); win.print(); }
@@ -446,7 +446,7 @@ th{font-weight:600;color:#111;border-bottom:2px solid #ddd}.total{font-size:1rem
                 <StatTile icon={Package} label="Total orders" value={orders.length} />
                 <StatTile icon={Clock} label="In progress" value={inProgress} />
                 <StatTile icon={Heart} label="Wishlist items" value={wishlistCnt} />
-                <StatTile icon={Truck} label="Total spent" value={`$${totalSpent.toFixed(0)}`} />
+                <StatTile icon={Truck} label="Total spent" value={`€${totalSpent.toFixed(0)}`} />
               </div>
             )}
 

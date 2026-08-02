@@ -42,7 +42,7 @@ describe('ProductCard', () => {
 
   it('renders the product price formatted to 2 decimal places', () => {
     renderProductCard();
-    expect(screen.getByText('$299.99')).toBeInTheDocument();
+    expect(screen.getByText('€299.99')).toBeInTheDocument();
   });
 
   it('renders the product category', () => {
