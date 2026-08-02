@@ -50,8 +50,8 @@ export function CountryProvider({ children }: { children: ReactNode }) {
   }, [selectedCountry]);
 
   const getCurrency = () => {
-    if (!selectedCountry) return { code: 'USD', symbol: '$' };
-    return COUNTRY_CURRENCY_MAP[selectedCountry] || { code: 'USD', symbol: '$' };
+    if (!selectedCountry) return { code: 'EUR', symbol: '€' };
+    return COUNTRY_CURRENCY_MAP[selectedCountry] || { code: 'EUR', symbol: '€' };
   };
 
   return (
@@ -63,6 +63,12 @@ export function CountryProvider({ children }: { children: ReactNode }) {
 
 export function useCountry() {
   const context = useContext(CountryContext);
-  if (!context) throw new Error('useCountry must be used within CountryProvider');
+  if (!context) {
+    return {
+      selectedCountry: null,
+      setSelectedCountry: () => undefined,
+      getCurrency: () => ({ code: 'EUR', symbol: '€' }),
+    };
+  }
   return context;
 }

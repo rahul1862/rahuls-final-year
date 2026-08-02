@@ -128,21 +128,21 @@ describe('Cart page', () => {
     await screen.findByText(productA.name);
 
     const summary = within(screen.getByText('Order summary').parentElement as HTMLElement);
-    expect(summary.getByText('$50.00')).toBeInTheDocument();
-    expect(summary.getByText('$9.99')).toBeInTheDocument();
-    expect(summary.getByText('$4.00')).toBeInTheDocument();
-    expect(summary.getByText('$63.99')).toBeInTheDocument();
+    expect(summary.getByText('€50.00')).toBeInTheDocument();
+    expect(summary.getByText('€9.99')).toBeInTheDocument();
+    expect(summary.getByText('€4.00')).toBeInTheDocument();
+    expect(summary.getByText('€63.99')).toBeInTheDocument();
   });
 
-  it('gives free shipping once the subtotal exceeds $100', async () => {
+  it('gives free shipping once the subtotal exceeds €100', async () => {
     renderCart([{ product: productA, quantity: 3 }]);
     await screen.findByText(productA.name);
 
     const summary = within(screen.getByText('Order summary').parentElement as HTMLElement);
-    expect(summary.getByText('$150.00')).toBeInTheDocument();
+    expect(summary.getByText('€150.00')).toBeInTheDocument();
     expect(summary.getByText('Free')).toBeInTheDocument();
-    expect(summary.getByText('$12.00')).toBeInTheDocument();
-    expect(summary.getByText('$162.00')).toBeInTheDocument();
+    expect(summary.getByText('€12.00')).toBeInTheDocument();
+    expect(summary.getByText('€162.00')).toBeInTheDocument();
   });
 
   it('links "Proceed to checkout" to /checkout', async () => {
