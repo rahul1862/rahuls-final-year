@@ -50,8 +50,8 @@ export function CountryProvider({ children }: { children: ReactNode }) {
   }, [selectedCountry]);
 
   const getCurrency = () => {
-    if (!selectedCountry) return { code: 'USD', symbol: '$' };
-    return COUNTRY_CURRENCY_MAP[selectedCountry] || { code: 'USD', symbol: '$' };
+    if (!selectedCountry) return { code: 'EUR', symbol: '€' };
+    return COUNTRY_CURRENCY_MAP[selectedCountry] || { code: 'EUR', symbol: '€' };
   };
 
   return (

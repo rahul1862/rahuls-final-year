@@ -250,7 +250,7 @@ export function Products() {
                       <h3 className="font-semibold text-[#0a0a0a] text-base mb-1">{product.name}</h3>
                       <p className="text-sm text-[#71717a] line-clamp-2 mb-2">{product.description}</p>
                       <div className="flex items-center gap-3">
-                        <span className="text-base font-bold text-[#0a0a0a]">${product.price.toFixed(2)}</span>
+                        <span className="text-base font-bold text-[#0a0a0a]">€{product.price.toFixed(2)}</span>
                         <span className="text-sm text-[#a1a1aa]">{product.rating} ★ ({product.reviews})</span>
                       </div>
                     </div>

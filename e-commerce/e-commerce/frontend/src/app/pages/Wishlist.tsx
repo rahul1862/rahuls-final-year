@@ -45,7 +45,7 @@ export function Wishlist() {
                       <span className="text-[#a1a1aa] text-xs">{product.country}</span>
                     </div>
                     <h3 className="text-[#0a0a0a] font-medium text-sm mb-1 line-clamp-2">{product.name}</h3>
-                    <p className="text-[#0a0a0a] font-bold mb-3">${product.price.toFixed(2)}</p>
+                    <p className="text-[#0a0a0a] font-bold mb-3">€{product.price.toFixed(2)}</p>
                     <div className="flex gap-2 mt-auto">
                       <button
                         onClick={() => { addToCart(product); removeFromWishlist(product.id); }}

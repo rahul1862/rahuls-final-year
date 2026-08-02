@@ -1,6 +1,6 @@
-const CACHE_KEY = 'vendr-exchange-rates';
+const CACHE_KEY = 'vendr-exchange-rates-eur';
 const CACHE_TTL_MS = 6 * 60 * 60 * 1000;
-const API_URL = 'https://open.er-api.com/v6/latest/USD';
+const API_URL = 'https://open.er-api.com/v6/latest/EUR';
 
 export interface ExchangeRates {
   base: string;
@@ -40,7 +40,7 @@ export async function getExchangeRates(): Promise<ExchangeRates> {
     if (data?.result !== 'success' || !data.rates) throw new Error('Exchange rate response was malformed.');
 
     const result: ExchangeRates = {
-      base: data.base_code || 'USD',
+      base: data.base_code || 'EUR',
       rates: data.rates,
       fetchedAt: Date.now(),
     };
@@ -52,8 +52,8 @@ export async function getExchangeRates(): Promise<ExchangeRates> {
   }
 }
 
-export function convertFromUsd(amountUsd: number, rates: Record<string, number>, currencyCode: string): number | null {
+export function convertFromEur(amountEur: number, rates: Record<string, number>, currencyCode: string): number | null {
   const rate = rates[currencyCode];
   if (typeof rate !== 'number') return null;
-  return amountUsd * rate;
+  return amountEur * rate;
 }

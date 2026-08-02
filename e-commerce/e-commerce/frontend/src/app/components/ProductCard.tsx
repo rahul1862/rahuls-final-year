@@ -93,10 +93,10 @@ export function ProductCard({ product }: ProductCardProps) {
           <div className="flex items-center justify-between pt-3 border-t border-[#f0f0f0]">
             <div className="flex items-baseline gap-1.5 min-w-0">
               <span className={`text-base font-bold ${outOfStock ? 'text-[#a1a1aa]' : 'text-[#0a0a0a]'}`}>
-                ${product.price.toFixed(2)}
+                €{product.price.toFixed(2)}
               </span>
               {originalPrice && (
-                <span className="text-xs text-[#a1a1aa] line-through">${originalPrice.toFixed(2)}</span>
+                <span className="text-xs text-[#a1a1aa] line-through">€{originalPrice.toFixed(2)}</span>
               )}
             </div>
             <button

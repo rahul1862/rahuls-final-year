@@ -5,12 +5,12 @@ import { getStoreEstimates } from '../utils/storePricing';
 interface StorePriceComparisonProps {
   productId: number;
   productName: string;
-  priceUsd: number;
+  priceEur: number;
 }
 
-export function StorePriceComparison({ productId, productName, priceUsd }: StorePriceComparisonProps) {
+export function StorePriceComparison({ productId, productName, priceEur }: StorePriceComparisonProps) {
   const [expanded, setExpanded] = useState(false);
-  const estimates = getStoreEstimates(productId, productName, priceUsd);
+  const estimates = getStoreEstimates(productId, productName, priceEur);
 
   return (
     <div className="rounded-lg border border-[#e4e4e7]">
@@ -29,7 +29,7 @@ export function StorePriceComparison({ productId, productName, priceUsd }: Store
           <ul className="divide-y divide-[#f0f0f0] pt-2">
             <li className="flex items-center justify-between py-2 text-sm">
               <span className="font-semibold text-[#0a0a0a]">Vendr</span>
-              <span className="font-semibold text-[#0a0a0a]">${priceUsd.toFixed(2)}</span>
+              <span className="font-semibold text-[#0a0a0a]">€{priceEur.toFixed(2)}</span>
             </li>
             {estimates.map(({ store, price, deltaPercent, searchUrl }) => {
               const cheaper = deltaPercent < 0;
@@ -51,7 +51,7 @@ export function StorePriceComparison({ productId, productName, priceUsd }: Store
                         {cheaper ? '' : '+'}{deltaPercent}%
                       </span>
                     )}
-                    <span className="font-medium text-[#71717a] tabular-nums">~${price.toFixed(2)}</span>
+                    <span className="font-medium text-[#71717a] tabular-nums">~€{price.toFixed(2)}</span>
                   </div>
                 </li>
               );

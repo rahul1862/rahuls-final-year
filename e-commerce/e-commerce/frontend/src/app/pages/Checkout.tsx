@@ -291,7 +291,7 @@ export function Checkout() {
                 className="w-full flex items-center justify-center gap-2 py-3.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Lock className="w-4 h-4" />
-                {submitting ? 'Placing order…' : `Place order — $${total.toFixed(2)}`}
+                {submitting ? 'Placing order…' : `Place order — €${total.toFixed(2)}`}
               </button>
             </form>
           </div>
@@ -310,7 +310,7 @@ export function Checkout() {
                       <p className="text-xs font-medium text-[#0a0a0a] line-clamp-2 leading-snug">{item.name}</p>
                       <p className="text-xs mt-0.5 text-[#a1a1aa]">{item.flag} {item.country} · Qty {item.quantity}</p>
                     </div>
-                    <p className="text-xs font-semibold text-[#0a0a0a] shrink-0">${(item.price * item.quantity).toFixed(2)}</p>
+                    <p className="text-xs font-semibold text-[#0a0a0a] shrink-0">€{(item.price * item.quantity).toFixed(2)}</p>
                   </div>
                 ))}
               </div>
@@ -318,19 +318,19 @@ export function Checkout() {
               <div className="space-y-2.5 text-sm">
                 <div className="flex justify-between">
                   <span className="text-[#71717a]">Subtotal</span>
-                  <span className="text-[#0a0a0a]">${subtotal.toFixed(2)}</span>
+                  <span className="text-[#0a0a0a]">€{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#71717a]">Shipping</span>
-                  <span className="text-[#0a0a0a]">{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
+                  <span className="text-[#0a0a0a]">{shipping === 0 ? 'Free' : `€${shipping.toFixed(2)}`}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#71717a]">Tax (8%)</span>
-                  <span className="text-[#0a0a0a]">${tax.toFixed(2)}</span>
+                  <span className="text-[#0a0a0a]">€{tax.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between pt-3 border-t border-[#e4e4e7] font-semibold text-[#0a0a0a]">
                   <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>€{total.toFixed(2)}</span>
                 </div>
               </div>
             </div>

@@ -134,7 +134,7 @@ export function Home() {
           <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-[#e4e4e7]">
             <div className="py-6 px-4 lg:px-6">
               <p className="text-[#0a0a0a] text-sm font-medium">Free shipping</p>
-              <p className="text-[#a1a1aa] text-sm mt-0.5">On orders over $99</p>
+              <p className="text-[#a1a1aa] text-sm mt-0.5">On orders over €99</p>
             </div>
             <div className="py-6 px-4 lg:px-6">
               <p className="text-[#0a0a0a] text-sm font-medium">Verified sellers</p>
