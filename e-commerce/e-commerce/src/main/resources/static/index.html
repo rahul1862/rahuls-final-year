@@ -5,18 +5,26 @@
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Vendr</title>
-      <!-- PWA / iOS tags -->
+      <script>
+        (function () {
+          try {
+            var stored = localStorage.getItem('vendr-theme');
+            var dark = stored ? stored === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+            if (dark) document.documentElement.classList.add('dark');
+          } catch (e) {}
+        })();
+      </script>
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       <meta name="apple-mobile-web-app-title" content="Vendr" />
-      <link rel="manifest" href="/assets/manifest-CmbV8vaT.webmanifest" />
+      <link rel="manifest" href="/assets/manifest-gHx_Dqkd.webmanifest" />
       <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-      <script type="module" crossorigin src="/assets/index-CKrfTSUM.js"></script>
-      <link rel="stylesheet" crossorigin href="/assets/index-CKs1V4Vg.css">
+      <script type="module" crossorigin src="/assets/index-DoNYNNY_.js"></script>
+      <link rel="stylesheet" crossorigin href="/assets/index-B4RyaeZD.css">
     </head>
 
     <body>
-      <div id="root"></div>
+      <div id="root"></div>
     </body>
   </html>
   
