@@ -104,7 +104,7 @@ export function SellItem() {
 
   const inputCls = (field: keyof ListingForm) =>
     `w-full px-3.5 py-2.5 border rounded-lg bg-white text-[#0a0a0a] focus:outline-none placeholder-[#a1a1aa] text-sm transition-colors ${
-      errors[field] ? 'border-red-400 focus:border-red-500' : 'border-[#e4e4e7] focus:border-[#0a0a0a]'
+      errors[field] ? 'border-red-400 focus:border-red-500' : 'border-[#e4e4e7] focus:border-[#c8102e]'
     }`;
 
   return (
@@ -222,7 +222,7 @@ export function SellItem() {
 
                     <button
                       onClick={handleReset}
-                      className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#0a0a0a] text-white text-sm font-medium rounded-lg hover:bg-[#2a2a2a] transition-colors"
+                      className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#c8102e] text-white text-sm font-medium rounded-lg hover:bg-[#a10d26] transition-colors"
                     >
                       List another item
                       <ArrowRight className="w-4 h-4" />
@@ -384,7 +384,7 @@ export function SellItem() {
                           type="submit"
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          className="px-6 py-2.5 bg-[#0a0a0a] text-white text-sm font-medium rounded-lg hover:bg-[#2a2a2a] transition-colors"
+                          className="px-6 py-2.5 bg-[#c8102e] text-white text-sm font-medium rounded-lg hover:bg-[#a10d26] transition-colors"
                         >
                           Submit listing
                         </motion.button>

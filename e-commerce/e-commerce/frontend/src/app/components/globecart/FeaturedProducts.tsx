@@ -131,13 +131,13 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
       whileInView={{ y: 0, opacity: 1 }}
       viewport={{ once: true, amount: 0.15 }}
       transition={{ delay: index * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-      className="group border border-[#e4e4e7] rounded-lg overflow-hidden bg-white flex flex-col transition-colors hover:border-[#0a0a0a]"
+      className="group border border-[#e4e4e7] rounded-lg overflow-hidden bg-white flex flex-col transition-colors hover:border-[#c8102e]"
     >
       <div className="relative h-48 flex-shrink-0 bg-[#fafafa] flex items-center justify-center">
         <span className="text-6xl select-none">{product.icon}</span>
 
         {product.badge && (
-          <div className="absolute top-3 left-3 px-2 py-1 rounded-md text-xs font-medium text-white bg-[#0a0a0a]">
+          <div className="absolute top-3 left-3 px-2 py-1 rounded-md text-xs font-medium text-white bg-[#c8102e]">
             {product.badge}
           </div>
         )}
@@ -155,7 +155,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         >
           <Heart
             className="w-4 h-4"
-            style={{ color: wishlisted ? '#0a0a0a' : '#a1a1aa', fill: wishlisted ? '#0a0a0a' : 'none' }}
+            style={{ color: wishlisted ? '#c8102e' : '#a1a1aa', fill: wishlisted ? '#c8102e' : 'none' }}
           />
         </button>
       </div>
@@ -196,10 +196,10 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
             onClick={handleAdd}
             className="flex items-center gap-1.5 px-3 py-1.5 border border-[#e4e4e7] rounded-lg text-xs font-medium transition-all duration-200"
             style={added
-              ? { background: '#0a0a0a', color: '#ffffff', borderColor: '#0a0a0a' }
+              ? { background: '#c8102e', color: '#ffffff', borderColor: '#c8102e' }
               : { color: '#0a0a0a' }
             }
-            onMouseEnter={e => { if (!added) { (e.currentTarget as HTMLElement).style.background = '#0a0a0a'; (e.currentTarget as HTMLElement).style.color = '#ffffff'; (e.currentTarget as HTMLElement).style.borderColor = '#0a0a0a'; } }}
+            onMouseEnter={e => { if (!added) { (e.currentTarget as HTMLElement).style.background = '#c8102e'; (e.currentTarget as HTMLElement).style.color = '#ffffff'; (e.currentTarget as HTMLElement).style.borderColor = '#c8102e'; } }}
             onMouseLeave={e => { if (!added) { (e.currentTarget as HTMLElement).style.background = ''; (e.currentTarget as HTMLElement).style.color = '#0a0a0a'; (e.currentTarget as HTMLElement).style.borderColor = '#e4e4e7'; } }}
           >
             {added ? <Check className="w-3.5 h-3.5" /> : <ShoppingCart className="w-3.5 h-3.5" />}

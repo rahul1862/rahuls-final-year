@@ -111,7 +111,7 @@ export function RecommendationsSection() {
 
             <button
               onClick={() => triggerRecommendations(undefined, true)}
-              className="inline-flex items-center gap-3 px-7 py-3.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors"
+              className="inline-flex items-center gap-3 px-7 py-3.5 rounded-lg text-sm font-medium text-white bg-[#c8102e] hover:bg-[#a10d26] transition-colors"
             >
               Show me options
               <ArrowRight className="w-4 h-4" />
@@ -120,7 +120,7 @@ export function RecommendationsSection() {
 
           <div className="rounded-lg border border-[#e4e4e7] bg-white overflow-hidden">
             <div className="px-6 py-5 flex items-center gap-4 border-b border-[#e4e4e7] bg-[#fafafa]">
-              <div className="w-9 h-9 rounded-full flex items-center justify-center bg-[#0a0a0a] flex-shrink-0">
+              <div className="w-9 h-9 rounded-full flex items-center justify-center bg-[#c8102e] flex-shrink-0">
                 <Search className="w-4 h-4 text-white" />
               </div>
               <div>
@@ -201,7 +201,7 @@ export function RecommendationsSection() {
                 />
                 <button
                   onClick={handleSend}
-                  className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors"
+                  className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 bg-[#c8102e] hover:bg-[#a10d26] transition-colors"
                   aria-label="Send"
                 >
                   <Send className="w-4 h-4 text-white" />

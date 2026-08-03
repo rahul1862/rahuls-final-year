@@ -32,7 +32,7 @@ function saveAddresses(list: Address[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
 }
 
-const inputCls = "w-full px-3.5 py-2.5 rounded-lg border border-[#e4e4e7] text-sm text-[#0a0a0a] placeholder:text-[#a1a1aa] outline-none focus:border-[#0a0a0a] transition-colors";
+const inputCls = "w-full px-3.5 py-2.5 rounded-lg border border-[#e4e4e7] text-sm text-[#0a0a0a] placeholder:text-[#a1a1aa] outline-none focus:border-[#c8102e] transition-colors";
 const labelCls = "block text-xs font-medium text-[#71717a] mb-1.5";
 const EMPTY_FORM = { address: '', city: '', zip: '', country: '' };
 
@@ -183,7 +183,7 @@ export function Addresses() {
               {addresses.length > 0 && (
                 <button
                   onClick={startAdd}
-                  className="ml-auto flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors"
+                  className="ml-auto flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-white bg-[#c8102e] hover:bg-[#a10d26] transition-colors"
                 >
                   <Plus className="w-4 h-4" /> Add address
                 </button>
@@ -197,7 +197,7 @@ export function Addresses() {
                 <p className="text-sm text-[#71717a] mb-5">Add one so you don't have to re-type it at checkout.</p>
                 <button
                   onClick={startAdd}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-white bg-[#c8102e] hover:bg-[#a10d26] transition-colors"
                 >
                   <Plus className="w-4 h-4" /> Add an address
                 </button>
@@ -312,7 +312,7 @@ export function Addresses() {
                     <button type="button" onClick={closeForm} className="px-4 py-2.5 rounded-lg text-sm font-medium border border-[#e4e4e7] text-[#71717a] hover:bg-[#fafafa] transition-colors">
                       Cancel
                     </button>
-                    <button type="submit" className="px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors">
+                    <button type="submit" className="px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-[#c8102e] hover:bg-[#a10d26] transition-colors">
                       {editingId ? 'Save changes' : 'Add address'}
                     </button>
                   </div>
@@ -324,7 +324,7 @@ export function Addresses() {
       </div>
 
       {toast && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-5 py-3.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] shadow-lg">
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-5 py-3.5 rounded-lg text-sm font-medium text-white bg-[#c8102e] shadow-lg">
           {toast}
         </div>
       )}

@@ -104,7 +104,7 @@ function Field({
 
 function inputCls(hasError?: boolean) {
   return `w-full px-3.5 py-2.5 rounded-lg border text-sm text-[#0a0a0a] placeholder:text-[#a1a1aa] outline-none transition-colors ${
-    hasError ? 'border-red-400 focus:border-red-500' : 'border-[#e4e4e7] focus:border-[#0a0a0a]'
+    hasError ? 'border-red-400 focus:border-red-500' : 'border-[#e4e4e7] focus:border-[#c8102e]'
   }`;
 }
 
@@ -180,7 +180,7 @@ export function Checkout() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center py-12 px-6">
-          <div className="w-16 h-16 rounded-full bg-[#0a0a0a] flex items-center justify-center mx-auto mb-6">
+          <div className="w-16 h-16 rounded-full bg-[#c8102e] flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="w-8 h-8 text-white" />
           </div>
           <h2 className="text-2xl font-bold text-[#0a0a0a] mb-2">Order placed</h2>
@@ -242,7 +242,7 @@ export function Checkout() {
                         type="button"
                         onClick={() => setPaymentMethod(id)}
                         className={`flex flex-col items-center gap-2 p-3 rounded-lg border text-sm font-medium transition-colors ${
-                          active ? 'border-[#0a0a0a] text-[#0a0a0a]' : 'border-[#e4e4e7] text-[#71717a] hover:bg-[#fafafa]'
+                          active ? 'border-[#c8102e] text-[#0a0a0a]' : 'border-[#e4e4e7] text-[#71717a] hover:bg-[#fafafa]'
                         }`}
                       >
                         <Icon className="w-5 h-5" />
@@ -288,7 +288,7 @@ export function Checkout() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-lg text-sm font-medium text-white bg-[#c8102e] hover:bg-[#a10d26] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Lock className="w-4 h-4" />
                 {submitting ? 'Placing order…' : `Place order — €${total.toFixed(2)}`}

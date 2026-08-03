@@ -42,12 +42,12 @@ export function NotFound() {
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 placeholder="Search products..."
-                className="w-full pl-10 pr-4 py-3 border border-[#e4e4e7] rounded-lg text-sm text-[#0a0a0a] placeholder-[#a1a1aa] focus:outline-none focus:border-[#0a0a0a] transition-colors"
+                className="w-full pl-10 pr-4 py-3 border border-[#e4e4e7] rounded-lg text-sm text-[#0a0a0a] placeholder-[#a1a1aa] focus:outline-none focus:border-[#c8102e] transition-colors"
               />
             </div>
             <button
               type="submit"
-              className="px-5 py-3 bg-[#0a0a0a] text-white text-sm font-medium rounded-lg hover:bg-[#2a2a2a] transition-colors whitespace-nowrap"
+              className="px-5 py-3 bg-[#c8102e] text-white text-sm font-medium rounded-lg hover:bg-[#a10d26] transition-colors whitespace-nowrap"
             >
               Search
             </button>

@@ -42,7 +42,7 @@ export function Cart() {
         </p>
         <Link
           to="/products"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold text-white bg-[#c8102e] hover:bg-[#a10d26] transition-colors"
         >
           Browse products <ArrowRight className="w-4 h-4" />
         </Link>
@@ -160,7 +160,7 @@ export function Cart() {
 
               <Link
                 to="/checkout"
-                className="block w-full text-center py-3.5 rounded-lg text-sm font-semibold text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors mb-3"
+                className="block w-full text-center py-3.5 rounded-lg text-sm font-semibold text-white bg-[#c8102e] hover:bg-[#a10d26] transition-colors mb-3"
               >
                 Proceed to checkout
               </Link>

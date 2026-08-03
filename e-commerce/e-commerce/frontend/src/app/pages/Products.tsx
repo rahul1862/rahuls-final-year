@@ -147,8 +147,8 @@ export function Products() {
                   onClick={() => setSelectedCategory(category)}
                   className={`px-3.5 py-1.5 rounded-lg text-sm font-medium border transition-colors ${
                     active
-                      ? 'bg-[#0a0a0a] text-white border-[#0a0a0a]'
-                      : 'bg-white text-[#71717a] border-[#e4e4e7] hover:text-[#0a0a0a] hover:border-[#0a0a0a]'
+                      ? 'bg-[#c8102e] text-white border-[#c8102e]'
+                      : 'bg-white text-[#71717a] border-[#e4e4e7] hover:text-[#0a0a0a] hover:border-[#c8102e]'
                   }`}
                 >
                   {category}
@@ -208,14 +208,14 @@ export function Products() {
                   <button
                     onClick={() => setViewMode('grid')}
                     aria-label="Grid view"
-                    className={`p-2 transition-colors ${viewMode === 'grid' ? 'bg-[#0a0a0a] text-white' : 'bg-white text-[#a1a1aa] hover:text-[#0a0a0a]'}`}
+                    className={`p-2 transition-colors ${viewMode === 'grid' ? 'bg-[#c8102e] text-white' : 'bg-white text-[#a1a1aa] hover:text-[#0a0a0a]'}`}
                   >
                     <Grid3X3 className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => setViewMode('list')}
                     aria-label="List view"
-                    className={`p-2 transition-colors ${viewMode === 'list' ? 'bg-[#0a0a0a] text-white' : 'bg-white text-[#a1a1aa] hover:text-[#0a0a0a]'}`}
+                    className={`p-2 transition-colors ${viewMode === 'list' ? 'bg-[#c8102e] text-white' : 'bg-white text-[#a1a1aa] hover:text-[#0a0a0a]'}`}
                   >
                     <LayoutList className="w-4 h-4" />
                   </button>
@@ -235,7 +235,7 @@ export function Products() {
                   <Link
                     key={product.id}
                     to={`/products/${product.id}`}
-                    className="flex gap-5 rounded-lg overflow-hidden border border-[#e4e4e7] hover:border-[#0a0a0a] transition-colors group"
+                    className="flex gap-5 rounded-lg overflow-hidden border border-[#e4e4e7] hover:border-[#c8102e] transition-colors group"
                   >
                     <div className="w-32 h-32 sm:w-40 sm:h-40 shrink-0 overflow-hidden bg-[#f4f4f5]">
                       <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -278,7 +278,7 @@ export function Products() {
                       <button
                         onClick={() => goToPage(n)}
                         className={`min-w-[2.25rem] px-2 py-2 rounded-lg text-sm font-medium transition-colors ${
-                          n === currentPage ? 'bg-[#0a0a0a] text-white' : 'text-[#71717a] hover:bg-[#fafafa] hover:text-[#0a0a0a]'
+                          n === currentPage ? 'bg-[#c8102e] text-white' : 'text-[#71717a] hover:bg-[#fafafa] hover:text-[#0a0a0a]'
                         }`}
                       >
                         {n}
@@ -303,7 +303,7 @@ export function Products() {
             <div className="flex gap-3 justify-center">
               <button
                 onClick={resetFilters}
-                className="px-5 py-2.5 rounded-lg text-sm font-medium bg-[#0a0a0a] text-white hover:bg-[#2a2a2a] transition-colors"
+                className="px-5 py-2.5 rounded-lg text-sm font-medium bg-[#c8102e] text-white hover:bg-[#a10d26] transition-colors"
               >
                 Clear filters
               </button>

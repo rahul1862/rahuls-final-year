@@ -62,7 +62,7 @@ export function Login() {
 
   const inputCls = (hasError: boolean) =>
     `w-full px-3.5 py-2.5 border rounded-lg bg-white text-[#0a0a0a] focus:outline-none placeholder-[#a1a1aa] text-sm transition-colors ${
-      hasError ? 'border-red-400 focus:border-red-500' : 'border-[#e4e4e7] focus:border-[#0a0a0a]'
+      hasError ? 'border-red-400 focus:border-red-500' : 'border-[#e4e4e7] focus:border-[#c8102e]'
     }`;
 
   return (
@@ -161,7 +161,7 @@ export function Login() {
               disabled={loading}
               whileHover={{ scale: loading ? 1 : 1.01 }}
               whileTap={{ scale: loading ? 1 : 0.99 }}
-              className="w-full py-2.5 bg-[#0a0a0a] text-white text-sm font-medium rounded-lg hover:bg-[#2a2a2a] transition-colors disabled:opacity-60 disabled:cursor-not-allowed mt-2"
+              className="w-full py-2.5 bg-[#c8102e] text-white text-sm font-medium rounded-lg hover:bg-[#a10d26] transition-colors disabled:opacity-60 disabled:cursor-not-allowed mt-2"
             >
               {loading ? 'Signing in…' : 'Sign in'}
             </motion.button>

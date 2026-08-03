@@ -44,7 +44,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Link to={`/products/${product.id}`} className="group block h-full">
-      <div className="border border-[#e4e4e7] rounded-xl overflow-hidden bg-white h-full flex flex-col transition-all duration-300 group-hover:border-[#0a0a0a] group-focus-within:border-[#0a0a0a] group-hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
+      <div className="border border-[#e4e4e7] rounded-xl overflow-hidden bg-white h-full flex flex-col transition-all duration-300 group-hover:border-[#c8102e] group-focus-within:border-[#c8102e] group-hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
         <div className="aspect-square overflow-hidden relative bg-[#f4f4f5]">
           <ImageWithFallback
             src={product.image}
@@ -58,12 +58,12 @@ export function ProductCard({ product }: ProductCardProps) {
             onClick={handleWishlist}
             aria-label={isWishlisted ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
             aria-pressed={isWishlisted}
-            className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 transition-opacity bg-white border border-[#e4e4e7] hover:border-[#0a0a0a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0a0a0a]"
+            className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 transition-opacity bg-white border border-[#e4e4e7] hover:border-[#c8102e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8102e]"
           >
             <Heart
               className="w-4 h-4"
               aria-hidden="true"
-              style={{ color: isWishlisted ? '#0a0a0a' : '#a1a1aa', fill: isWishlisted ? '#0a0a0a' : 'none' }}
+              style={{ color: isWishlisted ? '#c8102e' : '#a1a1aa', fill: isWishlisted ? '#c8102e' : 'none' }}
             />
           </button>
 
@@ -72,14 +72,14 @@ export function ProductCard({ product }: ProductCardProps) {
               {product.flag} {product.country}
             </div>
             {discountPercent && (
-              <div className="px-2 py-1 bg-[#0a0a0a] rounded-md text-xs font-semibold text-white">
+              <div className="px-2 py-1 bg-[#c8102e] rounded-md text-xs font-semibold text-white">
                 -{discountPercent}%
               </div>
             )}
           </div>
 
           {outOfStock && (
-            <div className="absolute inset-x-0 bottom-0 bg-[#0a0a0a]/90 text-white text-xs font-medium text-center py-1.5">
+            <div className="absolute inset-x-0 bottom-0 bg-[#c8102e]/90 text-white text-xs font-medium text-center py-1.5">
               Out of stock
             </div>
           )}
@@ -103,12 +103,12 @@ export function ProductCard({ product }: ProductCardProps) {
               onClick={handleAddToCart}
               disabled={outOfStock}
               aria-label={outOfStock ? `${product.name} is out of stock` : added ? 'Added to cart' : `Add ${product.name} to cart`}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0a0a0a] ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8102e] ${
                 outOfStock
                   ? 'border-[#e4e4e7] text-[#a1a1aa] cursor-not-allowed'
                   : added
-                    ? 'bg-[#0a0a0a] text-white border-[#0a0a0a]'
-                    : 'border-[#e4e4e7] text-[#0a0a0a] hover:bg-[#0a0a0a] hover:text-white hover:border-[#0a0a0a]'
+                    ? 'bg-[#c8102e] text-white border-[#c8102e]'
+                    : 'border-[#e4e4e7] text-[#0a0a0a] hover:bg-[#a10d26] hover:text-white hover:border-[#c8102e]'
               }`}
             >
               <ShoppingCart className="w-3.5 h-3.5" aria-hidden="true" />

@@ -62,11 +62,11 @@ export function Footer() {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   placeholder="your@email.com"
-                  className="flex-1 lg:w-64 px-4 py-2.5 border border-[#e4e4e7] rounded-lg text-sm text-[#0a0a0a] placeholder-[#a1a1aa] outline-none focus:border-[#0a0a0a] bg-white transition-colors"
+                  className="flex-1 lg:w-64 px-4 py-2.5 border border-[#e4e4e7] rounded-lg text-sm text-[#0a0a0a] placeholder-[#a1a1aa] outline-none focus:border-[#c8102e] bg-white transition-colors"
                 />
                 <button
                   type="submit"
-                  className="flex items-center gap-2 px-5 py-2.5 bg-[#0a0a0a] text-white text-sm font-medium rounded-lg hover:bg-[#2a2a2a] transition-colors whitespace-nowrap"
+                  className="flex items-center gap-2 px-5 py-2.5 bg-[#c8102e] text-white text-sm font-medium rounded-lg hover:bg-[#a10d26] transition-colors whitespace-nowrap"
                 >
                   Subscribe <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
                 </button>

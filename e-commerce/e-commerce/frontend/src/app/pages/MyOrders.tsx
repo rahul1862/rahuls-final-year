@@ -50,8 +50,8 @@ function Timeline({ status }: { status: string }) {
               <div className="flex flex-col items-center gap-1.5 shrink-0">
                 <div
                   className={`w-7 h-7 rounded-full flex items-center justify-center border ${
-                    done ? 'bg-[#0a0a0a] border-[#0a0a0a]' : 'bg-white border-[#e4e4e7]'
-                  } ${active ? 'ring-2 ring-offset-2 ring-[#0a0a0a]' : ''}`}
+                    done ? 'bg-[#c8102e] border-[#c8102e]' : 'bg-white border-[#e4e4e7]'
+                  } ${active ? 'ring-2 ring-offset-2 ring-[#c8102e]' : ''}`}
                 >
                   {done
                     ? <CheckCircle className="w-3.5 h-3.5 text-white" />
@@ -62,7 +62,7 @@ function Timeline({ status }: { status: string }) {
                 </span>
               </div>
               {i < TIMELINE_STEPS.length - 1 && (
-                <div className={`flex-1 h-px mt-3.5 mx-1 ${i < step ? 'bg-[#0a0a0a]' : 'bg-[#e4e4e7]'}`} />
+                <div className={`flex-1 h-px mt-3.5 mx-1 ${i < step ? 'bg-[#c8102e]' : 'bg-[#e4e4e7]'}`} />
               )}
             </div>
           );
@@ -79,7 +79,7 @@ function ActionBtn({
   primary?: boolean; danger?: boolean;
 }) {
   const cls = primary
-    ? 'bg-[#0a0a0a] text-white border-transparent hover:bg-[#2a2a2a]'
+    ? 'bg-[#c8102e] text-white border-transparent hover:bg-[#a10d26]'
     : danger
     ? 'text-red-600 border-red-200 hover:bg-red-50'
     : 'text-[#71717a] border-[#e4e4e7] hover:bg-[#fafafa]';
@@ -261,7 +261,7 @@ function ProductMiniCard({ product }: { product: Product }) {
   return (
     <div
       onClick={() => navigate(`/products/${product.id}`)}
-      className="cursor-pointer rounded-lg overflow-hidden shrink-0 w-44 border border-[#e4e4e7] hover:border-[#0a0a0a] transition-colors"
+      className="cursor-pointer rounded-lg overflow-hidden shrink-0 w-44 border border-[#e4e4e7] hover:border-[#c8102e] transition-colors"
     >
       <div className="w-full h-32 overflow-hidden bg-[#fafafa]">
         <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
@@ -324,7 +324,7 @@ function EmptyState() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <button
             onClick={() => navigate('/products')}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-[#c8102e] hover:bg-[#a10d26] transition-colors"
           >
             <ShoppingCart className="w-4 h-4" />
             Browse products
@@ -473,7 +473,7 @@ th{font-weight:600;color:#111;border-bottom:2px solid #ddd}.total{font-size:1rem
                       key={f}
                       onClick={() => setFilter(f)}
                       className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
-                        filter === f ? 'bg-[#0a0a0a] text-white border-[#0a0a0a]' : 'border-[#e4e4e7] text-[#71717a] hover:bg-[#fafafa]'
+                        filter === f ? 'bg-[#c8102e] text-white border-[#c8102e]' : 'border-[#e4e4e7] text-[#71717a] hover:bg-[#fafafa]'
                       }`}
                     >
                       {f === 'all' ? 'All orders' : f === 'active' ? 'In progress' : f}
@@ -530,7 +530,7 @@ th{font-weight:600;color:#111;border-bottom:2px solid #ddd}.total{font-size:1rem
       </div>
 
       {toast && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-5 py-3.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] shadow-lg">
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-5 py-3.5 rounded-lg text-sm font-medium text-white bg-[#c8102e] shadow-lg">
           {toast}
         </div>
       )}

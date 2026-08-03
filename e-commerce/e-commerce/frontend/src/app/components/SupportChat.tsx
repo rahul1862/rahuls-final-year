@@ -216,7 +216,7 @@ export function SupportChat() {
       {showNotification && !isOpen && (
         <div className="fixed bottom-24 right-6 bg-white rounded-xl shadow-lg border border-[#e4e4e7] p-4 max-w-xs z-40 animate-fade-in">
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 bg-[#0a0a0a] rounded-full flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 bg-[#c8102e] rounded-full flex items-center justify-center shrink-0">
               <Headphones className="w-5 h-5 text-white" aria-hidden="true" />
             </div>
             <div className="flex-1">
@@ -239,7 +239,7 @@ export function SupportChat() {
             <button
               type="button"
               onClick={() => { setShowNotification(false); setIsOpen(true); }}
-              className="flex-1 bg-[#0a0a0a] text-white text-xs px-3 py-2 rounded-lg hover:bg-[#2a2a2a] transition-colors"
+              className="flex-1 bg-[#c8102e] text-white text-xs px-3 py-2 rounded-lg hover:bg-[#a10d26] transition-colors"
             >
               Open chat
             </button>
@@ -258,7 +258,7 @@ export function SupportChat() {
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 bg-[#0a0a0a] text-white p-3.5 rounded-full shadow-lg hover:bg-[#2a2a2a] transition-colors z-50"
+          className="fixed bottom-6 right-6 bg-[#c8102e] text-white p-3.5 rounded-full shadow-lg hover:bg-[#a10d26] transition-colors z-50"
           aria-label="Open chat"
         >
           <MessageCircle className="w-5 h-5" />
@@ -271,7 +271,7 @@ export function SupportChat() {
           aria-label="Support chat"
           className="fixed bottom-6 right-6 w-[calc(100vw-3rem)] max-w-96 h-[min(600px,calc(100vh-3rem))] bg-white rounded-xl shadow-xl border border-[#e4e4e7] z-50 flex flex-col overflow-hidden"
         >
-          <div className="bg-[#0a0a0a] text-white p-4 flex items-center justify-between">
+          <div className="bg-[#c8102e] text-white p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">
                 <Headphones className="w-5 h-5" aria-hidden="true" />
@@ -305,7 +305,7 @@ export function SupportChat() {
                 <div
                   className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                     message.sender === 'user'
-                      ? 'bg-[#0a0a0a] text-white'
+                      ? 'bg-[#c8102e] text-white'
                       : 'bg-white text-[#0a0a0a] border border-[#e4e4e7]'
                   }`}
                 >
@@ -388,13 +388,13 @@ export function SupportChat() {
                 onChange={e => setInputValue(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Type a message"
-                className="flex-1 px-4 py-2 bg-[#fafafa] border border-[#e4e4e7] rounded-xl text-[#0a0a0a] placeholder:text-[#a1a1aa] focus:outline-none focus:ring-2 focus:ring-[#0a0a0a] focus:border-transparent text-sm"
+                className="flex-1 px-4 py-2 bg-[#fafafa] border border-[#e4e4e7] rounded-xl text-[#0a0a0a] placeholder:text-[#a1a1aa] focus:outline-none focus:ring-2 focus:ring-[#c8102e] focus:border-transparent text-sm"
               />
               <button
                 type="button"
                 onClick={() => handleSendMessage()}
                 disabled={!inputValue.trim() || isTyping}
-                className="bg-[#0a0a0a] text-white p-2 rounded-xl hover:bg-[#2a2a2a] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                className="bg-[#c8102e] text-white p-2 rounded-xl hover:bg-[#a10d26] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 aria-label="Send message"
               >
                 <Send className="w-5 h-5" />

@@ -128,7 +128,7 @@ export function Header() {
               >
                 <Heart style={{ width: '1.05rem', height: '1.05rem' }} aria-hidden="true" />
                 {wishlistCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-[17px] h-[17px] bg-[#0a0a0a] text-white rounded-full text-[9px] font-bold flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 w-[17px] h-[17px] bg-[#c8102e] text-white rounded-full text-[9px] font-bold flex items-center justify-center">
                     {wishlistCount}
                   </span>
                 )}
@@ -141,7 +141,7 @@ export function Header() {
               >
                 <ShoppingCart style={{ width: '1.05rem', height: '1.05rem' }} aria-hidden="true" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-[17px] h-[17px] bg-[#0a0a0a] text-white rounded-full text-[9px] font-bold flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 w-[17px] h-[17px] bg-[#c8102e] text-white rounded-full text-[9px] font-bold flex items-center justify-center">
                     {cartCount}
                   </span>
                 )}
@@ -155,7 +155,7 @@ export function Header() {
                     aria-haspopup="menu"
                     aria-expanded={userMenuOpen}
                   >
-                    <span className="w-6 h-6 bg-[#0a0a0a] text-white rounded-full flex items-center justify-center text-[11px] font-bold shrink-0">
+                    <span className="w-6 h-6 bg-[#c8102e] text-white rounded-full flex items-center justify-center text-[11px] font-bold shrink-0">
                       {user.name[0]?.toUpperCase()}
                     </span>
                     <span className="text-[#0a0a0a] font-medium max-w-[80px] truncate">
@@ -194,7 +194,7 @@ export function Header() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => navigate('/products')}
-                className="hidden sm:block ml-1 px-4 py-2 bg-[#0a0a0a] text-white text-sm font-medium rounded-lg hover:bg-[#2a2a2a] transition-colors"
+                className="hidden sm:block ml-1 px-4 py-2 bg-[#c8102e] text-white text-sm font-medium rounded-lg hover:bg-[#a10d26] transition-colors"
               >
                 Shop now
               </motion.button>
@@ -224,7 +224,7 @@ export function Header() {
               >
                 <form onSubmit={handleSearch} className="pb-4">
                   <label htmlFor="header-search-input" className="sr-only">Search products</label>
-                  <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl border border-[#e4e4e7] bg-[#fafafa] focus-within:border-[#0a0a0a] transition-colors">
+                  <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl border border-[#e4e4e7] bg-[#fafafa] focus-within:border-[#c8102e] transition-colors">
                     <Search className="w-4 h-4 text-[#a1a1aa] flex-shrink-0" aria-hidden="true" />
                     <input
                       id="header-search-input"
@@ -259,7 +259,7 @@ export function Header() {
               className="md:hidden overflow-hidden border-t border-[#e4e4e7] bg-white"
             >
               <div className="px-6 py-6 flex flex-col gap-1">
-                <form onSubmit={handleSearch} className="flex items-center gap-3 px-4 py-2.5 rounded-xl border border-[#e4e4e7] bg-[#fafafa] mb-4 focus-within:border-[#0a0a0a] transition-colors">
+                <form onSubmit={handleSearch} className="flex items-center gap-3 px-4 py-2.5 rounded-xl border border-[#e4e4e7] bg-[#fafafa] mb-4 focus-within:border-[#c8102e] transition-colors">
                   <label htmlFor="mobile-search-input" className="sr-only">Search products</label>
                   <Search className="w-4 h-4 text-[#a1a1aa]" aria-hidden="true" />
                   <input
@@ -292,7 +292,7 @@ export function Header() {
 
                 <button
                   onClick={() => { navigate('/products'); setMobileOpen(false); }}
-                  className="mt-4 px-5 py-3 bg-[#0a0a0a] text-white text-sm font-medium rounded-lg hover:bg-[#2a2a2a] transition-colors"
+                  className="mt-4 px-5 py-3 bg-[#c8102e] text-white text-sm font-medium rounded-lg hover:bg-[#a10d26] transition-colors"
                 >
                   Shop now
                 </button>
@@ -300,7 +300,7 @@ export function Header() {
                 {user ? (
                   <div className="mt-4 pt-4 border-t border-[#e4e4e7]">
                     <div className="flex items-center gap-3 px-2 py-2 mb-2">
-                      <span className="w-8 h-8 bg-[#0a0a0a] text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0">
+                      <span className="w-8 h-8 bg-[#c8102e] text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0">
                         {user.name[0]?.toUpperCase()}
                       </span>
                       <div className="min-w-0">
@@ -325,7 +325,7 @@ export function Header() {
                     </button>
                     <button
                       onClick={() => { navigate('/register'); setMobileOpen(false); }}
-                      className="px-5 py-3 bg-[#0a0a0a] text-white text-sm font-medium rounded-lg hover:bg-[#2a2a2a] transition-colors"
+                      className="px-5 py-3 bg-[#c8102e] text-white text-sm font-medium rounded-lg hover:bg-[#a10d26] transition-colors"
                     >
                       Create account
                     </button>

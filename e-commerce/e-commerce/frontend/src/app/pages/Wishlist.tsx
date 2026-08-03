@@ -50,7 +50,7 @@ export function Wishlist() {
                       <button
                         onClick={() => { addToCart(product); removeFromWishlist(product.id); }}
                         disabled={outOfStock}
-                        className="flex-1 bg-[#0a0a0a] text-white py-2 rounded-lg text-sm font-medium hover:bg-[#2a2a2a] disabled:opacity-40 disabled:pointer-events-none transition-colors flex items-center justify-center gap-1.5"
+                        className="flex-1 bg-[#c8102e] text-white py-2 rounded-lg text-sm font-medium hover:bg-[#a10d26] disabled:opacity-40 disabled:pointer-events-none transition-colors flex items-center justify-center gap-1.5"
                       >
                         <ShoppingCart className="w-3.5 h-3.5" />
                         {outOfStock ? 'Unavailable' : 'Add to cart'}
@@ -58,7 +58,7 @@ export function Wishlist() {
                       <button
                         onClick={() => removeFromWishlist(product.id)}
                         aria-label="Remove from wishlist"
-                        className="w-9 h-9 border border-[#e4e4e7] rounded-lg flex items-center justify-center text-[#a1a1aa] hover:text-[#0a0a0a] hover:border-[#0a0a0a] transition-colors"
+                        className="w-9 h-9 border border-[#e4e4e7] rounded-lg flex items-center justify-center text-[#a1a1aa] hover:text-[#0a0a0a] hover:border-[#c8102e] transition-colors"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -79,7 +79,7 @@ export function Wishlist() {
             </p>
             <Link
               to="/products"
-              className="inline-flex items-center gap-2 bg-[#0a0a0a] text-white px-5 py-2.5 rounded-lg font-medium text-sm hover:bg-[#2a2a2a] transition-colors"
+              className="inline-flex items-center gap-2 bg-[#c8102e] text-white px-5 py-2.5 rounded-lg font-medium text-sm hover:bg-[#a10d26] transition-colors"
             >
               Browse products
               <ArrowRight className="w-4 h-4" />
