@@ -60,7 +60,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.15 } }}
                 transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className="pointer-events-auto flex items-center gap-3 bg-card border border-border rounded-xl shadow-[0_8px_24px_rgba(33,29,24,0.1),0_2px_6px_rgba(33,29,24,0.06)] px-4 py-3 max-w-sm w-full sm:w-auto"
+                className="pointer-events-auto flex items-center gap-3 bg-card border border-border rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.1),0_2px_6px_rgba(0,0,0,0.06)] px-4 py-3 max-w-sm w-full sm:w-auto"
                 role="status"
               >
                 <Icon className={`w-4.5 h-4.5 shrink-0 ${ACCENT_CLASSES[toast.type]}`} aria-hidden="true" />

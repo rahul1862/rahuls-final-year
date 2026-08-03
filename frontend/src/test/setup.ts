@@ -10,7 +10,6 @@ if (typeof globalThis.IntersectionObserver === 'undefined') {
     disconnect() {}
     takeRecords(): IntersectionObserverEntry[] { return []; }
   }
-  // @ts-expect-error - partial polyfill sufficient for jsdom test rendering
   globalThis.IntersectionObserver = MockIntersectionObserver;
 }
 

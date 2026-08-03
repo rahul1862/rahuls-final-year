@@ -37,7 +37,6 @@ function PriceComparisonComponent({ priceUsd }: PriceComparisonProps) {
 
   useEffect(() => {
     if (expanded && !rates && !loading && !error) load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expanded]);
 
   const currencyList = Array.from(new Set([localCurrency, ...DISPLAY_CURRENCIES]));

@@ -7,24 +7,27 @@ import { OrderProvider } from './context/OrderContext';
 import { AuthProvider } from './context/AuthContext';
 import { ProductsProvider } from './context/ProductsContext';
 import { ToastProvider } from './context/ToastContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 function App() {
   return (
-    <AuthProvider>
-      <ProductsProvider>
-        <CountryProvider>
-          <CartProvider>
-            <WishlistProvider>
-              <OrderProvider>
-                <ToastProvider>
-                  <RouterProvider router={router} />
-                </ToastProvider>
-              </OrderProvider>
-            </WishlistProvider>
-          </CartProvider>
-        </CountryProvider>
-      </ProductsProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <ProductsProvider>
+          <CountryProvider>
+            <CartProvider>
+              <WishlistProvider>
+                <OrderProvider>
+                  <ToastProvider>
+                    <RouterProvider router={router} />
+                  </ToastProvider>
+                </OrderProvider>
+              </WishlistProvider>
+            </CartProvider>
+          </CountryProvider>
+        </ProductsProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

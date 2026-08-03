@@ -18,10 +18,6 @@ function isLimitedStock(id: number): boolean {
   return id % 9 === 0;
 }
 
-/**
- * A card shows at most one status badge — Sale beats Limited beats New —
- * so cards never get cluttered with conflicting claims.
- */
 export function getProductBadge(id: number, outOfStock: boolean): ProductBadge | null {
   if (outOfStock) return null;
   const discount = getDiscountPercent(id);

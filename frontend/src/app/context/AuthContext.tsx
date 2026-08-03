@@ -27,7 +27,6 @@ function loadSession(): User | null {
   try {
     const saved = localStorage.getItem(SESSION_KEY);
     const token = localStorage.getItem('vendr-token');
-    // Only restore session if token is also present (valid session)
     if (saved && token) {
       return JSON.parse(saved);
     }
