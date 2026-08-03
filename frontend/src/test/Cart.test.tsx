@@ -40,7 +40,6 @@ function SeedOnMount({ products }: { products: { product: Product; quantity: num
   const { addToCart } = useCart();
   useEffect(() => {
     products.forEach(({ product, quantity }) => addToCart(product, quantity));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return null;
 }

@@ -3,7 +3,6 @@
 
 @import "tw-animate-css";
 
-/* Animations */
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -81,7 +80,6 @@
   }
 }
 
-/* Animation utilities */
 .animate-fade-in {
   animation: fade-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -113,16 +111,15 @@
   animation: shimmer 1.8s ease-in-out infinite;
 }
 
-/* Warm gradient washes, used sparingly for hero/promo sections */
 .bg-gradient-warm {
-  background-image: radial-gradient(ellipse 80% 60% at 15% 0%, rgba(181, 80, 47, 0.1), transparent 60%),
-    radial-gradient(ellipse 70% 60% at 100% 20%, rgba(47, 93, 80, 0.08), transparent 55%),
+  background-image: radial-gradient(ellipse 80% 60% at 15% 0%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 60%),
+    radial-gradient(ellipse 70% 60% at 100% 20%, color-mix(in srgb, var(--foreground) 6%, transparent), transparent 55%),
     var(--background);
 }
 
 .bg-gradient-ink {
-  background-image: radial-gradient(ellipse 60% 100% at 100% 0%, rgba(181, 80, 47, 0.35), transparent 60%),
-    linear-gradient(135deg, #211d18 0%, #2b241d 55%, #1a2420 100%);
+  background-image: radial-gradient(ellipse 60% 100% at 100% 0%, rgba(230, 48, 74, 0.4), transparent 60%),
+    linear-gradient(135deg, #0d0d0d 0%, #171717 55%, #0a0a0a 100%);
 }
 
 .bg-dot-texture {
@@ -142,7 +139,6 @@
   animation-delay: 300ms;
 }
 
-/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -154,10 +150,9 @@
   }
 }
 
-/* Scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #d9ccb5 transparent;
+  scrollbar-color: var(--border-strong) transparent;
 }
 
 ::-webkit-scrollbar {
@@ -170,18 +165,17 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d9ccb5;
+  background: var(--border-strong);
   border: 2px solid transparent;
   border-radius: 999px;
   background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #b5502f;
+  background: var(--primary);
   background-clip: content-box;
 }
 
-/* Utilities */
 .line-clamp-1,
 .line-clamp-2,
 .line-clamp-3 {

@@ -77,7 +77,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
       if (discountCode) window.localStorage.setItem(DISCOUNT_STORAGE_KEY, discountCode);
       else window.localStorage.removeItem(DISCOUNT_STORAGE_KEY);
     } catch {
-      // Storage failed silently
     }
   }, [discountCode]);
 
@@ -91,7 +90,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
         }
       })
       .catch(() => {
-        // Silently fail - cart sync is optional
       })
       .finally(() => { skipSync.current = false; });
   }, [user?.id]);
@@ -100,12 +98,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     try {
       window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
     } catch {
-      // Storage failed silently
     }
     if (user?.id && !skipSync.current) {
       api.put('/api/cart', { items: cart })
         .catch(() => {
-          // Sync failed - local storage backup still available
         });
     }
   }, [cart, user?.id]);

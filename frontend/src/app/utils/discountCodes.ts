@@ -1,4 +1,3 @@
-// Demo codes only — there's no real promotions backend behind this cart.
 export const DISCOUNT_CODES: Record<string, number> = {
   WELCOME10: 0.1,
   SAVE15: 0.15,

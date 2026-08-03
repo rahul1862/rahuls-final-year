@@ -6,6 +6,7 @@ import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
 import { Button } from './ui/Button';
+import { ThemeToggle } from './ui/ThemeToggle';
 
 const NAV_ITEMS = [
   { label: 'Products',  path: '/products' },
@@ -81,11 +82,9 @@ export function Header() {
       className="sticky top-0 z-50"
     >
       <div
-        className="transition-all duration-300 border-b border-border"
-        style={{
-          background:     scrolled ? 'rgba(251,248,243,0.88)' : 'var(--background)',
-          backdropFilter: scrolled ? 'blur(16px)' : 'none',
-        }}
+        className={`transition-all duration-300 border-b border-border ${
+          scrolled ? 'bg-background/90 backdrop-blur-2xl' : 'bg-background'
+        }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -111,6 +110,8 @@ export function Header() {
             </nav>
 
             <div className="flex items-center gap-1">
+              <ThemeToggle />
+
               <button
                 onClick={() => setSearchOpen(v => !v)}
                 className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"

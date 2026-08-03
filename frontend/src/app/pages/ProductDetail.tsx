@@ -117,8 +117,6 @@ export function ProductDetail() {
     isWishlisted ? removeFromWishlist(product.id) : addToWishlist(product);
   };
 
-  // Updates the lens position imperatively instead of through state — this fires on every
-  // mousemove tick, and going through React would re-render the whole page on each one.
   const handleZoomMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;

@@ -7,7 +7,7 @@ export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'accent';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
-  primary: 'bg-primary text-primary-foreground hover:bg-primary-hover shadow-[0_1px_2px_rgba(33,29,24,0.04),0_2px_8px_rgba(33,29,24,0.04)]',
+  primary: 'bg-primary text-primary-foreground hover:bg-primary-hover shadow-[0_1px_2px_rgba(0,0,0,0.04),0_2px_8px_rgba(0,0,0,0.04)]',
   secondary: 'bg-transparent text-foreground border border-border hover:border-primary hover:text-primary',
   ghost: 'bg-transparent text-muted-foreground hover:text-foreground hover:bg-secondary',
   accent: 'bg-accent-pine text-accent-pine-foreground hover:bg-accent-pine-hover',
@@ -63,8 +63,6 @@ interface LinkButtonProps extends LinkProps {
   className?: string;
 }
 
-// A plain CSS scale transform (rather than framer-motion's whileHover/whileTap) sidesteps a real
-// type collision between framer-motion's animation props and react-router's Link event handlers.
 export function LinkButton({ variant = 'primary', size = 'md', className = '', ...props }: LinkButtonProps) {
   return (
     <Link
