@@ -189,7 +189,7 @@ export function PricingChart() {
                 <div
                   key={tier.id}
                   className={`rounded-lg border p-6 lg:p-8 flex flex-col ${
-                    tier.id === 'plus' ? 'border-[#0a0a0a] bg-[#fafafa]' : 'border-[#e4e4e7] bg-white'
+                    tier.id === 'plus' ? 'border-[#c8102e] bg-[#fafafa]' : 'border-[#e4e4e7] bg-white'
                   }`}
                 >
                   {tier.id === 'plus' && (
@@ -223,7 +223,7 @@ export function PricingChart() {
                   <button
                     className={`w-full py-2.5 rounded-lg text-sm font-medium transition-colors ${
                       tier.id === 'plus'
-                        ? 'bg-[#0a0a0a] text-white hover:bg-[#2a2a2a]'
+                        ? 'bg-[#c8102e] text-white hover:bg-[#a10d26]'
                         : 'border border-[#e4e4e7] text-[#0a0a0a] hover:bg-white'
                     }`}
                   >
@@ -294,7 +294,7 @@ export function PricingChart() {
                     <Legend
                       formatter={(value: string) => <span style={{ color: '#71717a', fontSize: 13 }}>{value}</span>}
                     />
-                    <Bar dataKey="value" name="Estimated yearly value" fill="#0a0a0a" radius={[4, 4, 0, 0]} maxBarSize={56} />
+                    <Bar dataKey="value" name="Estimated yearly value" fill="#c8102e" radius={[4, 4, 0, 0]} maxBarSize={56} />
                     <Bar dataKey="cost" name="Membership cost" fill="#d4d4d8" radius={[4, 4, 0, 0]} maxBarSize={56} />
                   </BarChart>
                 </ResponsiveContainer>
@@ -351,7 +351,7 @@ export function PricingChart() {
             <p className="text-[#71717a] text-sm mb-5">Plans can be changed or cancelled from your account at any time.</p>
             <Link
               to="/products"
-              className="inline-flex items-center gap-2 bg-[#0a0a0a] text-white px-5 py-2.5 rounded-lg font-medium text-sm hover:bg-[#2a2a2a] transition-colors"
+              className="inline-flex items-center gap-2 bg-[#c8102e] text-white px-5 py-2.5 rounded-lg font-medium text-sm hover:bg-[#a10d26] transition-colors"
             >
               Browse products
             </Link>

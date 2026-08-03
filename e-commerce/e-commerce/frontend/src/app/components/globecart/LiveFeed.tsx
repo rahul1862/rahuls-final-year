@@ -51,7 +51,7 @@ export function LiveFeed() {
 
           <div>
             <div className="flex items-center gap-2 text-xs font-semibold text-[#71717a] mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#0a0a0a] animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c8102e] animate-pulse" />
               Live
             </div>
             <h2 className="text-4xl sm:text-5xl font-bold text-[#0a0a0a] mb-6 tracking-tight">
@@ -83,7 +83,7 @@ export function LiveFeed() {
                 <span className="text-sm font-semibold text-[#0a0a0a]">Purchase feed</span>
               </div>
               <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#f4f4f5] text-xs font-medium text-[#71717a]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#0a0a0a] animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#c8102e] animate-pulse" />
                 Live
               </div>
             </div>

@@ -54,7 +54,7 @@ function validateCard(number: string, expiry: string, cvc: string, name: string)
   return null;
 }
 
-const inputCls = "w-full px-3.5 py-2.5 rounded-lg border border-[#e4e4e7] text-sm text-[#0a0a0a] placeholder:text-[#a1a1aa] outline-none focus:border-[#0a0a0a] transition-colors";
+const inputCls = "w-full px-3.5 py-2.5 rounded-lg border border-[#e4e4e7] text-sm text-[#0a0a0a] placeholder:text-[#a1a1aa] outline-none focus:border-[#c8102e] transition-colors";
 const labelCls = "block text-xs font-medium text-[#71717a] mb-1.5";
 
 export function Payment() {
@@ -110,7 +110,7 @@ export function Payment() {
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center">
           <p className="mb-4 text-sm text-[#71717a]">Your cart is empty.</p>
-          <Link to="/products" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors">
+          <Link to="/products" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-[#c8102e] hover:bg-[#a10d26] transition-colors">
             Browse products
           </Link>
         </div>
@@ -122,7 +122,7 @@ export function Payment() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center py-12 px-6">
-          <div className="w-16 h-16 rounded-full bg-[#0a0a0a] flex items-center justify-center mx-auto mb-6">
+          <div className="w-16 h-16 rounded-full bg-[#c8102e] flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="w-8 h-8 text-white" />
           </div>
           <h2 className="text-2xl font-bold text-[#0a0a0a] mb-2">Payment successful</h2>
@@ -228,7 +228,7 @@ export function Payment() {
               <button
                 type="submit"
                 disabled={processing}
-                className="mt-5 w-full flex items-center justify-center gap-2 py-3.5 rounded-lg font-medium text-sm text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="mt-5 w-full flex items-center justify-center gap-2 py-3.5 rounded-lg font-medium text-sm text-white bg-[#c8102e] hover:bg-[#a10d26] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {processing ? 'Processing…' : <><Lock className="w-4 h-4" /> Pay {currency.symbol}{total.toFixed(2)}</>}
               </button>

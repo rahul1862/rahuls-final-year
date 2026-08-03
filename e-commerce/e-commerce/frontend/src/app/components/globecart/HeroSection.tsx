@@ -62,7 +62,7 @@ export function HeroSection() {
             >
               <button
                 onClick={() => navigate('/products')}
-                className="inline-flex items-center gap-2 bg-[#0a0a0a] text-white px-7 py-3.5 rounded-lg hover:bg-[#2a2a2a] transition-colors font-medium text-sm"
+                className="inline-flex items-center gap-2 bg-[#c8102e] text-white px-7 py-3.5 rounded-lg hover:bg-[#a10d26] transition-colors font-medium text-sm"
               >
                 Browse products <ArrowRight className="w-4 h-4" />
               </button>

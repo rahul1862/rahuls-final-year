@@ -31,7 +31,7 @@ export function AccountSidebar({ open, onClose }: { open: boolean; onClose: () =
   const nav = (
     <div className="h-full flex flex-col py-6">
       <div className="px-6 mb-6 flex items-center gap-3">
-        <span className="w-9 h-9 bg-[#0a0a0a] text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0">
+        <span className="w-9 h-9 bg-[#c8102e] text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0">
           {user?.name[0]?.toUpperCase() ?? 'A'}
         </span>
         <div className="min-w-0">

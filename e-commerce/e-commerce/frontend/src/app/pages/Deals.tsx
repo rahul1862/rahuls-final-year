@@ -74,7 +74,7 @@ export function Deals() {
                   className={`inline-flex items-center gap-1.5 self-start px-5 py-2.5 rounded-lg font-medium text-sm transition-colors ${
                     ended
                       ? 'bg-[#f4f4f5] text-[#a1a1aa] pointer-events-none'
-                      : 'bg-[#0a0a0a] text-white hover:bg-[#2a2a2a]'
+                      : 'bg-[#c8102e] text-white hover:bg-[#a10d26]'
                   }`}
                 >
                   {ended ? 'Deal ended' : 'Shop this deal'}
@@ -99,11 +99,11 @@ export function Deals() {
                 type="email"
                 required
                 placeholder="you@email.com"
-                className="flex-1 px-4 py-2.5 rounded-lg bg-white border border-[#e4e4e7] text-[#0a0a0a] placeholder-[#a1a1aa] focus:outline-none focus:border-[#0a0a0a] text-sm transition-colors"
+                className="flex-1 px-4 py-2.5 rounded-lg bg-white border border-[#e4e4e7] text-[#0a0a0a] placeholder-[#a1a1aa] focus:outline-none focus:border-[#c8102e] text-sm transition-colors"
               />
               <button
                 type="submit"
-                className="bg-[#0a0a0a] text-white px-5 py-2.5 rounded-lg hover:bg-[#2a2a2a] transition-colors font-medium text-sm whitespace-nowrap"
+                className="bg-[#c8102e] text-white px-5 py-2.5 rounded-lg hover:bg-[#a10d26] transition-colors font-medium text-sm whitespace-nowrap"
               >
                 Notify me
               </button>

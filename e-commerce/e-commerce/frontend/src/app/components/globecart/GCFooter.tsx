@@ -69,11 +69,11 @@ export function GCFooter() {
                   onChange={e => setEmail(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && handleSubscribe()}
                   placeholder="your@email.com"
-                  className="flex-1 lg:w-64 px-4 py-2.5 border border-[#e4e4e7] rounded-lg text-sm text-[#0a0a0a] placeholder-[#a1a1aa] outline-none focus:border-[#0a0a0a] bg-white transition-colors"
+                  className="flex-1 lg:w-64 px-4 py-2.5 border border-[#e4e4e7] rounded-lg text-sm text-[#0a0a0a] placeholder-[#a1a1aa] outline-none focus:border-[#c8102e] bg-white transition-colors"
                 />
                 <button
                   onClick={handleSubscribe}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-[#0a0a0a] text-white text-sm font-medium rounded-lg hover:bg-[#2a2a2a] transition-colors whitespace-nowrap"
+                  className="flex items-center gap-2 px-5 py-2.5 bg-[#c8102e] text-white text-sm font-medium rounded-lg hover:bg-[#a10d26] transition-colors whitespace-nowrap"
                 >
                   Subscribe <ArrowRight className="w-3.5 h-3.5" />
                 </button>
@@ -87,7 +87,7 @@ export function GCFooter() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10">
           <div className="col-span-2 md:col-span-3 lg:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-[#0a0a0a] flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-[#c8102e] flex items-center justify-center">
                 <Globe className="w-4 h-4 text-white" />
               </div>
               <span className="text-lg font-bold text-[#0a0a0a]">
@@ -106,7 +106,7 @@ export function GCFooter() {
                 <a
                   key={label}
                   href="#"
-                  className="w-8 h-8 rounded-lg flex items-center justify-center border border-[#e4e4e7] bg-white hover:border-[#0a0a0a] transition-colors"
+                  className="w-8 h-8 rounded-lg flex items-center justify-center border border-[#e4e4e7] bg-white hover:border-[#c8102e] transition-colors"
                   aria-label={label}
                 >
                   <Icon className="w-3.5 h-3.5 text-[#71717a]" />

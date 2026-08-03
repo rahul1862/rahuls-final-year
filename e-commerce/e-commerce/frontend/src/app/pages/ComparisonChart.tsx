@@ -132,11 +132,11 @@ export function ComparisonChart() {
               <div
                 key={platform.name}
                 className={`rounded-lg p-5 border ${
-                  platform.name === 'Vendr' ? 'border-[#0a0a0a] bg-[#fafafa]' : 'border-[#e4e4e7] bg-white'
+                  platform.name === 'Vendr' ? 'border-[#c8102e] bg-[#fafafa]' : 'border-[#e4e4e7] bg-white'
                 }`}
               >
                 <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold mb-4 ${
-                  platform.name === 'Vendr' ? 'bg-[#0a0a0a] text-white' : 'bg-[#f4f4f5] text-[#71717a]'
+                  platform.name === 'Vendr' ? 'bg-[#c8102e] text-white' : 'bg-[#f4f4f5] text-[#71717a]'
                 }`}>
                   {platform.code}
                 </div>
@@ -214,7 +214,7 @@ export function ComparisonChart() {
                     />
                     <Bar dataKey="value" radius={[4, 4, 0, 0]} maxBarSize={64}>
                       {chartData.map(entry => (
-                        <Cell key={entry.name} fill={entry.name === 'Vendr' ? '#0a0a0a' : '#d4d4d8'} />
+                        <Cell key={entry.name} fill={entry.name === 'Vendr' ? '#c8102e' : '#d4d4d8'} />
                       ))}
                     </Bar>
                   </BarChart>
@@ -224,7 +224,7 @@ export function ComparisonChart() {
 
             <div className="flex items-center gap-5 mt-4 pt-4 border-t border-[#e4e4e7]">
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-sm bg-[#0a0a0a]" />
+                <span className="w-3 h-3 rounded-sm bg-[#c8102e]" />
                 <span className="text-[#71717a] text-xs">Vendr</span>
               </div>
               <div className="flex items-center gap-2">
@@ -285,7 +285,7 @@ export function ComparisonChart() {
               <p className="text-[#71717a] text-sm">Browse the catalog, or check what selling here actually costs.</p>
             </div>
             <div className="flex gap-3 shrink-0">
-              <a href="/products" className="bg-[#0a0a0a] text-white px-5 py-2.5 rounded-lg font-medium text-sm hover:bg-[#2a2a2a] transition-colors">
+              <a href="/products" className="bg-[#c8102e] text-white px-5 py-2.5 rounded-lg font-medium text-sm hover:bg-[#a10d26] transition-colors">
                 Browse products
               </a>
               <a href="/pricing" className="border border-[#e4e4e7] text-[#0a0a0a] px-5 py-2.5 rounded-lg font-medium text-sm hover:bg-white transition-colors">

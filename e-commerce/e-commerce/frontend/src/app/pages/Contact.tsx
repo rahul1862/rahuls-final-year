@@ -59,7 +59,7 @@ export function Contact() {
 
   const inputCls = (field: keyof FormData) =>
     `w-full px-3.5 py-2.5 border rounded-lg bg-white text-[#0a0a0a] focus:outline-none placeholder-[#a1a1aa] text-sm transition-colors ${
-      errors[field] ? 'border-red-400 focus:border-red-500' : 'border-[#e4e4e7] focus:border-[#0a0a0a]'
+      errors[field] ? 'border-red-400 focus:border-red-500' : 'border-[#e4e4e7] focus:border-[#c8102e]'
     }`;
 
   return (
@@ -125,7 +125,7 @@ export function Contact() {
                     </p>
                     <button
                       onClick={handleReset}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0a0a0a] text-white text-sm font-medium rounded-lg hover:bg-[#2a2a2a] transition-colors"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#c8102e] text-white text-sm font-medium rounded-lg hover:bg-[#a10d26] transition-colors"
                     >
                       Send another message
                     </button>
@@ -207,7 +207,7 @@ export function Contact() {
                       <button
                         type="submit"
                         disabled={status === 'sending'}
-                        className="bg-[#0a0a0a] text-white font-medium py-2.5 px-6 rounded-lg hover:bg-[#2a2a2a] transition-colors text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                        className="bg-[#c8102e] text-white font-medium py-2.5 px-6 rounded-lg hover:bg-[#a10d26] transition-colors text-sm disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         {status === 'sending' ? 'Sending...' : 'Send message'}
                       </button>

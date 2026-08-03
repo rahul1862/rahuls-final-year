@@ -149,7 +149,7 @@ export function Help() {
                 key={cat}
                 onClick={() => setActiveCategory(activeCategory === cat ? null : cat)}
                 className={`text-left bg-white rounded-lg p-5 border transition-colors ${
-                  activeCategory === cat ? 'border-[#0a0a0a]' : 'border-[#e4e4e7] hover:border-[#0a0a0a]'
+                  activeCategory === cat ? 'border-[#c8102e]' : 'border-[#e4e4e7] hover:border-[#c8102e]'
                 }`}
               >
                 <p className="text-[#0a0a0a] text-sm font-medium mb-1">{cat}</p>
@@ -174,13 +174,13 @@ export function Help() {
                   value={query}
                   onChange={e => setQuery(e.target.value)}
                   placeholder="Search, e.g. customs, tracking, password..."
-                  className="w-full pl-10 pr-3.5 py-2.5 border border-[#e4e4e7] rounded-lg bg-white text-[#0a0a0a] focus:outline-none focus:border-[#0a0a0a] placeholder-[#a1a1aa] text-sm transition-colors"
+                  className="w-full pl-10 pr-3.5 py-2.5 border border-[#e4e4e7] rounded-lg bg-white text-[#0a0a0a] focus:outline-none focus:border-[#c8102e] placeholder-[#a1a1aa] text-sm transition-colors"
                 />
               </div>
               <select
                 value={activeCategory ?? ''}
                 onChange={e => setActiveCategory((e.target.value || null) as Category | null)}
-                className="px-3.5 py-2.5 border border-[#e4e4e7] rounded-lg bg-white text-[#0a0a0a] focus:outline-none focus:border-[#0a0a0a] text-sm appearance-none"
+                className="px-3.5 py-2.5 border border-[#e4e4e7] rounded-lg bg-white text-[#0a0a0a] focus:outline-none focus:border-[#c8102e] text-sm appearance-none"
               >
                 <option value="">All categories</option>
                 {categories.map(c => <option key={c} value={c}>{c}</option>)}
@@ -242,7 +242,7 @@ export function Help() {
             </p>
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 bg-[#0a0a0a] text-white px-5 py-2.5 rounded-lg font-medium text-sm hover:bg-[#2a2a2a] transition-colors"
+              className="inline-flex items-center gap-2 bg-[#c8102e] text-white px-5 py-2.5 rounded-lg font-medium text-sm hover:bg-[#a10d26] transition-colors"
             >
               Contact us
             </Link>

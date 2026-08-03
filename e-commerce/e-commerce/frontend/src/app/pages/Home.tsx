@@ -79,7 +79,7 @@ export function Home() {
               <div className="flex flex-col sm:flex-row gap-3 mb-12">
                 <Link
                   to="/products"
-                  className="inline-flex items-center justify-center gap-2 bg-[#0a0a0a] text-white px-7 py-3.5 rounded-lg hover:bg-[#2a2a2a] transition-colors font-medium text-sm"
+                  className="inline-flex items-center justify-center gap-2 bg-[#c8102e] text-white px-7 py-3.5 rounded-lg hover:bg-[#a10d26] transition-colors font-medium text-sm"
                 >
                   Browse products <ArrowRight className="w-4 h-4" />
                 </Link>
@@ -268,7 +268,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="py-16 bg-[#0a0a0a]">
+      <section className="py-16 bg-[#c8102e]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
             <div>
@@ -341,7 +341,7 @@ export function Home() {
               </p>
               <Link
                 to="/sell"
-                className="inline-flex items-center gap-2 bg-[#0a0a0a] text-white px-6 py-3 rounded-lg hover:bg-[#2a2a2a] transition-colors font-medium text-sm"
+                className="inline-flex items-center gap-2 bg-[#c8102e] text-white px-6 py-3 rounded-lg hover:bg-[#a10d26] transition-colors font-medium text-sm"
               >
                 Start selling <ArrowRight className="w-4 h-4" />
               </Link>

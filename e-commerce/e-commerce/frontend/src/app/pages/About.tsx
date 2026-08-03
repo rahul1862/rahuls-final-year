@@ -85,7 +85,7 @@ export function About() {
             <div className="space-y-10">
               {timeline.map(item => (
                 <div key={item.year} className="relative pl-12">
-                  <div className="absolute left-[10px] top-1.5 w-[10px] h-[10px] rounded-full bg-[#0a0a0a]" />
+                  <div className="absolute left-[10px] top-1.5 w-[10px] h-[10px] rounded-full bg-[#c8102e]" />
                   <span className="text-[#a1a1aa] text-sm font-mono">{item.year}</span>
                   <h3 className="text-[#0a0a0a] text-lg font-semibold mt-1 mb-1">{item.title}</h3>
                   <p className="text-[#71717a] text-sm leading-relaxed">{item.desc}</p>
@@ -106,7 +106,7 @@ export function About() {
           </p>
           <a
             href="/products"
-            className="inline-flex items-center gap-2 bg-[#0a0a0a] text-white px-6 py-3 rounded-lg hover:bg-[#2a2a2a] transition-colors font-medium text-sm"
+            className="inline-flex items-center gap-2 bg-[#c8102e] text-white px-6 py-3 rounded-lg hover:bg-[#a10d26] transition-colors font-medium text-sm"
           >
             Browse products
           </a>

@@ -88,7 +88,7 @@ export function GCNavbar() {
               onClick={() => { isHome ? scrollTo('hero') : navigate('/'); }}
               className="flex items-center gap-2.5 flex-shrink-0"
             >
-              <div className="w-8 h-8 rounded-lg bg-[#0a0a0a] flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-[#c8102e] flex items-center justify-center">
                 <Globe className="w-4 h-4 text-white" />
               </div>
               <span className="text-lg font-bold tracking-tight text-[#0a0a0a]">
@@ -127,7 +127,7 @@ export function GCNavbar() {
               >
                 <ShoppingCart className="w-[1.05rem] h-[1.05rem]" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-[17px] h-[17px] bg-[#0a0a0a] text-white rounded-full text-[9px] font-bold flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 w-[17px] h-[17px] bg-[#c8102e] text-white rounded-full text-[9px] font-bold flex items-center justify-center">
                     {cartCount}
                   </span>
                 )}
@@ -135,7 +135,7 @@ export function GCNavbar() {
 
               <button
                 onClick={() => navigate('/products')}
-                className="hidden sm:block px-4 py-2 bg-[#0a0a0a] text-white text-sm font-medium rounded-lg hover:bg-[#2a2a2a] transition-colors"
+                className="hidden sm:block px-4 py-2 bg-[#c8102e] text-white text-sm font-medium rounded-lg hover:bg-[#a10d26] transition-colors"
               >
                 Shop now
               </button>
@@ -188,7 +188,7 @@ export function GCNavbar() {
 
                 <button
                   onClick={() => { navigate('/products'); setOpen(false); }}
-                  className="mt-4 px-5 py-3 bg-[#0a0a0a] text-white text-sm font-medium rounded-lg hover:bg-[#2a2a2a] transition-colors"
+                  className="mt-4 px-5 py-3 bg-[#c8102e] text-white text-sm font-medium rounded-lg hover:bg-[#a10d26] transition-colors"
                 >
                   Shop now
                 </button>

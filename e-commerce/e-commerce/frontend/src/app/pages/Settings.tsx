@@ -44,7 +44,7 @@ function Field({
         className={`${inputCls} ${
           disabled ? 'bg-[#fafafa] text-[#a1a1aa] cursor-not-allowed border-[#e4e4e7]'
           : error ? 'border-red-400 focus:border-red-500'
-          : 'border-[#e4e4e7] focus:border-[#0a0a0a]'
+          : 'border-[#e4e4e7] focus:border-[#c8102e]'
         }`}
       />
       {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
@@ -68,7 +68,7 @@ function SaveBtn({ loading, label = 'Save changes' }: { loading: boolean; label?
     <button
       type="submit"
       disabled={loading}
-      className="px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      className="px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-[#c8102e] hover:bg-[#a10d26] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
     >
       {loading ? 'Saving…' : label}
     </button>
@@ -263,7 +263,7 @@ export function Settings() {
                       type="checkbox"
                       checked={prefs[key]}
                       onChange={e => setPrefs(p => ({ ...p, [key]: e.target.checked }))}
-                      className="w-4 h-4 rounded border-[#e4e4e7] accent-[#0a0a0a]"
+                      className="w-4 h-4 rounded border-[#e4e4e7] accent-[#c8102e]"
                     />
                   </label>
                 ))}
@@ -274,7 +274,7 @@ export function Settings() {
               <div className="flex justify-end">
                 <button
                   onClick={savePrefs}
-                  className="px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] transition-colors"
+                  className="px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-[#c8102e] hover:bg-[#a10d26] transition-colors"
                 >
                   Save preferences
                 </button>

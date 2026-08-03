@@ -36,7 +36,7 @@ export function ProductDetail() {
         </p>
         <Link
           to="/products"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-[#0a0a0a] text-white hover:bg-[#2a2a2a] transition-colors"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-[#c8102e] text-white hover:bg-[#a10d26] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to products
@@ -92,10 +92,10 @@ export function ProductDetail() {
                 onClick={handleWishlist}
                 aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
                 className={`absolute top-4 right-4 w-10 h-10 rounded-lg flex items-center justify-center border transition-colors ${
-                  isWishlisted ? 'bg-white border-[#0a0a0a]' : 'bg-white/90 border-[#e4e4e7] hover:border-[#0a0a0a]'
+                  isWishlisted ? 'bg-white border-[#c8102e]' : 'bg-white/90 border-[#e4e4e7] hover:border-[#c8102e]'
                 }`}
               >
-                <Heart className="w-5 h-5" style={{ color: isWishlisted ? '#0a0a0a' : '#a1a1aa', fill: isWishlisted ? '#0a0a0a' : 'none' }} />
+                <Heart className="w-5 h-5" style={{ color: isWishlisted ? '#c8102e' : '#a1a1aa', fill: isWishlisted ? '#c8102e' : 'none' }} />
               </button>
             </div>
           </div>
@@ -176,7 +176,7 @@ export function ProductDetail() {
               <button
                 onClick={handleAddToCart}
                 disabled={outOfStock}
-                className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-lg text-sm font-semibold text-white bg-[#0a0a0a] hover:bg-[#2a2a2a] disabled:opacity-40 disabled:pointer-events-none transition-colors"
+                className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-lg text-sm font-semibold text-white bg-[#c8102e] hover:bg-[#a10d26] disabled:opacity-40 disabled:pointer-events-none transition-colors"
               >
                 <ShoppingCart className="w-5 h-5" />
                 {outOfStock ? 'Out of stock' : 'Add to cart'}
@@ -199,10 +199,10 @@ export function ProductDetail() {
               <button
                 onClick={handleWishlist}
                 className={`w-full flex items-center justify-center gap-2.5 py-3.5 rounded-lg text-sm font-semibold border transition-colors ${
-                  isWishlisted ? 'border-[#0a0a0a] text-[#0a0a0a]' : 'border-[#e4e4e7] text-[#71717a] hover:border-[#0a0a0a] hover:text-[#0a0a0a]'
+                  isWishlisted ? 'border-[#c8102e] text-[#0a0a0a]' : 'border-[#e4e4e7] text-[#71717a] hover:border-[#c8102e] hover:text-[#0a0a0a]'
                 }`}
               >
-                <Heart className="w-5 h-5" style={{ fill: isWishlisted ? '#0a0a0a' : 'none' }} />
+                <Heart className="w-5 h-5" style={{ fill: isWishlisted ? '#c8102e' : 'none' }} />
                 {isWishlisted ? 'Wishlisted' : 'Add to wishlist'}
               </button>
             </div>
